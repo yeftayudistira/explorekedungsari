@@ -41,12 +41,10 @@ export default function Header({ activeTab, setActiveTab }) {
         <div className="header-inner">
           {/* Logo & Brand Name */}
           <a href="#beranda" className="brand-logo" onClick={(e) => { e.preventDefault(); handleNavClick('beranda'); }}>
-            <div className="logo-badge">
-              <Compass size={26} />
-            </div>
+            <img src="/images/logo.png" alt="Logo Desa Kedungsari" className="brand-logo-img" />
             <div className="logo-text-group">
               <span className="brand-name">Kedungsari</span>
-              <span className="brand-domain">Portal Resmi</span>
+              <span className="brand-domain">Explore The Village</span>
             </div>
           </a>
 
