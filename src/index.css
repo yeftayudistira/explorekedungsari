@@ -203,6 +203,10 @@ img {
   color: white;
 }
 
+.site-header.scrolled .brand-logo-img {
+  filter: brightness(0.12) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
 .site-header.scrolled .nav-link {
   color: #334155;
   text-shadow: none;
@@ -246,14 +250,10 @@ img {
 }
 
 .brand-logo-img {
-  width: 48px;
-  height: 48px;
-  object-fit: cover;
-  border-radius: 50%;
-  background: #000000;
-  padding: 2px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
   transition: var(--transition);
 }
 
