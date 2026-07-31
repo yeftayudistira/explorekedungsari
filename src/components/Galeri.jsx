@@ -15,7 +15,8 @@ export default function Galeri() {
   const [form, setForm] = useState({
     title: '',
     cat: 'Pertanian & Alam',
-    img: '/images/landmark1.jpg'
+    img: '/images/landmark1.jpg',
+    desc: ''
   });
 
   const filters = ['Semua', 'Pertanian & Alam', 'Kebudayaan', 'Ekonomi Warga', 'Pemerintahan', 'Kegiatan Warga'];
@@ -29,7 +30,8 @@ export default function Galeri() {
     setForm({
       title: '',
       cat: 'Pertanian & Alam',
-      img: '/images/landmark1.jpg'
+      img: '/images/landmark1.jpg',
+      desc: ''
     });
     setIsFormOpen(true);
   };
@@ -40,7 +42,8 @@ export default function Galeri() {
     setForm({
       title: item.title,
       cat: item.cat,
-      img: item.img || '/images/landmark1.jpg'
+      img: item.img || '/images/landmark1.jpg',
+      desc: item.desc || ''
     });
     setIsFormOpen(true);
   };
@@ -164,10 +167,11 @@ export default function Galeri() {
             <button className="modal-close" onClick={() => setActiveImage(null)} style={{ background: 'white' }}>
               <X size={20} />
             </button>
-            <img src={activeImage.img} alt={activeImage.title} style={{ width: '100%', maxHeight: '80vh', objectFit: 'contain', borderRadius: '16px' }} />
-            <div style={{ textAlign: 'center', marginTop: '16px', color: 'white' }}>
-              <h3 style={{ fontSize: '1.4rem', color: 'white' }}>{activeImage.title}</h3>
-              <p style={{ color: '#cbd5e1' }}>Kategori: {activeImage.cat}</p>
+            <img src={activeImage.img} alt={activeImage.title} style={{ width: '100%', maxHeight: '75vh', objectFit: 'contain', borderRadius: '16px' }} />
+            <div style={{ textAlign: 'center', marginTop: '16px', color: 'white', background: 'rgba(15, 23, 42, 0.85)', padding: '20px', borderRadius: '16px', backdropFilter: 'blur(8px)' }}>
+              <span style={{ fontSize: '0.78rem', textTransform: 'uppercase', color: 'var(--accent)', fontWeight: '700' }}>{activeImage.cat}</span>
+              <h3 style={{ fontSize: '1.4rem', color: 'white', margin: '4px 0 8px' }}>{activeImage.title}</h3>
+              {activeImage.desc && <p style={{ color: '#cbd5e1', fontSize: '0.95rem', lineHeight: '1.6', margin: 0 }}>{activeImage.desc}</p>}
             </div>
           </div>
         </div>
@@ -223,6 +227,17 @@ export default function Galeri() {
                 <span style={{ fontSize: '0.78rem', color: '#64748b', marginTop: '4px', display: 'block' }}>
                   Tips: Simpan foto di folder <code>public/images/</code> dan ketik jalurnya (misal: <code>/images/foto_baru.jpg</code>) atau gunakan URL gambar web.
                 </span>
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: '700', marginBottom: '6px' }}>Deskripsi Penjelasan Foto</label>
+                <textarea
+                  rows="3"
+                  placeholder="Jelaskan suasana/detail dalam foto ini..."
+                  value={form.desc}
+                  onChange={(e) => setForm({ ...form, desc: e.target.value })}
+                  style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #cbd5e1' }}
+                ></textarea>
               </div>
 
               <button

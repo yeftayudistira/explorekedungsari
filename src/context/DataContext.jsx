@@ -105,12 +105,41 @@ const initialUmkm = [
 ];
 
 const initialGaleri = [
-  { id: 1, title: 'Persawahan Hortikultura Desa Kedungsari', cat: 'Pertanian & Alam', img: '/images/landmark1.jpg' },
-  { id: 2, title: 'Tradisi Budaya Tedhak Siten & Jadah 7 Warna', cat: 'Kebudayaan', img: '/images/landmark2.jpg' },
-  { id: 3, title: 'Peternakan Itik Petelur Sistem Umbaran', cat: 'Ekonomi Warga', img: '/images/history.jpg' },
-  { id: 4, title: 'Kantor Balai Desa Kedungsari (Dusun Paingan)', cat: 'Pemerintahan', img: '/images/hero.jpg' },
-  { id: 5, title: 'Suasana Alam Desa Kedungsari Bandongan', cat: 'Pertanian & Alam', img: '/images/landmark1.jpg' },
-  { id: 6, title: 'Kegiatan Gotong Royong & Rembuk Warga', cat: 'Kegiatan Warga', img: '/images/history.jpg' }
+  {
+    id: 1,
+    title: 'Pesona Gunung Sumbing & Akses Jalan Tani Kedungsari',
+    cat: 'Pertanian & Alam',
+    img: '/images/galeri_jalan_tani_sumbing.jpg',
+    desc: 'Pemandangan lanskap persawahan hortikultura Desa Kedungsari di sore hari dengan kemegahan latar Gunung Sumbing yang membingkai langit senja.'
+  },
+  {
+    id: 2,
+    title: 'Gedung Koperasi Merah Putih Desa Kedungsari',
+    cat: 'Pemerintahan',
+    img: '/images/galeri_koperasi_merah_putih.jpg',
+    desc: 'Bangunan fasilitas Koperasi Merah Putih Desa Kedungsari sebagai wadah pemberdayaan ekonomi dan sarana koperatif usaha warga.'
+  },
+  {
+    id: 3,
+    title: 'Lahan Hortikultura & Sunset Persawahan Kedungsari',
+    cat: 'Pertanian & Alam',
+    img: '/images/galeri_persawahan_sunset.jpg',
+    desc: 'Hamparan terasering tanaman hortikultura (cabai & terong) bermulsa plastik yang membentang indah dengan latar senja perbukitan Magelang.'
+  },
+  {
+    id: 4,
+    title: 'Kegiatan Mahasiswa KKN di Kantor Sekretariat PPS Balai Desa',
+    cat: 'Kegiatan Warga',
+    img: '/images/galeri_kkn_balai_desa.jpg',
+    desc: 'Dokumentasi kebersamaan dan keceriaan Mahasiswa KKN saat mengabdi serta menjalankan program kerja di Sekretariat PPS Balai Desa Kedungsari.'
+  },
+  {
+    id: 5,
+    title: 'Kebersamaan Warga & Pedagang Keliling Desa',
+    cat: 'Ekonomi Warga',
+    img: '/images/galeri_aktivitas_warga.jpg',
+    desc: 'Suasana kehangatan aktivitas sosial warga, anak-anak sekolah, mahasiswa KKN, dan pedagang keliling di bawah pepohonan rindang Kedungsari.'
+  }
 ];
 
 const initialContact = {
