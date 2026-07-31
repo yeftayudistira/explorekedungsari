@@ -8,7 +8,7 @@ import Beranda from './components/Beranda';
 import Berita from './components/Berita';
 import Galeri from './components/Galeri';
 import DukuhWilayah from './components/DukuhWilayah';
-import DestinasiPotensi from './components/DestinasiPotensi';
+import UmkmDesa from './components/UmkmDesa';
 import KontakLayanan from './components/KontakLayanan';
 import Footer from './components/Footer';
 
@@ -28,8 +28,9 @@ function MainApp() {
         return <Galeri />;
       case 'dukuh':
         return <DukuhWilayah />;
+      case 'umkm':
       case 'destinasi':
-        return <DestinasiPotensi />;
+        return <UmkmDesa />;
       case 'kontak':
         return <KontakLayanan />;
       default:

@@ -25,7 +25,7 @@ export default function Header({ activeTab, setActiveTab }) {
     { id: 'berita', label: 'Berita' },
     { id: 'galeri', label: 'Galeri' },
     { id: 'dukuh', label: 'Banjar / Dukuh' },
-    { id: 'destinasi', label: 'Destinasi' },
+    { id: 'umkm', label: 'UMKM Desa' },
     { id: 'kontak', label: 'Kontak' },
   ];
 

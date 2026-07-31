@@ -53,33 +53,54 @@ const initialSotk = [
   { id: 5, nama: 'Kasi Kesejahteraan & Pelayanan', jabatan: 'Kepala Seksi Kesejahteraan', role: 'Pemberdayaan Masyarakat & Sosial' }
 ];
 
-const initialDestinasi = [
+const initialUmkm = [
   {
     id: 1,
-    title: 'Sentra Peternakan Itik Petelur Kedungsari',
-    cat: 'Potensi Peternakan',
-    rating: '4.9',
-    desc: 'Kawasan penggembalaan itik petelur sistem umbaran alami di hamparan persawahan hijau Dusun Wonosaran.',
+    nama: 'Peternakan Itik Petelur Sistem Umbaran',
+    category: 'Peternakan',
+    pemilik: 'Kelompok Peternak Itik Kedungsari',
+    dusun: 'Dusun Wonosaran',
+    hargaInfo: 'Produksi 22 butir/ekor/bulan (32 Ekor/Peternak)',
+    kontakWa: '0812-3456-7891',
     img: '/images/landmark1.jpg',
-    lokasi: 'Dusun Wonosaran'
+    excerpt: 'Budidaya itik petelur unggulan dengan metode umbaran alami di lahan persawahan pasca panen.',
+    content: `Peternakan itik petelur di Desa Kedungsari menggunakan sistem penggembalaan umbaran alami di persawahan. Rata-rata peternak mengelola 32 ekor itik dengan rata-rata hasil produksi 22 butir telur/ekor/bulan. Usaha ini terbukti sangat menguntungkan (R/C ratio 1.58) dan menjadi penopang ekonomi warga Dusun Wonosaran.`
   },
   {
     id: 2,
-    title: 'Kawasan Persawahan Hortikultura Bandongan',
-    cat: 'Agrowisata',
-    rating: '4.8',
-    desc: 'Lahan pertanian produktif komoditas cabai, terong, ketimun, dan pepaya dengan latar pemandangan dataran tinggi.',
+    nama: 'Hasil Tani Hortikultura (Cabai & Sayuran)',
+    category: 'Pertanian',
+    pemilik: 'Gapoktan Kedungsari',
+    dusun: 'Dusun Karangrejo',
+    hargaInfo: 'Komoditas Cabai Rawit, Terong & Pepaya',
+    kontakWa: '0812-3456-7892',
     img: '/images/history.jpg',
-    lokasi: 'Dusun Karangrejo'
+    excerpt: 'Komoditas tanaman sayuran semusim berkualitas tinggi dari lahan agraris subur Kedungsari.',
+    content: `Sebagian besar penduduk Desa Kedungsari bekerja sebagai petani hortikultura. Hasil bumi utama meliputi cabai merah, cabai rawit, ketimun, terong, dan pepaya semusim yang dipasarkan secara luas ke pasar-pasar lokal hingga Kota Magelang.`
   },
   {
     id: 3,
-    title: 'Pusat Kebudayaan & Tradisi Tedhak Siten',
-    cat: 'Wisata Budaya',
-    rating: '5.0',
-    desc: 'Lokasi prosesi upacara adat kearifan lokal Tedhak Siten dan pembuatan Jadah 7 Warna.',
+    nama: 'Jadah 7 Warna Kuliner Adat Tedhak Siten',
+    category: 'Kuliner Tradisional',
+    pemilik: 'Ibu-Ibu Pengrajin Kuliner Paingan',
+    dusun: 'Dusun Paingan',
+    hargaInfo: 'Sajian Adat 7 Warna Makna Simbolis',
+    kontakWa: '0812-3456-7893',
     img: '/images/landmark2.jpg',
-    lokasi: 'Dusun Paingan'
+    excerpt: 'Kuliner kearifan lokal berbahan beras ketan dengan 7 variasi warna bermakna doa dan filosofi kehidupan.',
+    content: `Sajian Jadah 7 Warna merupakan bagian penting dari upacara adat Tedhak Siten di Desa Kedungsari. Tujuh warna jadah melambangkan nilai filosofis: Hitam (kecerdasan), Ungu (ketenangan), Merah (keberanian), Biru (kesetiaan), Kuning (kemakmuran), Hijau (kesuburan), dan Putih (kesucian).`
+  },
+  {
+    id: 4,
+    nama: 'Kerajinan Olahan Industri Rumah Tangga',
+    category: 'Kerajinan Tangan',
+    pemilik: 'Kreatif Usaha Warga Kedungsari',
+    dusun: 'Dusun Kedungan & Pranan',
+    hargaInfo: 'Mulai Rp 20.000 / produk',
+    kontakWa: '0812-3456-7894',
+    img: '/images/hero.jpg',
+    excerpt: 'Berbagai produk kerajinan tangan dan industri olahan rumah tangga buatan pengrajin lokal.',
+    content: `Industri rumah tangga di Dusun Kedungan & Pranan memproduksi aneka kerajinan olahan tangan dan barang seni perdesaan. Produk kerajinan ini menjadi bukti kemandirian dan kreativitas wirausaha masyarakat Kedungsari.`
   }
 ];
 
@@ -105,9 +126,9 @@ export function DataProvider({ children }) {
     return saved ? JSON.parse(saved) : initialSotk;
   });
 
-  const [destinasiList, setDestinasiList] = useState(() => {
-    const saved = localStorage.getItem('kedungsari_destinasi');
-    return saved ? JSON.parse(saved) : initialDestinasi;
+  const [umkmList, setUmkmList] = useState(() => {
+    const saved = localStorage.getItem('kedungsari_umkm');
+    return saved ? JSON.parse(saved) : initialUmkm;
   });
 
   const [contactInfo, setContactInfo] = useState(() => {
@@ -125,8 +146,8 @@ export function DataProvider({ children }) {
   }, [sotkList]);
 
   useEffect(() => {
-    localStorage.setItem('kedungsari_destinasi', JSON.stringify(destinasiList));
-  }, [destinasiList]);
+    localStorage.setItem('kedungsari_umkm', JSON.stringify(umkmList));
+  }, [umkmList]);
 
   useEffect(() => {
     localStorage.setItem('kedungsari_contact', JSON.stringify(contactInfo));
@@ -177,18 +198,18 @@ export function DataProvider({ children }) {
     setSotkList(sotkList.filter((s) => s.id !== id));
   };
 
-  // Destinasi CRUD
-  const addDestinasi = (item) => {
+  // UMKM CRUD
+  const addUmkm = (item) => {
     const newItem = { ...item, id: Date.now() };
-    setDestinasiList([...destinasiList, newItem]);
+    setUmkmList([newItem, ...umkmList]);
   };
 
-  const updateDestinasi = (id, updatedFields) => {
-    setDestinasiList(destinasiList.map((d) => (d.id === id ? { ...d, ...updatedFields } : d)));
+  const updateUmkm = (id, updatedFields) => {
+    setUmkmList(umkmList.map((u) => (u.id === id ? { ...u, ...updatedFields } : u)));
   };
 
-  const deleteDestinasi = (id) => {
-    setDestinasiList(destinasiList.filter((d) => d.id !== id));
+  const deleteUmkm = (id) => {
+    setUmkmList(umkmList.filter((u) => u.id !== id));
   };
 
   // Contact Update
@@ -210,10 +231,14 @@ export function DataProvider({ children }) {
         addSotk,
         updateSotk,
         deleteSotk,
-        destinasiList,
-        addDestinasi,
-        updateDestinasi,
-        deleteDestinasi,
+        umkmList,
+        addUmkm,
+        updateUmkm,
+        deleteUmkm,
+        destinasiList: umkmList,
+        addDestinasi: addUmkm,
+        updateDestinasi: updateUmkm,
+        deleteDestinasi: deleteUmkm,
         contactInfo,
         updateContactInfo,
       }}

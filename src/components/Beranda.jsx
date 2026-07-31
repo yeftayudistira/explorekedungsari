@@ -9,7 +9,7 @@ export default function Beranda({ setActiveTab }) {
   const exploreFeatures = [
     { title: 'Profil & Sejarah', desc: 'Mengenal kisah perjalanan, nilai budaya, dan kearifan lokal Kedungsari.', icon: Compass, tab: 'profil-desa' },
     { title: 'Landmark Ikonik', desc: 'Pemandangan Waduk Panorama & Monumen Prasasti Sejarah Desa.', icon: Landmark, tab: 'profil-desa' },
-    { title: 'Wisata & UMKM', desc: 'Jelajahi destinasi alam, kuliner khas, dan kerajinan tangan lokal.', icon: Sparkles, tab: 'destinasi' },
+    { title: 'UMKM & Potensi', desc: 'Jelajahi peternakan itik, pertanian hortikultura, dan kerajinan warga.', icon: Sparkles, tab: 'umkm' },
     { title: 'Galeri Foto', desc: 'Dokumentasi visual momen keindahan dan kegiatan warga desa.', icon: ImageIcon, tab: 'galeri' }
   ];
 
