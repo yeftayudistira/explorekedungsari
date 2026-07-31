@@ -17,7 +17,7 @@ export default function Footer({ setActiveTab, onOpenAdminModal }) {
           {/* Brand Info */}
           <div className="footer-brand">
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
-              <img src="/images/logo.png" alt="Logo Desa Kedungsari" style={{ width: '42px', height: '42px', borderRadius: '50%', objectFit: 'contain', background: 'white', padding: '2px' }} />
+              <img src="/images/logo.png" alt="Logo Desa Kedungsari" style={{ width: '42px', height: '42px', borderRadius: '50%', objectFit: 'cover', background: '#000000', border: '1px solid rgba(255,255,255,0.2)', padding: '2px' }} />
               <div>
                 <h3 style={{ margin: 0, fontSize: '1.4rem', color: 'white' }}>Kedungsari</h3>
                 <span style={{ fontSize: '0.72rem', color: 'var(--accent)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Explore The Village</span>
