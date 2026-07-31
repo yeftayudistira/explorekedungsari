@@ -13,15 +13,15 @@ import KontakLayanan from './components/KontakLayanan';
 import Footer from './components/Footer';
 
 function MainApp() {
-  const [activeTab, setActiveTab] = useState('profil-desa');
+  const [activeTab, setActiveTab] = useState('beranda');
   const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
 
   const renderContent = () => {
     switch (activeTab) {
-      case 'profil-desa':
-        return <ProfilDesa />;
       case 'beranda':
         return <Beranda setActiveTab={setActiveTab} />;
+      case 'profil-desa':
+        return <ProfilDesa />;
       case 'berita':
         return <Berita />;
       case 'galeri':
@@ -34,7 +34,7 @@ function MainApp() {
       case 'kontak':
         return <KontakLayanan />;
       default:
-        return <ProfilDesa />;
+        return <Beranda setActiveTab={setActiveTab} />;
     }
   };
 
