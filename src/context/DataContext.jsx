@@ -104,6 +104,15 @@ const initialUmkm = [
   }
 ];
 
+const initialGaleri = [
+  { id: 1, title: 'Persawahan Hortikultura Desa Kedungsari', cat: 'Pertanian & Alam', img: '/images/landmark1.jpg' },
+  { id: 2, title: 'Tradisi Budaya Tedhak Siten & Jadah 7 Warna', cat: 'Kebudayaan', img: '/images/landmark2.jpg' },
+  { id: 3, title: 'Peternakan Itik Petelur Sistem Umbaran', cat: 'Ekonomi Warga', img: '/images/history.jpg' },
+  { id: 4, title: 'Kantor Balai Desa Kedungsari (Dusun Paingan)', cat: 'Pemerintahan', img: '/images/hero.jpg' },
+  { id: 5, title: 'Suasana Alam Desa Kedungsari Bandongan', cat: 'Pertanian & Alam', img: '/images/landmark1.jpg' },
+  { id: 6, title: 'Kegiatan Gotong Royong & Rembuk Warga', cat: 'Kegiatan Warga', img: '/images/history.jpg' }
+];
+
 const initialContact = {
   alamat: 'Dusun Paingan RT 05 RW 04, Desa Kedungsari, Kec. Bandongan, Kab. Magelang 56151',
   jamKerja: 'Senin - Kamis: 08.00 - 15.00 WIB | Jumat: 08.00 - 11.00 WIB',
@@ -131,6 +140,11 @@ export function DataProvider({ children }) {
     return saved ? JSON.parse(saved) : initialUmkm;
   });
 
+  const [galeriList, setGaleriList] = useState(() => {
+    const saved = localStorage.getItem('kedungsari_galeri');
+    return saved ? JSON.parse(saved) : initialGaleri;
+  });
+
   const [contactInfo, setContactInfo] = useState(() => {
     const saved = localStorage.getItem('kedungsari_contact');
     return saved ? JSON.parse(saved) : initialContact;
@@ -148,6 +162,10 @@ export function DataProvider({ children }) {
   useEffect(() => {
     localStorage.setItem('kedungsari_umkm', JSON.stringify(umkmList));
   }, [umkmList]);
+
+  useEffect(() => {
+    localStorage.setItem('kedungsari_galeri', JSON.stringify(galeriList));
+  }, [galeriList]);
 
   useEffect(() => {
     localStorage.setItem('kedungsari_contact', JSON.stringify(contactInfo));
@@ -212,6 +230,20 @@ export function DataProvider({ children }) {
     setUmkmList(umkmList.filter((u) => u.id !== id));
   };
 
+  // Galeri CRUD
+  const addGaleri = (item) => {
+    const newItem = { ...item, id: Date.now() };
+    setGaleriList([newItem, ...galeriList]);
+  };
+
+  const updateGaleri = (id, updatedFields) => {
+    setGaleriList(galeriList.map((g) => (g.id === id ? { ...g, ...updatedFields } : g)));
+  };
+
+  const deleteGaleri = (id) => {
+    setGaleriList(galeriList.filter((g) => g.id !== id));
+  };
+
   // Contact Update
   const updateContactInfo = (newInfo) => {
     setContactInfo({ ...contactInfo, ...newInfo });
@@ -235,6 +267,10 @@ export function DataProvider({ children }) {
         addUmkm,
         updateUmkm,
         deleteUmkm,
+        galeriList,
+        addGaleri,
+        updateGaleri,
+        deleteGaleri,
         destinasiList: umkmList,
         addDestinasi: addUmkm,
         updateDestinasi: updateUmkm,
