@@ -34,7 +34,7 @@ export default function KontakLayanan() {
       <Hero
         title="Kontak & Lokasi Desa Kedungsari"
         subtitle="Alamat resmi, peta lokasi balai desa, jam kunjungan, dan kontak pengelola Desa Kedungsari."
-        bgImage="/images/hero.jpg"
+        bgImage="/images/galeri_kkn_balai_desa.jpg"
         badge="Informasi Kontak & Lokasi"
       />
 

@@ -49,7 +49,7 @@ export default function ProfilDesa() {
       <Hero
         title="Jelajahi Kisah Menakjubkan Desa Kedungsari"
         subtitle="Perjalanan melintasi waktu di desa tercinta kami, tempat tradisi bertemu dengan kemajuan."
-        bgImage="/images/hero.jpg"
+        bgImage="/images/galeri_jalan_tani_sumbing.jpg"
         badge="Profil Resmi Desa"
       />
 
@@ -60,10 +60,10 @@ export default function ProfilDesa() {
             {/* Split Images di sebelah kiri */}
             <div className="landmark-images">
               <div className="landmark-img-card">
-                <img src="/images/landmark1.jpg" alt="Persawahan Desa Kedungsari" />
+                <img src="/images/galeri_persawahan_sunset.jpg" alt="Persawahan Desa Kedungsari" />
               </div>
               <div className="landmark-img-card">
-                <img src="/images/landmark2.jpg" alt="Suasana Desa Kedungsari" />
+                <img src="/images/galeri_koperasi_merah_putih.jpg" alt="Suasana Desa Kedungsari" />
               </div>
             </div>
 
@@ -101,7 +101,7 @@ export default function ProfilDesa() {
 
             {/* Foto Sejarah di sebelah kanan */}
             <div className="history-image-card">
-              <img src="/images/history.jpg" alt="Sejarah & Tradisi Kedungsari" />
+              <img src="/images/galeri_kkn_balai_desa.jpg" alt="Sejarah & Tradisi Kedungsari" />
             </div>
           </div>
         </div>

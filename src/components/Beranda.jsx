@@ -22,7 +22,7 @@ export default function Beranda({ setActiveTab }) {
       <Hero
         title="Selamat Datang di Portal Resmi Desa Kedungsari"
         subtitle="Pusat Informasi Publik, Pesona Keindahan Alam, Kebudayaan, dan Potensi Desa Kedungsari."
-        bgImage="/images/hero.jpg"
+        bgImage="/images/galeri_jalan_tani_sumbing.jpg"
         badge="Kedungsari Explore Portal"
       />
 
@@ -105,7 +105,7 @@ export default function Beranda({ setActiveTab }) {
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: '0.8fr 1.2fr', gap: '50px', alignItems: 'center' }}>
             <div style={{ borderRadius: '20px', overflow: 'hidden', boxShadow: 'var(--shadow-lg)', height: '400px' }}>
-              <img src="/images/history.jpg" alt="Sambutan Pemerintah Desa Kedungsari" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <img src="/images/galeri_kkn_balai_desa.jpg" alt="Sambutan Pemerintah Desa Kedungsari" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
 
             <div>

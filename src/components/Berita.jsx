@@ -17,7 +17,7 @@ export default function Berita() {
     category: 'Pengumuman',
     author: 'Admin Desa',
     date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }),
-    img: '/images/hero.jpg',
+    img: '/images/galeri_kkn_balai_desa.jpg',
     excerpt: '',
     content: ''
   });
@@ -40,7 +40,7 @@ export default function Berita() {
       category: 'Pengumuman',
       author: 'Admin Desa',
       date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }),
-      img: '/images/hero.jpg',
+      img: '/images/galeri_kkn_balai_desa.jpg',
       excerpt: '',
       content: ''
     });
@@ -55,7 +55,7 @@ export default function Berita() {
       category: newsItem.category,
       author: newsItem.author || 'Admin Desa',
       date: newsItem.date,
-      img: newsItem.img || '/images/hero.jpg',
+      img: newsItem.img || '/images/galeri_kkn_balai_desa.jpg',
       excerpt: newsItem.excerpt,
       content: newsItem.content
     });
@@ -84,7 +84,7 @@ export default function Berita() {
       <Hero
         title="Warta & Pengumuman Desa Kedungsari"
         subtitle="Dapatkan informasi terkini mengenai kegiatan, pembangunan, dan berita terbaru seputar Desa Kedungsari."
-        bgImage="/images/hero.jpg"
+        bgImage="/images/galeri_kkn_balai_desa.jpg"
         badge="Informasi Publik"
       />
 
@@ -285,10 +285,11 @@ export default function Berita() {
                   onChange={(e) => setFormData({ ...formData, img: e.target.value })}
                   style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #cbd5e1', background: 'white' }}
                 >
-                  <option value="/images/hero.jpg">Foto Panorama Balai Desa (/images/hero.jpg)</option>
-                  <option value="/images/landmark1.jpg">Foto Waduk Kedungsari (/images/landmark1.jpg)</option>
-                  <option value="/images/landmark2.jpg">Foto Monumen Prasasti (/images/landmark2.jpg)</option>
-                  <option value="/images/history.jpg">Foto Sunrise & Sawah (/images/history.jpg)</option>
+                  <option value="/images/galeri_kkn_balai_desa.jpg">Foto Balai Desa Kedungsari (/images/galeri_kkn_balai_desa.jpg)</option>
+                  <option value="/images/galeri_jalan_tani_sumbing.jpg">Foto Gunung Sumbing & Jalan Tani (/images/galeri_jalan_tani_sumbing.jpg)</option>
+                  <option value="/images/galeri_persawahan_sunset.jpg">Foto Persawahan & Sunset (/images/galeri_persawahan_sunset.jpg)</option>
+                  <option value="/images/galeri_koperasi_merah_putih.jpg">Foto Koperasi Merah Putih (/images/galeri_koperasi_merah_putih.jpg)</option>
+                  <option value="/images/galeri_aktivitas_warga.jpg">Foto Kebersamaan Warga (/images/galeri_aktivitas_warga.jpg)</option>
                 </select>
               </div>
 

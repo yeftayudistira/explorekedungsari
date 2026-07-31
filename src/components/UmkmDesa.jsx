@@ -20,7 +20,7 @@ export default function UmkmDesa() {
     dusun: 'Dusun Wonosaran',
     hargaInfo: '',
     kontakWa: '',
-    img: '/images/landmark1.jpg',
+    img: '/images/galeri_persawahan_sunset.jpg',
     excerpt: '',
     content: ''
   });
@@ -48,7 +48,7 @@ export default function UmkmDesa() {
       dusun: 'Dusun Wonosaran',
       hargaInfo: '',
       kontakWa: '',
-      img: '/images/landmark1.jpg',
+      img: '/images/galeri_persawahan_sunset.jpg',
       excerpt: '',
       content: ''
     });
@@ -65,7 +65,7 @@ export default function UmkmDesa() {
       dusun: item.dusun || item.lokasi || 'Dusun Wonosaran',
       hargaInfo: item.hargaInfo || item.rating || '',
       kontakWa: item.kontakWa || '',
-      img: item.img || '/images/landmark1.jpg',
+      img: item.img || '/images/galeri_persawahan_sunset.jpg',
       excerpt: item.excerpt || item.desc || '',
       content: item.content || item.desc || ''
     });
@@ -94,7 +94,7 @@ export default function UmkmDesa() {
       <Hero
         title="UMKM & Potensi Ekonomi Desa Kedungsari"
         subtitle="Katalog Resmi Produk Olahan, Hasil Pertanian, Peternakan Itik Petelur, dan Industri Rumah Tangga Warga Desa."
-        bgImage="/images/landmark1.jpg"
+        bgImage="/images/galeri_persawahan_sunset.jpg"
         badge="Pemberdayaan Ekonomi Lokal"
       />
 
@@ -379,10 +379,11 @@ export default function UmkmDesa() {
                   onChange={(e) => setFormData({ ...formData, img: e.target.value })}
                   style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #cbd5e1', background: 'white' }}
                 >
-                  <option value="/images/landmark1.jpg">Foto Peternakan & Persawahan (/images/landmark1.jpg)</option>
-                  <option value="/images/landmark2.jpg">Foto Kuliner Adat (/images/landmark2.jpg)</option>
-                  <option value="/images/history.jpg">Foto Pertanian Hortikultura (/images/history.jpg)</option>
-                  <option value="/images/hero.jpg">Foto Industri Rumah Tangga (/images/hero.jpg)</option>
+                  <option value="/images/galeri_persawahan_sunset.jpg">Foto Persawahan & Sunset (/images/galeri_persawahan_sunset.jpg)</option>
+                  <option value="/images/galeri_jalan_tani_sumbing.jpg">Foto Gunung Sumbing & Jalan Tani (/images/galeri_jalan_tani_sumbing.jpg)</option>
+                  <option value="/images/galeri_koperasi_merah_putih.jpg">Foto Koperasi Merah Putih (/images/galeri_koperasi_merah_putih.jpg)</option>
+                  <option value="/images/galeri_aktivitas_warga.jpg">Foto Kebersamaan Warga (/images/galeri_aktivitas_warga.jpg)</option>
+                  <option value="/images/galeri_kkn_balai_desa.jpg">Foto Balai Desa (/images/galeri_kkn_balai_desa.jpg)</option>
                 </select>
               </div>
 

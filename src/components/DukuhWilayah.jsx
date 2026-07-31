@@ -5,13 +5,13 @@ import { MapPin, Users, Home, Phone, Shield } from 'lucide-react';
 export default function DukuhWilayah() {
   const dusunList = [
     {
-      nama: 'Dusun Paingan (Pusat Pemerintahan)',
+      nama: 'Dusun Paingan',
       kepala: 'Kepala Dusun Paingan',
       kontak: '(0293) 364712',
       rt: 'RT 05 / RW 04',
       penduduk: 'Pusat Balai Desa',
       desc: 'Pusat pelayanan administrasi Kantor Desa Kedungsari, fasilitas umum, dan kawasan permukiman terpadu.',
-      img: '/images/hero.jpg'
+      img: '/images/galeri_kkn_balai_desa.jpg'
     },
     {
       nama: 'Dusun Karangrejo',
@@ -20,7 +20,7 @@ export default function DukuhWilayah() {
       rt: 'Wilayah RW 01',
       penduduk: 'Sentra Pertanian',
       desc: 'Kawasan persawahan hortikultura penghasil cabai rawit, terong, ketimun, dan pepaya semusim.',
-      img: '/images/landmark1.jpg'
+      img: '/images/galeri_jalan_tani_sumbing.jpg'
     },
     {
       nama: 'Dusun Wonosaran',
@@ -29,7 +29,7 @@ export default function DukuhWilayah() {
       rt: 'Wilayah RW 02',
       penduduk: 'Sentra Peternakan',
       desc: 'Lokasi utama peternakan itik petelur dengan sistem umbaran alami di lahan persawahan desa.',
-      img: '/images/landmark2.jpg'
+      img: '/images/galeri_persawahan_sunset.jpg'
     },
     {
       nama: 'Dusun Kedungan & Pranan',
@@ -38,7 +38,7 @@ export default function DukuhWilayah() {
       rt: 'Dusun Gabungan',
       penduduk: 'Pemukiman & Kerajinan',
       desc: 'Wilayah dusun gabungan bersejarah dengan potensi industri rumah tangga dan pengrajin lokal.',
-      img: '/images/history.jpg'
+      img: '/images/galeri_koperasi_merah_putih.jpg'
     },
     {
       nama: 'Dusun Kwangsan',
@@ -47,7 +47,7 @@ export default function DukuhWilayah() {
       rt: 'Wilayah RW 03',
       penduduk: 'Sentra Perdagangan',
       desc: 'Kawasan permukiman warga berbasis usaha perdagangan keliling, montir, dan jasa lokal.',
-      img: '/images/hero.jpg'
+      img: '/images/galeri_aktivitas_warga.jpg'
     }
   ];
 
@@ -56,7 +56,7 @@ export default function DukuhWilayah() {
       <Hero
         title="Dusun & Pembagian Wilayah Desa"
         subtitle="Mengenal 5 Dusun wilayah administrasi Desa Kedungsari, Kecamatan Bandongan, Kabupaten Magelang."
-        bgImage="/images/landmark2.jpg"
+        bgImage="/images/galeri_jalan_tani_sumbing.jpg"
         badge="Administrasi Wilayah"
       />
 
