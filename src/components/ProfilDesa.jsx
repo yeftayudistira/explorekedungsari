@@ -53,58 +53,55 @@ export default function ProfilDesa() {
         badge="Profil Resmi Desa"
       />
 
-      {/* Section 1: Landmark Ikonik (Sesuai Gambar Acuan 2) */}
+      {/* Section 1: Asal Usul Nama & Geografi */}
       <section className="landmark-section">
         <div className="container">
           <div className="landmark-grid">
-            {/* Split Images di sebelah kiri persis seperti Screenshot 2 */}
+            {/* Split Images di sebelah kiri */}
             <div className="landmark-images">
               <div className="landmark-img-card">
-                <img src="/images/landmark1.jpg" alt="Pemandangan Asri Kedungsari" />
+                <img src="/images/landmark1.jpg" alt="Persawahan Desa Kedungsari" />
               </div>
               <div className="landmark-img-card">
-                <img src="/images/landmark2.jpg" alt="Monumen Prasasti Kedungsari" />
+                <img src="/images/landmark2.jpg" alt="Suasana Desa Kedungsari" />
               </div>
             </div>
 
-            {/* Teks Penjelasan Landmark di sebelah kanan persis seperti Screenshot 2 */}
+            {/* Teks Penjelasan Asal Usul & Geografi */}
             <div className="landmark-text-content">
-              <h2>Landmark Ikonik</h2>
+              <h2>Asal Usul Nama & Geografi</h2>
               <p>
-                Waduk Panorama Kedungsari dan Monumen Prasasti Sejarah adalah dua landmark ikonik yang sarat akan makna di Desa Kedungsari. Waduk Kedungsari terkenal sebagai destinasi wisata yang memikat dengan perairan yang jernih, pepohonan kelapa yang rimbun, dan pemandangan matahari terbenam yang memukau, menjadi favorit bagi wisatawan lokal maupun luar daerah.
+                Nama <strong>"Kedungsari"</strong> berasal dari dua kata Bahasa Jawa, yaitu <em>Kedung</em> (wadah atau tempat menampung) dan <em>Sari</em> (kemakmuran atau inti kebaikan). Dengan demikian, Kedungsari bermakna <strong>"Tempat yang Makmur"</strong>.
               </p>
               <p>
-                Tak jauh dari sana, berdiri Monumen Prasasti Pendopo Desa sebagai pengingat akan peristiwa sejarah pendirian desa, sekaligus simbol keteguhan dan semangat gotong royong masyarakat Kedungsari. Kedua landmark ini bukan hanya destinasi wisata, tetapi juga mencerminkan sejarah, budaya, dan daya tarik emosional bagi siapa pun yang megunjunginya.
+                Desa Kedungsari merupakan salah satu dari 14 desa di Kecamatan Bandongan, Kabupaten Magelang, Jawa Tengah (Kode Pos 56151). Dengan luas wilayah sekitar <strong>1,54 km²</strong>, desa ini merupakan desa terkecil di Kecamatan Bandongan namun memiliki kepadatan penduduk yang dinamis (~1.597 jiwa/km²). Desa ini terletak di bagian barat Kabupaten Magelang dan berbatasan langsung dengan Kecamatan Windusari (Utara), Kota Magelang (Timur), Kecamatan Tempuran (Selatan), dan Kecamatan Kaliangkrik (Barat).
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Section 2: Awal Dari Perjalanan Kami / Sejarah (Sesuai Gambar Acuan 3) */}
+      {/* Section 2: Sejarah Perjuangan & Perkembangan Wilayah */}
       <section className="history-section">
         <div className="container">
           <div className="history-grid">
-            {/* Teks Sejarah di sebelah kiri persis seperti Screenshot 3 */}
+            {/* Teks Sejarah di sebelah kiri */}
             <div className="history-text-content">
               <h2>Awal Dari Perjalanan Kami</h2>
               <p>
-                Desa Kedungsari merupakan salah satu desa di wilayah pesisir dan perbukitan yang terkenal dengan keindahan alamnya serta kekayaan budaya dan tradisi yang masih terjaga hingga saat ini. Terletak di kawasan yang subur dan hijau, desa ini menjadi ikon pariwisata daerah dengan persawahannya yang mempesona, sekaligus pusat kehidupan masyarakat yang tetap lestarikan kearifan lokal di tengah arus modernisasi.
+                Sejarah Desa Kedungsari sarat akan kisah perjuangan. Pada masa kolonial Belanda (sekitar tahun 1800-an), warga Kedungsari mengalami penderitaan akibat sistem tanam paksa. Rakyat bertahan hidup dengan mengonsumsi <em>debok</em> (jantung) dan bonggol pisang serta mengenakan pakaian dari karung goni. Penindasan berlanjut pada masa pendudukan Jepang (1942–1945) melalui perampasan hasil panen.
               </p>
               <p>
-                Sebagai desa yang mandiri dan berdaya, Kedungsari memiliki sistem tata kelola pemerintahan yang berlandaskan pada nilai-nilai kebersamaan dan hukum yang berlaku. Masyarakatnya masih memegang teguh tradisi gotong royong dan kearifan lokal yang diwariskan secara turun-temurun, menjadikan Desa Kedungsari sebagai salah satu pilar penting dalam menjaga warisan budaya.
+                Pasca kemerdekaan 17 Agustus 1945, kehidupan sosial dan ekonomi masyarakat berangsur bangkit. Awalnya Kedungsari terdiri dari <strong>9 dusun</strong> (Jetis, Karang, Tundan, Jenggotan, Kedungan, Pranan, Wonosaran, Gatak Paingan, Kwangsan). Namun seiring penataan tanah kas desa (bengkok), wilayah ini disederhanakan menjadi <strong>5 Dusun Utama</strong>: Karangrejo, Kedungan & Pranan, Wonosaran, Paingan, dan Kwangsan.
               </p>
               <p>
-                Website resmi Desa Kedungsari ini hadir sebagai sarana informasi dan komunikasi transparan bagi masyarakat serta wisatawan yang ingin mengenal lebih dalam tentang Desa Kedungsari.
-              </p>
-              <p>
-                Melalui platform digital ini, kami menyajikan berbagai informasi terkait sejarah desa, adat dan budaya, kegiatan masyarakat, potensi pariwisata, serta pengumuman dan agenda resmi desa.
+                Kini Desa Kedungsari tumbuh menjadi desa agraris yang mandiri, berbudaya, serta meraih predikat resmi <strong>Open Defecation Free (ODF)</strong> yang menjamin standar sanitasi dan kesehatan masyarakat.
               </p>
             </div>
 
-            {/* Foto Sejarah di sebelah kanan persis seperti Screenshot 3 */}
+            {/* Foto Sejarah di sebelah kanan */}
             <div className="history-image-card">
-              <img src="/images/history.jpg" alt="Awal Perjalanan Desa Kedungsari" />
+              <img src="/images/history.jpg" alt="Sejarah & Tradisi Kedungsari" />
             </div>
           </div>
         </div>
@@ -116,7 +113,7 @@ export default function ProfilDesa() {
           <div style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto 40px' }}>
             <span style={{ color: 'var(--primary)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '0.85rem' }}>Arah Pembangunan</span>
             <h2 style={{ fontSize: '2.4rem', marginTop: '8px' }}>Visi & Misi Desa Kedungsari</h2>
-            <p style={{ color: '#64748b' }}>Komitmen bersama mewujudkan desa yang mandiri, sejahtera, agraris, berbudaya, dan berbasis teknologi informasi.</p>
+            <p style={{ color: '#64748b' }}>Komitmen bersama mewujudkan desa yang makmur, agraris, berbudaya, sehat, dan berbasis pelayanan digital.</p>
           </div>
 
           <div className="visi-misi-grid">
@@ -126,7 +123,7 @@ export default function ProfilDesa() {
                 Visi Desa Kedungsari
               </h3>
               <p style={{ fontSize: '1.1rem', fontStyle: 'italic', color: '#334155', lineHeight: '1.7', marginTop: '12px' }}>
-                "Terwujudnya Desa Kedungsari yang Maju, Sejahtera, Transparan, Berdaya Saing Tinggi, serta Lestari Budaya dan Alamnya Menuju Masyarakat Berakhlak Mulia."
+                "Terwujudnya Desa Kedungsari yang Makmur, Sejahtera, Sehat Lingkungan (ODF), Berbudaya, serta Berdaya Saing Tinggi Berbasis Sektor Pertanian & Peternakan Unggulan."
               </p>
             </div>
 
@@ -138,19 +135,19 @@ export default function ProfilDesa() {
               <ul className="misi-list" style={{ marginTop: '12px' }}>
                 <li>
                   <span className="misi-num">1</span>
-                  <span>Meningkatkan transparansi dan pelayanan informasi publik berbasis digital.</span>
+                  <span>Meningkatkan transparansi dan tata kelola pemerintah desa berbasis teknologi informasi.</span>
                 </li>
                 <li>
                   <span className="misi-num">2</span>
-                  <span>Mendorong perekonomian warga melalui UMKM dan pariwisata desa.</span>
+                  <span>Mengembangkan produktivitas komoditas hortikultura dan peternakan itik petelur terpadu.</span>
                 </li>
                 <li>
                   <span className="misi-num">3</span>
-                  <span>Melestarikan nilai gotong royong dan kesenian budaya lokal Kedungsari.</span>
+                  <span>Melestarikan kearifan lokal budaya tradisi Tedhak Siten dan semangat gotong royong.</span>
                 </li>
                 <li>
                   <span className="misi-num">4</span>
-                  <span>Membangun infrastruktur desa yang merata, modern, dan ramah lingkungan.</span>
+                  <span>Mempertahankan status Desa Sehat ODF dan meningkatkan kualitas lingkungan hidup.</span>
                 </li>
               </ul>
             </div>

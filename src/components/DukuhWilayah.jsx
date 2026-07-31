@@ -5,40 +5,49 @@ import { MapPin, Users, Home, Phone, Shield } from 'lucide-react';
 export default function DukuhWilayah() {
   const dusunList = [
     {
-      nama: 'Dusun Kedung I (Pusat Desa)',
-      kepala: 'Bpk. Suparno',
-      kontak: '0812-3456-7891',
-      rt: '6 RT / 2 RW',
-      penduduk: '1,240 Jiwa',
-      desc: 'Pusat pemerintahan balai desa, Waduk Utama Kedungsari, serta sentra pertokoan warga.',
+      nama: 'Dusun Paingan (Pusat Pemerintahan)',
+      kepala: 'Kepala Dusun Paingan',
+      kontak: '(0293) 364712',
+      rt: 'RT 05 / RW 04',
+      penduduk: 'Pusat Balai Desa',
+      desc: 'Pusat pelayanan administrasi Kantor Desa Kedungsari, fasilitas umum, dan kawasan permukiman terpadu.',
       img: '/images/hero.jpg'
     },
     {
-      nama: 'Dusun Kedung II (Sari Makmur)',
-      kepala: 'Bpk. Slamet Riyadi',
-      kontak: '0812-3456-7892',
-      rt: '6 RT / 1 RW',
-      penduduk: '1,150 Jiwa',
-      desc: 'Wilayah persawahan subur, sentra beras organik, dan peternakan sapi terpadu.',
-      img: '/images/history.jpg'
-    },
-    {
-      nama: 'Dusun Sari Timur',
-      kepala: 'Bpk. Hendra Wijaya',
-      kontak: '0812-3456-7893',
-      rt: '6 RT / 1 RW',
-      penduduk: '1,080 Jiwa',
-      desc: 'Wilayah kerajinan ukir kayu, UMKM olahan makanan tradisional, dan sekolah dasar.',
+      nama: 'Dusun Karangrejo',
+      kepala: 'Kepala Dusun Karangrejo',
+      kontak: 'Hubungi Kantor Desa',
+      rt: 'Wilayah RW 01',
+      penduduk: 'Sentra Pertanian',
+      desc: 'Kawasan persawahan hortikultura penghasil cabai rawit, terong, ketimun, dan pepaya semusim.',
       img: '/images/landmark1.jpg'
     },
     {
-      nama: 'Dusun Sari Barat',
-      kepala: 'Bpk. Agus Setiawan',
-      kontak: '0812-3456-7894',
-      rt: '6 RT / 2 RW',
-      penduduk: '1,058 Jiwa',
-      desc: 'Kawasan bukit panorama, destinasi wisata alam tempat spot foto sunrise.',
+      nama: 'Dusun Wonosaran',
+      kepala: 'Kepala Dusun Wonosaran',
+      kontak: 'Hubungi Kantor Desa',
+      rt: 'Wilayah RW 02',
+      penduduk: 'Sentra Peternakan',
+      desc: 'Lokasi utama peternakan itik petelur dengan sistem umbaran alami di lahan persawahan desa.',
       img: '/images/landmark2.jpg'
+    },
+    {
+      nama: 'Dusun Kedungan & Pranan',
+      kepala: 'Kepala Dusun Kedungan-Pranan',
+      kontak: 'Hubungi Kantor Desa',
+      rt: 'Dusun Gabungan',
+      penduduk: 'Pemukiman & Kerajinan',
+      desc: 'Wilayah dusun gabungan bersejarah dengan potensi industri rumah tangga dan pengrajin lokal.',
+      img: '/images/history.jpg'
+    },
+    {
+      nama: 'Dusun Kwangsan',
+      kepala: 'Kepala Dusun Kwangsan',
+      kontak: 'Hubungi Kantor Desa',
+      rt: 'Wilayah RW 03',
+      penduduk: 'Sentra Perdagangan',
+      desc: 'Kawasan permukiman warga berbasis usaha perdagangan keliling, montir, dan jasa lokal.',
+      img: '/images/hero.jpg'
     }
   ];
 
@@ -46,7 +55,7 @@ export default function DukuhWilayah() {
     <main className="dukuh-page">
       <Hero
         title="Dukuh & Pembagian Wilayah Desa"
-        subtitle="Mengenal 4 Dusun wilayah administrasi Desa Kedungsari lengkap dengan kontak Kepala Dusun."
+        subtitle="Mengenal 5 Dusun wilayah administrasi Desa Kedungsari, Kecamatan Bandongan, Kabupaten Magelang."
         bgImage="/images/landmark2.jpg"
         badge="Administrasi Wilayah"
       />
@@ -54,9 +63,9 @@ export default function DukuhWilayah() {
       <section className="section-padding">
         <div className="container">
           <div style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto 40px' }}>
-            <span style={{ color: 'var(--primary)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '0.85rem' }}>Wilayah Wilayah</span>
-            <h2 style={{ fontSize: '2.4rem', marginTop: '8px' }}>Peta Pembagian Dusun / Dukuh</h2>
-            <p style={{ color: '#64748b' }}>Desa Kedungsari terbagi atas 4 Dusun utama yang saling bersinergi membangun desa.</p>
+            <span style={{ color: 'var(--primary)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '0.85rem' }}>Wilayah Administrasi</span>
+            <h2 style={{ fontSize: '2.4rem', marginTop: '8px' }}>Peta Pembagian 5 Dusun Kedungsari</h2>
+            <p style={{ color: '#64748b' }}>Dari semula 9 dusun, kini Desa Kedungsari terbagi atas 5 Dusun Utama yang saling bersinergi membangun desa.</p>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '30px' }}>

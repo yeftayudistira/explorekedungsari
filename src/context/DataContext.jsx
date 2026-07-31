@@ -5,90 +5,89 @@ const DataContext = createContext();
 const initialNews = [
   {
     id: 1,
-    title: 'Pemerintah Desa Kedungsari Meluncurkan Portal Digital Resmi Desa',
+    title: 'Desa Kedungsari Resmi Raih Predikat Bebas ODF (Open Defecation Free)',
     date: '24 Juli 2026',
-    author: 'Admin Desa',
-    category: 'Pengumuman',
+    author: 'Pemerintah Desa',
+    category: 'Kesehatan & Lingkungan',
     img: '/images/hero.jpg',
-    excerpt: 'Untuk meningkatkan keterbukaan informasi publik dan promosi potensi wisata desa, Pemerintah Desa Kedungsari meresmikan portal digital.',
-    content: `Pemerintah Desa Kedungsari dengan bangga mengumumkan peluncuran portal digital terpadu Desa Kedungsari. Website ini dirancang untuk memfasilitasi publik dalam mendapatkan informasi terbaru terkait keindahan wisata desa, kebudayaan, sejarah, serta statistik kemasyarakatan.`
+    excerpt: 'Desa Kedungsari bersama Gandusari dan Sidorejo berhasil dinyatakan bebas dari praktik buang air besar sembarangan demi kesehatan masyarakat.',
+    content: `Melalui kesadaran tinggi masyarakat dan dukungan program Sanitasi Total Berbasis Masyarakat (STBM), Desa Kedungsari, Kecamatan Bandongan secara resmi meraih predikat Open Defecation Free (ODF). Hal ini membuktikan komitmen warga Kedungsari dalam menciptakan lingkungan hidup yang bersih dan sehat.`
   },
   {
     id: 2,
-    title: 'Pembersihan Massal & Penghijauan di Sekitar Waduk Kedungsari',
+    title: 'Pengembangan Usaha Peternakan Itik Petelur Sistem Umbaran di Kedungsari',
     date: '20 Juli 2026',
-    author: 'Kasi Kesejahteraan',
-    category: 'Kegiatan Warga',
+    author: 'Kelompok Tani-Ternak',
+    category: 'Ekonomi Lokal',
     img: '/images/landmark1.jpg',
-    excerpt: 'Warga Kedungsari bergotong royong menanam 500 bibit pohon mahoni dan merapikan kawasan wisata waduk desa.',
-    content: `Sebagai langkah melestarikan lingkungan hidup dan menyongsong liburan akhir pekan, warga masyarakat Desa Kedungsari menggelar aksi penanaman 500 bibit pohon di sepanjang tepian Waduk Kedungsari.`
+    excerpt: 'Peternak itik Desa Kedungsari mengoptimalkan sistem umbaran di lahan persawahan dengan produktivitas mencapai 22 butir per ekor per bulan.',
+    content: `Sektor peternakan itik petelur di Desa Kedungsari berkembang pesat dengan memanfaatkan sistem umbaran tradisional. Lahan persawahan pasca panen menjadi sarana penggembala alami yang menghasilkan telur itik berkualitas tinggi dan mendukung pendapatan keluarga tani.`
   },
   {
     id: 3,
-    title: 'Pembangunan Jalan Tani & Drainase Dusun Sari Timur Selesai 100%',
+    title: 'Melestarikan Tradisi Budaya Tedhak Siten dan Makna Jadah 7 Warna',
     date: '16 Juli 2026',
-    author: 'Tim TPK Desa',
-    category: 'Pembangunan',
-    img: '/images/landmark2.jpg',
-    excerpt: 'Pembangunan akses jalan pertanian sepanjang 1.2 km telah rampung dan siap mempermudah pengangkutan hasil panen padi warga.',
-    content: `Proyek pavingisasi jalan tani dan pembuatan drainase air di Dusun Sari Timur yang bersumber dari Dana Desa APBDES 2026 telah rampung dikerjakan.`
+    author: 'Tokoh Adat & Kebudayaan',
+    category: 'Kebudayaan',
+    img: '/images/history.jpg',
+    excerpt: 'Warga Kedungsari secara turun-temurun menjaga tradisi Tedhak Siten sebagai wujud syukur dan doa keselamatan bagi anak yang mulai menginjak tanah.',
+    content: `Tradisi Tedhak Siten di Desa Kedungsari tetap lestari hingga kini. Ritual penginjakan tanah pertama bagi bayi ini dimeriahkan dengan sajian Jadah 7 Warna (Hitam, Ungu, Merah, Biru, Kuning, Hijau, Putih) yang masing-masing melambangkan nilai kecerdasan, ketenangan, keberanian, hingga kesucian.`
   },
   {
     id: 4,
-    title: 'Festival Seni & Pasar Kuliner Tradisional Kedungsari Bulan Depan',
+    title: 'Panen Raya Hortikultura: Cabai dan Sayuran Semusim Kedungsari',
     date: '10 Juli 2026',
-    author: 'Karang Taruna',
-    category: 'Pariwisata',
-    img: '/images/history.jpg',
-    excerpt: 'Karang Taruna Desa Kedungsari siap menggelar festival kebudayaan dan pameran UMKM lokal untuk menarik pengunjung luar daerah.',
-    content: `Guna mengangkat potensi kerajinan dan kuliner lokal, Desa Kedungsari akan menggelar Festival Seni & Kuliner Budaya. Acara akan diisi dengan tarian tradisional, pertunjukan musik angklung, serta puluhan stan kuliner khas desa.`
+    author: 'Kasi Pelayanan',
+    category: 'Pertanian',
+    img: '/images/landmark2.jpg',
+    excerpt: 'Petani Kedungsari menikmati hasil panen cabai rawit, ketimun, dan terong melimpah yang dipasarkan hingga ke Kota Magelang.',
+    content: `Sebagai desa agraris di Kecamatan Bandongan, komoditas sayuran semusim seperti cabai merah, cabai rawit, ketimun, dan terong di Desa Kedungsari melimpah. Hasil pertanian ini menjadi pilar utama perekonomian warga.`
   }
 ];
 
 const initialSotk = [
-  { id: 1, nama: 'H. Bambang Sugiarto, S.E.', jabatan: 'Kepala Desa Kedungsari', role: 'Pimpinan Pemerintah Desa' },
-  { id: 2, nama: 'Siti Rahmawati, S.AP.', jabatan: 'Sekretaris Desa', role: 'Administrator & Pelayanan Umum' },
-  { id: 3, nama: 'Budi Santoso, S.Sos.', jabatan: 'Kaur Keuangan', role: 'Pengelola Anggaran APBDES' },
-  { id: 4, nama: 'Dewi Lestari, A.Md.', jabatan: 'Kaur Umum & Perencanaan', role: 'Aset & Perencanaan Pembangunan' },
-  { id: 5, nama: 'Eko Prasetyo', jabatan: 'Kasi Pemerintahan', role: 'Administrasi & Keamanan' },
-  { id: 6, nama: 'Rina Wijaya, S.Pd.', jabatan: 'Kasi Kesejahteraan & Pelayanan', role: 'Sosial, Pemberdayaan & Wisata' }
+  { id: 1, nama: 'Pemerintah Desa Kedungsari', jabatan: 'Kepala Desa Kedungsari', role: 'Pimpinan Pemerintah Desa (Kantor: Dusun Paingan)' },
+  { id: 2, nama: 'Sekretariat Desa', jabatan: 'Sekretaris Desa Kedungsari', role: 'Administrator & Pelayanan Publik' },
+  { id: 3, nama: 'Kaur Keuangan & Perencanaan', jabatan: 'Kepala Urusan Keuangan', role: 'Pengelolaan APBDES & Aset Desa' },
+  { id: 4, nama: 'Kasi Pemerintahan & Pembangunan', jabatan: 'Kepala Seksi Pemerintahan', role: 'Administrasi Wilayah & Infrastruktur' },
+  { id: 5, nama: 'Kasi Kesejahteraan & Pelayanan', jabatan: 'Kepala Seksi Kesejahteraan', role: 'Pemberdayaan Masyarakat & Sosial' }
 ];
 
 const initialDestinasi = [
   {
     id: 1,
-    title: 'Waduk & Danau Wisata Kedungsari',
-    cat: 'Wisata Alam',
+    title: 'Sentra Peternakan Itik Petelur Kedungsari',
+    cat: 'Potensi Peternakan',
     rating: '4.9',
-    desc: 'Spot pemandangan danau perairan jernih dengan latar perbukitan hijau, dilengkapi gazebo santai dan perahu kayuh.',
+    desc: 'Kawasan penggembalaan itik petelur sistem umbaran alami di hamparan persawahan hijau Dusun Wonosaran.',
     img: '/images/landmark1.jpg',
-    lokasi: 'Dusun Kedung I'
+    lokasi: 'Dusun Wonosaran'
   },
   {
     id: 2,
-    title: 'Monumen & Taman Budaya Desa',
-    cat: 'Wisata Sejarah',
+    title: 'Kawasan Persawahan Hortikultura Bandongan',
+    cat: 'Agrowisata',
     rating: '4.8',
-    desc: 'Landmark monumen ukiran prasasti bersejarah tempat pagelaran seni dan foto kenangan wisatawan.',
-    img: '/images/landmark2.jpg',
-    lokasi: 'Dusun Kedung I'
+    desc: 'Lahan pertanian produktif komoditas cabai, terong, ketimun, dan pepaya dengan latar pemandangan dataran tinggi.',
+    img: '/images/history.jpg',
+    lokasi: 'Dusun Karangrejo'
   },
   {
     id: 3,
-    title: 'Bukit Sunrise & Persawahan Terraces',
-    cat: 'Agrowisata',
+    title: 'Pusat Kebudayaan & Tradisi Tedhak Siten',
+    cat: 'Wisata Budaya',
     rating: '5.0',
-    desc: 'Gardu pandang menikmati matahari terbit dan keindahan hamparan terasering persawahan.',
-    img: '/images/history.jpg',
-    lokasi: 'Dusun Sari Barat'
+    desc: 'Lokasi prosesi upacara adat kearifan lokal Tedhak Siten dan pembuatan Jadah 7 Warna.',
+    img: '/images/landmark2.jpg',
+    lokasi: 'Dusun Paingan'
   }
 ];
 
 const initialContact = {
-  alamat: 'Jl. Raya Utama Kedungsari No. 01, Dusun Kedung I, Kec. Kedungsari',
-  jamKerja: 'Senin - Kamis: 08.00 - 15.00 WIB | Jumat: 08.00 - 11.30 WIB',
-  telepon: '0812-3456-7890',
-  email: 'pemdes@kedungsari.id'
+  alamat: 'Dusun Paingan RT 05 RW 04, Desa Kedungsari, Kec. Bandongan, Kab. Magelang 56151',
+  jamKerja: 'Senin - Kamis: 08.00 - 15.00 WIB | Jumat: 08.00 - 11.00 WIB',
+  telepon: '(0293) 364712',
+  email: 'kedungsaribandongan@gmail.com'
 };
 
 export function DataProvider({ children }) {

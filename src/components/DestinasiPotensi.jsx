@@ -18,10 +18,10 @@ export default function DestinasiPotensi() {
   });
 
   const umkmList = [
-    { name: 'Kopi Tubruk Kedungsari', type: 'Kuliner & Minuman', harga: 'Rp 15.000 / bungkus', img: '/images/history.jpg' },
-    { name: 'Kerajinan Ukir Kayu Jati', type: 'Kerajinan Tangan', harga: 'Mulai Rp 50.000', img: '/images/landmark2.jpg' },
-    { name: 'Beras Organik Kedungsari', type: 'Hasil Tani', harga: 'Rp 16.000 / kg', img: '/images/landmark1.jpg' },
-    { name: 'Keripik Pisang Gula Aren', type: 'Oleh-Oleh Khas', harga: 'Rp 12.000 / bungkus', img: '/images/hero.jpg' }
+    { name: 'Telur Itik Petelur Umbaran', type: 'Peternakan Unggulan', harga: 'Produksi 22 butir / ekor / bln', img: '/images/landmark1.jpg' },
+    { name: 'Cabai & Sayuran Hortikultura', type: 'Hasil Tani Semusim', harga: 'Cabai Rawit, Terong & Pepaya', img: '/images/history.jpg' },
+    { name: 'Jadah 7 Warna Tedhak Siten', type: 'Kuliner Adat Tradisional', harga: '7 Warna Makna Simbolis', img: '/images/landmark2.jpg' },
+    { name: 'Kerajinan Industri Rumah Tangga', type: 'Kerajinan Tangan', harga: 'Hasil Olahan Warga Lokal', img: '/images/hero.jpg' }
   ];
 
   const handleOpenCreate = () => {

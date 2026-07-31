@@ -29,22 +29,26 @@ export default function Beranda({ setActiveTab }) {
       {/* Quick Stats Bar */}
       <div className="container">
         <div className="stats-bar">
-          <div className="stats-grid">
+          <div className="stats-grid" style={{ gridTemplateColumns: 'repeat(5, 1fr)' }}>
             <div className="stat-item">
-              <h3>4,528</h3>
-              <p>Total Penduduk (Jiwa)</p>
+              <h3>2.460</h3>
+              <p>Penduduk (Jiwa)</p>
             </div>
             <div className="stat-item">
-              <h3>12.4</h3>
+              <h3>1,54</h3>
               <p>Luas Wilayah (km²)</p>
             </div>
             <div className="stat-item">
-              <h3>4</h3>
-              <p>Dusun / Wilayah</p>
+              <h3>660</h3>
+              <p>Kepala Keluarga (KK)</p>
             </div>
             <div className="stat-item">
-              <h3>48+</h3>
-              <p>UMKM & Potensi Desa</p>
+              <h3>5</h3>
+              <p>Dusun Utama</p>
+            </div>
+            <div className="stat-item">
+              <h3>100%</h3>
+              <p>Status Sehat (ODF)</p>
             </div>
           </div>
         </div>
@@ -55,8 +59,8 @@ export default function Beranda({ setActiveTab }) {
         <div className="container">
           <div style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto 40px' }}>
             <span style={{ color: 'var(--primary)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '0.85rem' }}>Pesona Kedungsari</span>
-            <h2 style={{ fontSize: '2.4rem', marginTop: '8px' }}>Jelajahi Keindahan Desa Kami</h2>
-            <p style={{ color: '#64748b' }}>Temukan pesona alam, sejarah, dan keramahan masyarakat Desa Kedungsari.</p>
+            <h2 style={{ fontSize: '2.4rem', marginTop: '8px' }}>Jelajahi Potensi & Kebudayaan Desa</h2>
+            <p style={{ color: '#64748b' }}>Kecamatan Bandongan, Kabupaten Magelang — Desa agraris dengan tradisi Tedhak Siten & peternakan itik petelur unggulan.</p>
           </div>
 
           <div className="news-grid" style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}>
@@ -101,21 +105,21 @@ export default function Beranda({ setActiveTab }) {
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: '0.8fr 1.2fr', gap: '50px', alignItems: 'center' }}>
             <div style={{ borderRadius: '20px', overflow: 'hidden', boxShadow: 'var(--shadow-lg)', height: '400px' }}>
-              <img src="/images/history.jpg" alt="Sambutan Kepala Desa Kedungsari" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <img src="/images/history.jpg" alt="Sambutan Pemerintah Desa Kedungsari" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
 
             <div>
-              <span style={{ color: 'var(--accent)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '0.85rem' }}>Sambutan Kepala Desa</span>
+              <span style={{ color: 'var(--accent)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '0.85rem' }}>Pemerintah Desa Kedungsari</span>
               <h2 style={{ fontSize: '2.4rem', margin: '10px 0 20px', color: '#0f172a' }}>Selamat Datang di Portal Resmi Desa Kedungsari</h2>
               <p style={{ fontSize: '1.05rem', color: '#475569', lineHeight: '1.8', marginBottom: '20px', fontStyle: 'italic' }}>
-                "Assalamu'alaikum Warahmatullahi Wabarakatuh. Puji syukur kita panjatkan kehadirat Allah SWT, atas pertolongan-Nya portal resmi Desa Kedungsari hadir untuk menyapa dunia dan memperkenalkan potensi luar biasa desa kita."
+                "Assalamu'alaikum Warahmatullahi Wabarakatuh. Puji syukur kehadirat Allah SWT, portal digital resmi Desa Kedungsari, Kecamatan Bandongan hadir untuk mempermudah akses informasi publik, promosi hasil pertanian hortikultura, peternakan itik petelur, serta pelestarian tradisi budaya warga."
               </p>
               <p style={{ fontSize: '1rem', color: '#475569', lineHeight: '1.7', marginBottom: '24px' }}>
-                Melalui platform ini, kami mengundang Anda untuk menjelajahi keasrian alam, warisan budaya gotong royong, serta karya-karya unggulan warga masyarakat Kedungsari.
+                Terletak di Kabupaten Magelang, masyarakat Kedungsari senantiasa memegang teguh semangat gotong royong, kearifan tradisi lokal Tedhak Siten, dan kebersihan lingkungan demi mewujudkan desa yang sejahtera.
               </p>
               <div>
-                <h4 style={{ fontSize: '1.15rem', color: '#0f172a', fontWeight: '800' }}>H. Bambang Sugiarto, S.E.</h4>
-                <p style={{ color: 'var(--primary)', fontWeight: '600', fontSize: '0.9rem' }}>Kepala Desa Kedungsari</p>
+                <h4 style={{ fontSize: '1.15rem', color: '#0f172a', fontWeight: '800' }}>Pemerintah Desa Kedungsari</h4>
+                <p style={{ color: 'var(--primary)', fontWeight: '600', fontSize: '0.9rem' }}>Kecamatan Bandongan, Kabupaten Magelang</p>
               </div>
             </div>
           </div>

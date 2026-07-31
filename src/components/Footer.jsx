@@ -24,7 +24,7 @@ export default function Footer({ setActiveTab, onOpenAdminModal }) {
               </div>
             </div>
             <p style={{ marginBottom: '20px', color: '#94a3b8', fontSize: '0.92rem' }}>
-              Website Resmi Pemerintah Desa Kedungsari. Perjalanan melintasi waktu di desa tercinta kami, tempat tradisi bertemu dengan kemajuan.
+              Website Resmi Pemerintah Desa Kedungsari, Kecamatan Bandongan, Kabupaten Magelang 56151.
             </p>
             <div style={{ display: 'flex', gap: '12px' }}>
               <a href="#" aria-label="Facebook Desa" style={{ background: 'rgba(255,255,255,0.08)', width: '36px', height: '36px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
@@ -54,10 +54,11 @@ export default function Footer({ setActiveTab, onOpenAdminModal }) {
           <div className="footer-col">
             <h4>Wilayah Dusun</h4>
             <ul className="footer-links">
-              <li><a href="#dukuh" onClick={(e) => { e.preventDefault(); handleNav('dukuh'); }}>Dusun Kedung I</a></li>
-              <li><a href="#dukuh" onClick={(e) => { e.preventDefault(); handleNav('dukuh'); }}>Dusun Kedung II</a></li>
-              <li><a href="#dukuh" onClick={(e) => { e.preventDefault(); handleNav('dukuh'); }}>Dusun Sari Timur</a></li>
-              <li><a href="#dukuh" onClick={(e) => { e.preventDefault(); handleNav('dukuh'); }}>Dusun Sari Barat</a></li>
+              <li><a href="#dukuh" onClick={(e) => { e.preventDefault(); handleNav('dukuh'); }}>Dusun Paingan (Pusat)</a></li>
+              <li><a href="#dukuh" onClick={(e) => { e.preventDefault(); handleNav('dukuh'); }}>Dusun Karangrejo</a></li>
+              <li><a href="#dukuh" onClick={(e) => { e.preventDefault(); handleNav('dukuh'); }}>Dusun Wonosaran</a></li>
+              <li><a href="#dukuh" onClick={(e) => { e.preventDefault(); handleNav('dukuh'); }}>Dusun Kedungan & Pranan</a></li>
+              <li><a href="#dukuh" onClick={(e) => { e.preventDefault(); handleNav('dukuh'); }}>Dusun Kwangsan</a></li>
             </ul>
           </div>
 
