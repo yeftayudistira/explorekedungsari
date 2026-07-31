@@ -24,7 +24,7 @@ export default function Header({ activeTab, setActiveTab }) {
     { id: 'profil-desa', label: 'Profil Desa' },
     { id: 'berita', label: 'Berita' },
     { id: 'galeri', label: 'Galeri' },
-    { id: 'dukuh', label: 'Banjar / Dukuh' },
+    { id: 'dukuh', label: 'Dusun' },
     { id: 'umkm', label: 'UMKM Desa' },
     { id: 'kontak', label: 'Kontak' },
   ];
