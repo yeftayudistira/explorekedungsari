@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Hero from './Hero';
-import { Eye, X, Plus, Edit2, Trash2, Image as ImageIcon } from 'lucide-react';
+import { Eye, X, Plus, Edit2, Trash2, Image as ImageIcon, Upload, Loader2 } from 'lucide-react';
 import { useData } from '../context/DataContext';
+import { uploadImage } from '../lib/supabase';
 
 export default function Galeri() {
   const { galeriList, addGaleri, updateGaleri, deleteGaleri, isAdminLoggedIn } = useData();
@@ -12,10 +13,11 @@ export default function Galeri() {
   // Modal Form State for Admin
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
   const [form, setForm] = useState({
     title: '',
     cat: 'Pertanian & Alam',
-    img: '/images/landmark1.jpg',
+    img: '/images/galeri_jalan_tani_sumbing.jpg',
     desc: ''
   });
 
@@ -30,7 +32,7 @@ export default function Galeri() {
     setForm({
       title: '',
       cat: 'Pertanian & Alam',
-      img: '/images/landmark1.jpg',
+      img: '/images/galeri_jalan_tani_sumbing.jpg',
       desc: ''
     });
     setIsFormOpen(true);
@@ -42,7 +44,7 @@ export default function Galeri() {
     setForm({
       title: item.title,
       cat: item.cat,
-      img: item.img || '/images/landmark1.jpg',
+      img: item.img || '/images/galeri_jalan_tani_sumbing.jpg',
       desc: item.desc || ''
     });
     setIsFormOpen(true);
@@ -55,12 +57,29 @@ export default function Galeri() {
     }
   };
 
-  const handleFormSubmit = (e) => {
+  const handleImageFileChange = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    try {
+      const uploadedUrl = await uploadImage(file, 'desa-images');
+      if (uploadedUrl) {
+        setForm((prev) => ({ ...prev, img: uploadedUrl }));
+      }
+    } catch (err) {
+      alert('Gagal mengunggah foto. Silakan coba lagi.');
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
     if (editingId) {
-      updateGaleri(editingId, form);
+      await updateGaleri(editingId, form);
     } else {
-      addGaleri(form);
+      await addGaleri(form);
     }
     setIsFormOpen(false);
   };
@@ -68,35 +87,19 @@ export default function Galeri() {
   return (
     <main className="galeri-page">
       <Hero
-        title="Galeri Visual Desa Kedungsari"
-        subtitle="Dokumentasi keindahan alam, kegiatan masyarakat, dan momen bersejarah Desa Kedungsari, Kecamatan Bandongan."
-        bgImage="/images/landmark1.jpg"
-        badge="Dokumentasi Visual"
+        title="Dokumentasi & Galeri Desa Kedungsari"
+        subtitle="Abadikan momen indah lanskap persawahan, kebudayaan, pembangunan, dan kehangatan aktivitas warga Kedungsari."
+        bgImage="/images/galeri_jalan_tani_sumbing.jpg"
+        badge="Galeri Foto Resmi"
       />
 
       <section className="section-padding">
         <div className="container">
-          {/* Header Controls: Filter Badges & Admin Add Button */}
+          {/* Header & Admin Add Button */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px', flexWrap: 'wrap', gap: '20px' }}>
-            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-              {filters.map((f) => (
-                <button
-                  key={f}
-                  onClick={() => setActiveFilter(f)}
-                  style={{
-                    padding: '8px 18px',
-                    borderRadius: '99px',
-                    fontSize: '0.9rem',
-                    fontWeight: '600',
-                    background: activeFilter === f ? 'var(--primary)' : 'white',
-                    color: activeFilter === f ? 'white' : '#475569',
-                    border: activeFilter === f ? 'none' : '1px solid #cbd5e1',
-                    transition: 'var(--transition)'
-                  }}
-                >
-                  {f}
-                </button>
-              ))}
+            <div>
+              <span style={{ color: 'var(--primary)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '0.85rem' }}>Pesona Kedungsari</span>
+              <h2 style={{ fontSize: '2.2rem', marginTop: '4px' }}>Koleksi Foto & Keindahan Desa</h2>
             </div>
 
             {isAdminLoggedIn && (
@@ -119,35 +122,95 @@ export default function Galeri() {
             )}
           </div>
 
-          {/* Photo Grid */}
-          <div className="gallery-grid">
-            {filteredPhotos.map((p) => (
-              <div key={p.id} className="gallery-item" onClick={() => setActiveImage(p)} style={{ position: 'relative' }}>
-                <img src={p.img} alt={p.title} />
+          {/* Filter Bar */}
+          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '36px' }}>
+            {filters.map((f) => (
+              <button
+                key={f}
+                onClick={() => setActiveFilter(f)}
+                style={{
+                  padding: '8px 18px',
+                  borderRadius: '99px',
+                  fontSize: '0.9rem',
+                  fontWeight: '600',
+                  background: activeFilter === f ? 'var(--primary)' : 'white',
+                  color: activeFilter === f ? 'white' : '#475569',
+                  border: activeFilter === f ? 'none' : '1px solid #cbd5e1',
+                  transition: 'var(--transition)'
+                }}
+              >
+                {f}
+              </button>
+            ))}
+          </div>
+
+          {/* Gallery Masonry / Grid */}
+          <div className="galeri-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '24px' }}>
+            {filteredPhotos.map((item) => (
+              <div
+                key={item.id}
+                className="galeri-card"
+                onClick={() => setActiveImage(item)}
+                style={{
+                  position: 'relative',
+                  borderRadius: '16px',
+                  overflow: 'hidden',
+                  cursor: 'pointer',
+                  boxShadow: 'var(--shadow-md)',
+                  background: '#0f172a',
+                  height: '280px'
+                }}
+              >
+                <img
+                  src={item.img}
+                  alt={item.title}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    transition: 'transform 0.4s ease'
+                  }}
+                />
+                <div
+                  className="galeri-overlay"
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    background: 'linear-gradient(to top, rgba(15, 23, 42, 0.9) 0%, rgba(15, 23, 42, 0.2) 60%, transparent 100%)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justify: 'flex-end',
+                    padding: '24px',
+                    color: 'white'
+                  }}
+                >
+                  <span style={{ fontSize: '0.78rem', textTransform: 'uppercase', color: 'var(--accent)', fontWeight: '700', marginBottom: '4px' }}>
+                    {item.cat}
+                  </span>
+                  <h3 style={{ fontSize: '1.15rem', fontWeight: '700', color: 'white', lineHeight: '1.4' }}>{item.title}</h3>
+                </div>
 
                 {isAdminLoggedIn && (
-                  <div style={{ position: 'absolute', top: '12px', right: '12px', zIndex: 10, display: 'flex', gap: '8px' }}>
+                  <div
+                    onClick={(e) => e.stopPropagation()}
+                    style={{ position: 'absolute', top: '12px', right: '12px', display: 'flex', gap: '8px', zIndex: 10 }}
+                  >
                     <button
-                      onClick={(e) => handleOpenEdit(p, e)}
+                      onClick={(e) => handleOpenEdit(item, e)}
                       title="Edit Foto"
-                      style={{ background: 'white', color: 'var(--primary)', padding: '8px', borderRadius: '50%', boxShadow: '0 4px 12px rgba(0,0,0,0.2)' }}
+                      style={{ background: 'white', color: 'var(--primary)', padding: '8px', borderRadius: '50%', boxShadow: 'var(--shadow-md)' }}
                     >
                       <Edit2 size={16} />
                     </button>
                     <button
-                      onClick={(e) => handleDelete(p.id, e)}
+                      onClick={(e) => handleDelete(item.id, e)}
                       title="Hapus Foto"
-                      style={{ background: 'white', color: '#ef4444', padding: '8px', borderRadius: '50%', boxShadow: '0 4px 12px rgba(0,0,0,0.2)' }}
+                      style={{ background: 'white', color: '#ef4444', padding: '8px', borderRadius: '50%', boxShadow: 'var(--shadow-md)' }}
                     >
                       <Trash2 size={16} />
                     </button>
                   </div>
                 )}
-
-                <div className="gallery-overlay">
-                  <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: '#fef08a', fontWeight: '700' }}>{p.cat}</span>
-                  <h4 style={{ fontSize: '1.05rem', fontWeight: '700' }}>{p.title}</h4>
-                </div>
               </div>
             ))}
           </div>
@@ -214,19 +277,49 @@ export default function Galeri() {
                 </select>
               </div>
 
-              <div>
-                <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: '700', marginBottom: '6px' }}>Path Gambar / URL Foto</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="Contoh: /images/nama_foto.jpg atau URL gambar https://..."
-                  value={form.img}
-                  onChange={(e) => setForm({ ...form, img: e.target.value })}
-                  style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #cbd5e1' }}
-                />
-                <span style={{ fontSize: '0.78rem', color: '#64748b', marginTop: '4px', display: 'block' }}>
-                  Tips: Simpan foto di folder <code>public/images/</code> dan ketik jalurnya (misal: <code>/images/foto_baru.jpg</code>) atau gunakan URL gambar web.
-                </span>
+              {/* Upload Foto Galeri */}
+              <div style={{ background: '#f8fafc', padding: '16px', borderRadius: '12px', border: '1px dashed #cbd5e1' }}>
+                <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: '700', marginBottom: '8px', color: '#0f172a' }}>
+                  📸 Upload File Foto
+                </label>
+                <div style={{ display: 'flex', gap: '12px', alignItems: 'center', marginBottom: '10px' }}>
+                  <label style={{
+                    cursor: 'pointer',
+                    background: 'white',
+                    border: '1px solid var(--primary)',
+                    color: 'var(--primary)',
+                    padding: '8px 16px',
+                    borderRadius: '8px',
+                    fontSize: '0.88rem',
+                    fontWeight: '600',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px'
+                  }}>
+                    {isUploading ? <Loader2 size={16} className="animate-spin" /> : <Upload size={16} />}
+                    {isUploading ? 'Mengunggah...' : 'Pilih File Foto'}
+                    <input type="file" accept="image/*" onChange={handleImageFileChange} disabled={isUploading} style={{ display: 'none' }} />
+                  </label>
+                  <span style={{ fontSize: '0.8rem', color: '#64748b' }}>Format: JPG, PNG, WEBP</span>
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <span style={{ fontSize: '0.78rem', fontWeight: '600', color: '#475569' }}>Atau masukkan URL Foto / Path Gambar:</span>
+                  <input
+                    type="text"
+                    placeholder="URL Foto (https://...) atau path gambar (/images/...)"
+                    value={form.img}
+                    onChange={(e) => setForm({ ...form, img: e.target.value })}
+                    style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '0.85rem' }}
+                  />
+                </div>
+
+                {form.img && (
+                  <div style={{ marginTop: '12px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <img src={form.img} alt="Preview Foto" style={{ width: '80px', height: '50px', objectFit: 'cover', borderRadius: '6px', border: '1px solid #e2e8f0' }} />
+                    <span style={{ fontSize: '0.78rem', color: '#16a34a', fontWeight: '600' }}>✓ Foto Galeri Siap Digunakan</span>
+                  </div>
+                )}
               </div>
 
               <div>
@@ -242,7 +335,8 @@ export default function Galeri() {
 
               <button
                 type="submit"
-                style={{ background: 'var(--primary)', color: 'white', padding: '14px', borderRadius: '99px', fontWeight: '700', fontSize: '1rem', marginTop: '10px' }}
+                disabled={isUploading}
+                style={{ background: 'var(--primary)', color: 'white', padding: '14px', borderRadius: '99px', fontWeight: '700', fontSize: '1rem', marginTop: '10px', opacity: isUploading ? 0.6 : 1 }}
               >
                 {editingId ? 'Simpan Perubahan Foto' : 'Tambahkan ke Galeri'}
               </button>

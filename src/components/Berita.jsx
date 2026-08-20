@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Hero from './Hero';
-import { Search, Calendar, User, ArrowRight, X, Plus, Edit2, Trash2, CheckCircle2 } from 'lucide-react';
+import { Search, Calendar, User, ArrowRight, X, Plus, Edit2, Trash2, CheckCircle2, Upload, Loader2 } from 'lucide-react';
 import { useData } from '../context/DataContext';
+import { uploadImage } from '../lib/supabase';
 
 export default function Berita() {
   const { newsList, addNews, updateNews, deleteNews, isAdminLoggedIn } = useData();
@@ -12,6 +13,7 @@ export default function Berita() {
   // Form modal state for Create/Edit
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
     category: 'Pengumuman',
@@ -69,12 +71,29 @@ export default function Berita() {
     }
   };
 
-  const handleFormSubmit = (e) => {
+  const handleImageFileChange = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    try {
+      const uploadedUrl = await uploadImage(file, 'desa-images');
+      if (uploadedUrl) {
+        setFormData((prev) => ({ ...prev, img: uploadedUrl }));
+      }
+    } catch (err) {
+      alert('Gagal mengunggah foto. Silakan coba lagi.');
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
     if (editingId) {
-      updateNews(editingId, formData);
+      await updateNews(editingId, formData);
     } else {
-      addNews(formData);
+      await addNews(formData);
     }
     setIsFormOpen(false);
   };
@@ -103,12 +122,11 @@ export default function Berita() {
                   padding: '14px 20px 14px 48px',
                   borderRadius: '99px',
                   border: '1px solid #cbd5e1',
-                  fontSize: '0.98rem',
                   outline: 'none',
-                  boxShadow: 'var(--shadow-sm)'
+                  fontSize: '0.95rem'
                 }}
               />
-              <Search size={20} color="#94a3b8" style={{ position: 'absolute', left: '18px', top: '50%', transform: 'translateY(-50%)' }} />
+              <Search size={20} style={{ position: 'absolute', left: '18px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
             </div>
 
             {isAdminLoggedIn && (
@@ -131,8 +149,8 @@ export default function Berita() {
             )}
           </div>
 
-          {/* Category Badges */}
-          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '40px' }}>
+          {/* Category Filter Pills */}
+          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '36px' }}>
             {categories.map((cat) => (
               <button
                 key={cat}
@@ -278,19 +296,49 @@ export default function Berita() {
                 </div>
               </div>
 
-              <div>
-                <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: '700', marginBottom: '6px' }}>Pilih Foto Headline</label>
-                <select
-                  value={formData.img}
-                  onChange={(e) => setFormData({ ...formData, img: e.target.value })}
-                  style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #cbd5e1', background: 'white' }}
-                >
-                  <option value="/images/galeri_kkn_balai_desa.jpg">Foto Balai Desa Kedungsari (/images/galeri_kkn_balai_desa.jpg)</option>
-                  <option value="/images/galeri_jalan_tani_sumbing.jpg">Foto Gunung Sumbing & Jalan Tani (/images/galeri_jalan_tani_sumbing.jpg)</option>
-                  <option value="/images/galeri_persawahan_sunset.jpg">Foto Persawahan & Sunset (/images/galeri_persawahan_sunset.jpg)</option>
-                  <option value="/images/galeri_koperasi_merah_putih.jpg">Foto Koperasi Merah Putih (/images/galeri_koperasi_merah_putih.jpg)</option>
-                  <option value="/images/galeri_aktivitas_warga.jpg">Foto Kebersamaan Warga (/images/galeri_aktivitas_warga.jpg)</option>
-                </select>
+              {/* Upload Foto Berita */}
+              <div style={{ background: '#f8fafc', padding: '16px', borderRadius: '12px', border: '1px dashed #cbd5e1' }}>
+                <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: '700', marginBottom: '8px', color: '#0f172a' }}>
+                  📸 Upload Foto Headline Berita
+                </label>
+                <div style={{ display: 'flex', gap: '12px', alignItems: 'center', marginBottom: '10px' }}>
+                  <label style={{
+                    cursor: 'pointer',
+                    background: 'white',
+                    border: '1px solid var(--primary)',
+                    color: 'var(--primary)',
+                    padding: '8px 16px',
+                    borderRadius: '8px',
+                    fontSize: '0.88rem',
+                    fontWeight: '600',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px'
+                  }}>
+                    {isUploading ? <Loader2 size={16} className="animate-spin" /> : <Upload size={16} />}
+                    {isUploading ? 'Mengunggah...' : 'Pilih File Foto dari HP/PC'}
+                    <input type="file" accept="image/*" onChange={handleImageFileChange} disabled={isUploading} style={{ display: 'none' }} />
+                  </label>
+                  <span style={{ fontSize: '0.8rem', color: '#64748b' }}>Format: JPG, PNG, WEBP</span>
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <span style={{ fontSize: '0.78rem', fontWeight: '600', color: '#475569' }}>Atau masukkan URL Foto / Pilih Preset:</span>
+                  <input
+                    type="text"
+                    placeholder="URL Foto (https://...) atau path gambar (/images/...)"
+                    value={formData.img}
+                    onChange={(e) => setFormData({ ...formData, img: e.target.value })}
+                    style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '0.85rem' }}
+                  />
+                </div>
+
+                {formData.img && (
+                  <div style={{ marginTop: '12px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <img src={formData.img} alt="Preview Headline" style={{ width: '80px', height: '50px', objectFit: 'cover', borderRadius: '6px', border: '1px solid #e2e8f0' }} />
+                    <span style={{ fontSize: '0.78rem', color: '#16a34a', fontWeight: '600' }}>✓ Foto Headline Siap Digunakan</span>
+                  </div>
+                )}
               </div>
 
               <div>
@@ -319,7 +367,8 @@ export default function Berita() {
 
               <button
                 type="submit"
-                style={{ background: 'var(--primary)', color: 'white', padding: '14px', borderRadius: '99px', fontWeight: '700', fontSize: '1rem', marginTop: '10px' }}
+                disabled={isUploading}
+                style={{ background: 'var(--primary)', color: 'white', padding: '14px', borderRadius: '99px', fontWeight: '700', fontSize: '1rem', marginTop: '10px', opacity: isUploading ? 0.6 : 1 }}
               >
                 {editingId ? 'Simpan Perubahan Berita' : 'Publikasikan Berita'}
               </button>

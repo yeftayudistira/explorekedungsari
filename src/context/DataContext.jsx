@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { supabase, isSupabaseConfigured } from '../lib/supabase';
 
 const DataContext = createContext();
 
@@ -154,52 +155,177 @@ export function DataProvider({ children }) {
     return localStorage.getItem('kedungsari_admin') === 'true';
   });
 
-  const [newsList, setNewsList] = useState(() => {
-    const saved = localStorage.getItem('kedungsari_news');
-    return saved ? JSON.parse(saved) : initialNews;
-  });
+  const [newsList, setNewsList] = useState([]);
+  const [sotkList, setSotkList] = useState([]);
+  const [umkmList, setUmkmList] = useState([]);
+  const [galeriList, setGaleriList] = useState([]);
+  const [contactInfo, setContactInfo] = useState(initialContact);
+  const [isLoadingData, setIsLoadingData] = useState(true);
 
-  const [sotkList, setSotkList] = useState(() => {
-    const saved = localStorage.getItem('kedungsari_sotk');
-    return saved ? JSON.parse(saved) : initialSotk;
-  });
-
-  const [umkmList, setUmkmList] = useState(() => {
-    const saved = localStorage.getItem('kedungsari_umkm');
-    return saved ? JSON.parse(saved) : initialUmkm;
-  });
-
-  const [galeriList, setGaleriList] = useState(() => {
-    const saved = localStorage.getItem('kedungsari_galeri');
-    return saved ? JSON.parse(saved) : initialGaleri;
-  });
-
-  const [contactInfo, setContactInfo] = useState(() => {
-    const saved = localStorage.getItem('kedungsari_contact');
-    return saved ? JSON.parse(saved) : initialContact;
-  });
-
-  // Persist Data to LocalStorage
+  // Fetch Data from Supabase with Auto Seed if empty
   useEffect(() => {
-    localStorage.setItem('kedungsari_news', JSON.stringify(newsList));
-  }, [newsList]);
+    async function loadSupabaseData() {
+      setIsLoadingData(true);
 
-  useEffect(() => {
-    localStorage.setItem('kedungsari_sotk', JSON.stringify(sotkList));
-  }, [sotkList]);
+      if (!isSupabaseConfigured() || !supabase) {
+        // Fallback to local storage or initial constants if Supabase is not configured
+        const savedNews = localStorage.getItem('kedungsari_news');
+        setNewsList(savedNews ? JSON.parse(savedNews) : initialNews);
 
-  useEffect(() => {
-    localStorage.setItem('kedungsari_umkm', JSON.stringify(umkmList));
-  }, [umkmList]);
+        const savedSotk = localStorage.getItem('kedungsari_sotk');
+        setSotkList(savedSotk ? JSON.parse(savedSotk) : initialSotk);
 
-  useEffect(() => {
-    localStorage.setItem('kedungsari_galeri', JSON.stringify(galeriList));
-  }, [galeriList]);
+        const savedUmkm = localStorage.getItem('kedungsari_umkm');
+        setUmkmList(savedUmkm ? JSON.parse(savedUmkm) : initialUmkm);
 
-  useEffect(() => {
-    localStorage.setItem('kedungsari_contact', JSON.stringify(contactInfo));
-  }, [contactInfo]);
+        const savedGaleri = localStorage.getItem('kedungsari_galeri');
+        setGaleriList(savedGaleri ? JSON.parse(savedGaleri) : initialGaleri);
 
+        const savedContact = localStorage.getItem('kedungsari_contact');
+        setContactInfo(savedContact ? JSON.parse(savedContact) : initialContact);
+
+        setIsLoadingData(false);
+        return;
+      }
+
+      try {
+        // 1. Load News
+        const { data: newsData, error: newsErr } = await supabase
+          .from('news')
+          .select('*')
+          .order('id', { ascending: false });
+
+        if (newsErr) {
+          console.error('Supabase News Fetch Error:', newsErr);
+        } else if (newsData && newsData.length > 0) {
+          setNewsList(newsData);
+        } else {
+          // Auto Seed Initial News to Supabase
+          const seedPayload = initialNews.map(({ id, ...rest }) => rest);
+          const { data: seeded, error: seedErr } = await supabase.from('news').insert(seedPayload).select();
+          if (!seedErr && seeded) {
+            setNewsList(seeded);
+          } else {
+            setNewsList(initialNews);
+          }
+        }
+
+        // 2. Load SOTK
+        const { data: sotkData, error: sotkErr } = await supabase
+          .from('sotk')
+          .select('*')
+          .order('id', { ascending: true });
+
+        if (sotkErr) {
+          console.error('Supabase SOTK Fetch Error:', sotkErr);
+        } else if (sotkData && sotkData.length > 0) {
+          setSotkList(sotkData);
+        } else {
+          // Auto Seed SOTK
+          const seedPayload = initialSotk.map(({ id, ...rest }) => rest);
+          const { data: seeded } = await supabase.from('sotk').insert(seedPayload).select();
+          setSotkList(seeded && seeded.length > 0 ? seeded : initialSotk);
+        }
+
+        // 3. Load UMKM
+        const { data: umkmData, error: umkmErr } = await supabase
+          .from('umkm')
+          .select('*')
+          .order('id', { ascending: false });
+
+        if (umkmErr) {
+          console.error('Supabase UMKM Fetch Error:', umkmErr);
+        } else if (umkmData && umkmData.length > 0) {
+          const mappedUmkm = umkmData.map(u => ({
+            id: u.id,
+            nama: u.nama,
+            category: u.category,
+            pemilik: u.pemilik,
+            dusun: u.dusun,
+            hargaInfo: u.harga_info || u.hargaInfo,
+            kontakWa: u.kontak_wa || u.kontakWa,
+            img: u.img,
+            excerpt: u.excerpt,
+            content: u.content
+          }));
+          setUmkmList(mappedUmkm);
+        } else {
+          // Auto Seed UMKM
+          const seedPayload = initialUmkm.map(({ id, hargaInfo, kontakWa, ...rest }) => ({
+            ...rest,
+            harga_info: hargaInfo,
+            kontak_wa: kontakWa
+          }));
+          const { data: seeded } = await supabase.from('umkm').insert(seedPayload).select();
+          if (seeded && seeded.length > 0) {
+            setUmkmList(seeded.map(u => ({
+              id: u.id,
+              nama: u.nama,
+              category: u.category,
+              pemilik: u.pemilik,
+              dusun: u.dusun,
+              hargaInfo: u.harga_info || u.hargaInfo,
+              kontakWa: u.kontak_wa || u.kontakWa,
+              img: u.img,
+              excerpt: u.excerpt,
+              content: u.content
+            })));
+          } else {
+            setUmkmList(initialUmkm);
+          }
+        }
+
+        // 4. Load Galeri
+        const { data: galeriData, error: galeriErr } = await supabase
+          .from('galeri')
+          .select('*')
+          .order('id', { ascending: false });
+
+        if (galeriErr) {
+          console.error('Supabase Galeri Fetch Error:', galeriErr);
+        } else if (galeriData && galeriData.length > 0) {
+          setGaleriList(galeriData);
+        } else {
+          // Auto Seed Galeri
+          const seedPayload = initialGaleri.map(({ id, ...rest }) => rest);
+          const { data: seeded } = await supabase.from('galeri').insert(seedPayload).select();
+          setGaleriList(seeded && seeded.length > 0 ? seeded : initialGaleri);
+        }
+
+        // 5. Load Contact Info
+        const { data: contactData, error: contactErr } = await supabase
+          .from('contact_info')
+          .select('*')
+          .eq('id', 1)
+          .single();
+
+        if (contactData) {
+          setContactInfo({
+            alamat: contactData.alamat,
+            jamKerja: contactData.jam_kerja || contactData.jamKerja,
+            telepon: contactData.telepon,
+            email: contactData.email
+          });
+        } else {
+          await supabase.from('contact_info').upsert({
+            id: 1,
+            alamat: initialContact.alamat,
+            jam_kerja: initialContact.jamKerja,
+            telepon: initialContact.telepon,
+            email: initialContact.email
+          });
+        }
+      } catch (err) {
+        console.error('Error syncing with Supabase:', err);
+      } finally {
+        setIsLoadingData(false);
+      }
+    }
+
+    loadSupabaseData();
+  }, []);
+
+  // Persist Admin State
   useEffect(() => {
     localStorage.setItem('kedungsari_admin', isAdminLoggedIn ? 'true' : 'false');
   }, [isAdminLoggedIn]);
@@ -218,64 +344,217 @@ export function DataProvider({ children }) {
   };
 
   // News CRUD
-  const addNews = (item) => {
+  const addNews = async (item) => {
+    if (isSupabaseConfigured() && supabase) {
+      const { data, error } = await supabase
+        .from('news')
+        .insert([{
+          title: item.title,
+          date: item.date,
+          author: item.author,
+          category: item.category,
+          img: item.img,
+          excerpt: item.excerpt,
+          content: item.content
+        }])
+        .select();
+
+      if (error) {
+        console.error('Supabase Add News Error:', error);
+        alert('Gagal menyimpan ke Supabase: ' + error.message);
+      } else if (data && data.length > 0) {
+        setNewsList(prev => [data[0], ...prev]);
+        return;
+      }
+    }
+
+    // Local Fallback
     const newItem = { ...item, id: Date.now() };
-    setNewsList([newItem, ...newsList]);
+    setNewsList(prev => [newItem, ...prev]);
   };
 
-  const updateNews = (id, updatedFields) => {
-    setNewsList(newsList.map((n) => (n.id === id ? { ...n, ...updatedFields } : n)));
+  const updateNews = async (id, updatedFields) => {
+    setNewsList(prev => prev.map((n) => (n.id === id ? { ...n, ...updatedFields } : n)));
+
+    if (isSupabaseConfigured() && supabase) {
+      const { error } = await supabase.from('news').update(updatedFields).eq('id', id);
+      if (error) console.error('Supabase Update News Error:', error);
+    }
   };
 
-  const deleteNews = (id) => {
-    setNewsList(newsList.filter((n) => n.id !== id));
+  const deleteNews = async (id) => {
+    setNewsList(prev => prev.filter((n) => n.id !== id));
+
+    if (isSupabaseConfigured() && supabase) {
+      const { error } = await supabase.from('news').delete().eq('id', id);
+      if (error) console.error('Supabase Delete News Error:', error);
+    }
   };
 
   // SOTK CRUD
-  const addSotk = (item) => {
+  const addSotk = async (item) => {
+    if (isSupabaseConfigured() && supabase) {
+      const { data, error } = await supabase
+        .from('sotk')
+        .insert([{
+          nama: item.nama,
+          jabatan: item.jabatan,
+          role: item.role
+        }])
+        .select();
+
+      if (!error && data && data.length > 0) {
+        setSotkList(prev => [...prev, data[0]]);
+        return;
+      }
+    }
+
     const newItem = { ...item, id: Date.now() };
-    setSotkList([...sotkList, newItem]);
+    setSotkList(prev => [...prev, newItem]);
   };
 
-  const updateSotk = (id, updatedFields) => {
-    setSotkList(sotkList.map((s) => (s.id === id ? { ...s, ...updatedFields } : s)));
+  const updateSotk = async (id, updatedFields) => {
+    setSotkList(prev => prev.map((s) => (s.id === id ? { ...s, ...updatedFields } : s)));
+
+    if (isSupabaseConfigured() && supabase) {
+      const { error } = await supabase.from('sotk').update(updatedFields).eq('id', id);
+      if (error) console.error('Supabase Update SOTK Error:', error);
+    }
   };
 
-  const deleteSotk = (id) => {
-    setSotkList(sotkList.filter((s) => s.id !== id));
+  const deleteSotk = async (id) => {
+    setSotkList(prev => prev.filter((s) => s.id !== id));
+
+    if (isSupabaseConfigured() && supabase) {
+      const { error } = await supabase.from('sotk').delete().eq('id', id);
+      if (error) console.error('Supabase Delete SOTK Error:', error);
+    }
   };
 
   // UMKM CRUD
-  const addUmkm = (item) => {
+  const addUmkm = async (item) => {
+    if (isSupabaseConfigured() && supabase) {
+      const { data, error } = await supabase
+        .from('umkm')
+        .insert([{
+          nama: item.nama,
+          category: item.category,
+          pemilik: item.pemilik,
+          dusun: item.dusun,
+          harga_info: item.hargaInfo,
+          kontak_wa: item.kontakWa,
+          img: item.img,
+          excerpt: item.excerpt,
+          content: item.content
+        }])
+        .select();
+
+      if (!error && data && data.length > 0) {
+        const dbItem = data[0];
+        const insertedUmkm = {
+          id: dbItem.id,
+          nama: dbItem.nama,
+          category: dbItem.category,
+          pemilik: dbItem.pemilik,
+          dusun: dbItem.dusun,
+          hargaInfo: dbItem.harga_info || dbItem.hargaInfo,
+          kontakWa: dbItem.kontak_wa || dbItem.kontakWa,
+          img: dbItem.img,
+          excerpt: dbItem.excerpt,
+          content: dbItem.content
+        };
+        setUmkmList(prev => [insertedUmkm, ...prev]);
+        return;
+      }
+    }
+
     const newItem = { ...item, id: Date.now() };
-    setUmkmList([newItem, ...umkmList]);
+    setUmkmList(prev => [newItem, ...prev]);
   };
 
-  const updateUmkm = (id, updatedFields) => {
-    setUmkmList(umkmList.map((u) => (u.id === id ? { ...u, ...updatedFields } : u)));
+  const updateUmkm = async (id, updatedFields) => {
+    setUmkmList(prev => prev.map((u) => (u.id === id ? { ...u, ...updatedFields } : u)));
+
+    if (isSupabaseConfigured() && supabase) {
+      const payload = { ...updatedFields };
+      if (payload.hargaInfo !== undefined) {
+        payload.harga_info = payload.hargaInfo;
+        delete payload.hargaInfo;
+      }
+      if (payload.kontakWa !== undefined) {
+        payload.kontak_wa = payload.kontakWa;
+        delete payload.kontakWa;
+      }
+      const { error } = await supabase.from('umkm').update(payload).eq('id', id);
+      if (error) console.error('Supabase Update UMKM Error:', error);
+    }
   };
 
-  const deleteUmkm = (id) => {
-    setUmkmList(umkmList.filter((u) => u.id !== id));
+  const deleteUmkm = async (id) => {
+    setUmkmList(prev => prev.filter((u) => u.id !== id));
+
+    if (isSupabaseConfigured() && supabase) {
+      const { error } = await supabase.from('umkm').delete().eq('id', id);
+      if (error) console.error('Supabase Delete UMKM Error:', error);
+    }
   };
 
   // Galeri CRUD
-  const addGaleri = (item) => {
+  const addGaleri = async (item) => {
+    if (isSupabaseConfigured() && supabase) {
+      const { data, error } = await supabase
+        .from('galeri')
+        .insert([{
+          title: item.title,
+          cat: item.cat,
+          img: item.img,
+          desc: item.desc
+        }])
+        .select();
+
+      if (!error && data && data.length > 0) {
+        setGaleriList(prev => [data[0], ...prev]);
+        return;
+      }
+    }
+
     const newItem = { ...item, id: Date.now() };
-    setGaleriList([newItem, ...galeriList]);
+    setGaleriList(prev => [newItem, ...prev]);
   };
 
-  const updateGaleri = (id, updatedFields) => {
-    setGaleriList(galeriList.map((g) => (g.id === id ? { ...g, ...updatedFields } : g)));
+  const updateGaleri = async (id, updatedFields) => {
+    setGaleriList(prev => prev.map((g) => (g.id === id ? { ...g, ...updatedFields } : g)));
+
+    if (isSupabaseConfigured() && supabase) {
+      const { error } = await supabase.from('galeri').update(updatedFields).eq('id', id);
+      if (error) console.error('Supabase Update Galeri Error:', error);
+    }
   };
 
-  const deleteGaleri = (id) => {
-    setGaleriList(galeriList.filter((g) => g.id !== id));
+  const deleteGaleri = async (id) => {
+    setGaleriList(prev => prev.filter((g) => g.id !== id));
+
+    if (isSupabaseConfigured() && supabase) {
+      const { error } = await supabase.from('galeri').delete().eq('id', id);
+      if (error) console.error('Supabase Delete Galeri Error:', error);
+    }
   };
 
   // Contact Update
-  const updateContactInfo = (newInfo) => {
-    setContactInfo({ ...contactInfo, ...newInfo });
+  const updateContactInfo = async (newInfo) => {
+    const updated = { ...contactInfo, ...newInfo };
+    setContactInfo(updated);
+
+    if (isSupabaseConfigured() && supabase) {
+      const { error } = await supabase.from('contact_info').upsert({
+        id: 1,
+        alamat: updated.alamat,
+        jam_kerja: updated.jamKerja,
+        telepon: updated.telepon,
+        email: updated.email
+      });
+      if (error) console.error('Supabase Update Contact Error:', error);
+    }
   };
 
   return (
@@ -284,6 +563,7 @@ export function DataProvider({ children }) {
         isAdminLoggedIn,
         loginAdmin,
         logoutAdmin,
+        isLoadingData,
         newsList,
         addNews,
         updateNews,

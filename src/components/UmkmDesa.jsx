@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Hero from './Hero';
-import { Search, MapPin, Phone, User, Tag, Plus, Edit2, Trash2, X, ShoppingBag, ArrowRight } from 'lucide-react';
+import { Search, MapPin, Phone, User, Tag, Plus, Edit2, Trash2, X, ShoppingBag, ArrowRight, Upload, Loader2 } from 'lucide-react';
 import { useData } from '../context/DataContext';
+import { uploadImage } from '../lib/supabase';
 
 export default function UmkmDesa() {
   const { umkmList, addUmkm, updateUmkm, deleteUmkm, isAdminLoggedIn } = useData();
@@ -13,6 +14,7 @@ export default function UmkmDesa() {
   // Form modal state for Create/Edit
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
   const [formData, setFormData] = useState({
     nama: '',
     category: 'Peternakan',
@@ -63,7 +65,7 @@ export default function UmkmDesa() {
       category: item.category || item.cat || 'Peternakan',
       pemilik: item.pemilik || '',
       dusun: item.dusun || item.lokasi || 'Dusun Wonosaran',
-      hargaInfo: item.hargaInfo || item.rating || '',
+      hargaInfo: item.hargaInfo || '',
       kontakWa: item.kontakWa || '',
       img: item.img || '/images/galeri_persawahan_sunset.jpg',
       excerpt: item.excerpt || item.desc || '',
@@ -79,12 +81,29 @@ export default function UmkmDesa() {
     }
   };
 
-  const handleFormSubmit = (e) => {
+  const handleImageFileChange = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    try {
+      const uploadedUrl = await uploadImage(file, 'desa-images');
+      if (uploadedUrl) {
+        setFormData((prev) => ({ ...prev, img: uploadedUrl }));
+      }
+    } catch (err) {
+      alert('Gagal mengunggah foto produk. Silakan coba lagi.');
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
     if (editingId) {
-      updateUmkm(editingId, formData);
+      await updateUmkm(editingId, formData);
     } else {
-      addUmkm(formData);
+      await addUmkm(formData);
     }
     setIsFormOpen(false);
   };
@@ -92,20 +111,20 @@ export default function UmkmDesa() {
   return (
     <main className="umkm-page">
       <Hero
-        title="UMKM & Potensi Ekonomi Desa Kedungsari"
-        subtitle="Katalog Resmi Produk Olahan, Hasil Pertanian, Peternakan Itik Petelur, dan Industri Rumah Tangga Warga Desa."
+        title="Potensi Ekonomi & UMKM Kedungsari"
+        subtitle="Mendukung dan mempromosikan komoditas lokal unggulan, peternakan, kuliner, dan usaha warga Desa Kedungsari."
         bgImage="/images/galeri_persawahan_sunset.jpg"
-        badge="Pemberdayaan Ekonomi Lokal"
+        badge="Pemberdayaan Ekonomi Desa"
       />
 
       <section className="section-padding">
         <div className="container">
-          {/* Top Controls: Search & Admin Button */}
+          {/* Header Controls & Search */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px', flexWrap: 'wrap', gap: '20px' }}>
             <div style={{ position: 'relative', width: '100%', maxWidth: '480px' }}>
               <input
                 type="text"
-                placeholder="Cari nama UMKM, produk, pemilik, atau dusun..."
+                placeholder="Cari produk UMKM, pemilik, atau dusun..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 style={{
@@ -113,12 +132,11 @@ export default function UmkmDesa() {
                   padding: '14px 20px 14px 48px',
                   borderRadius: '99px',
                   border: '1px solid #cbd5e1',
-                  fontSize: '0.98rem',
                   outline: 'none',
-                  boxShadow: 'var(--shadow-sm)'
+                  fontSize: '0.95rem'
                 }}
               />
-              <Search size={20} color="#94a3b8" style={{ position: 'absolute', left: '18px', top: '50%', transform: 'translateY(-50%)' }} />
+              <Search size={20} style={{ position: 'absolute', left: '18px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
             </div>
 
             {isAdminLoggedIn && (
@@ -136,13 +154,13 @@ export default function UmkmDesa() {
                   boxShadow: '0 4px 12px rgba(13, 92, 58, 0.3)'
                 }}
               >
-                <Plus size={18} /> Tambah UMKM Baru
+                <Plus size={18} /> Tambah Produk / UMKM Baru
               </button>
             )}
           </div>
 
-          {/* Category Filter Badges */}
-          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '40px' }}>
+          {/* Category Filter Pills */}
+          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '36px' }}>
             {categories.map((cat) => (
               <button
                 key={cat}
@@ -168,7 +186,7 @@ export default function UmkmDesa() {
             {filteredUmkm.map((item) => (
               <div key={item.id} className="news-card">
                 <div style={{ position: 'relative' }}>
-                  <img src={item.img || '/images/landmark1.jpg'} alt={item.nama || item.title} className="news-img" />
+                  <img src={item.img || '/images/galeri_persawahan_sunset.jpg'} alt={item.nama || item.title} className="news-img" />
                   {isAdminLoggedIn && (
                     <div style={{ position: 'absolute', top: '12px', right: '12px', display: 'flex', gap: '8px' }}>
                       <button
@@ -248,42 +266,45 @@ export default function UmkmDesa() {
             </div>
 
             {selectedUmkm.hargaInfo && (
-              <div style={{ background: 'var(--primary-light)', color: 'var(--primary)', padding: '10px 16px', borderRadius: '10px', fontWeight: '800', fontSize: '0.98rem', marginBottom: '20px' }}>
-                💰 Informasi Harga / Hasil: {selectedUmkm.hargaInfo}
+              <div style={{ background: 'var(--primary-light)', color: 'var(--primary)', padding: '12px 16px', borderRadius: '8px', fontWeight: '700', marginBottom: '20px' }}>
+                💡 Info Harga / Kapasitas: {selectedUmkm.hargaInfo}
               </div>
             )}
 
-            <img src={selectedUmkm.img || '/images/landmark1.jpg'} alt={selectedUmkm.nama || selectedUmkm.title} style={{ width: '100%', height: '300px', objectFit: 'cover', borderRadius: '12px', marginBottom: '20px' }} />
+            <img src={selectedUmkm.img || '/images/galeri_persawahan_sunset.jpg'} alt={selectedUmkm.nama || selectedUmkm.title} style={{ width: '100%', height: '300px', objectFit: 'cover', borderRadius: '12px', marginBottom: '20px' }} />
 
             <div style={{ fontSize: '1.02rem', color: '#334155', lineHeight: '1.8', marginBottom: '24px' }}>
-              <p>{selectedUmkm.content || selectedUmkm.excerpt || selectedUmkm.desc}</p>
+              <p>{selectedUmkm.content || selectedUmkm.desc}</p>
             </div>
 
             {selectedUmkm.kontakWa && (
               <a
                 href={`https://wa.me/${selectedUmkm.kontakWa.replace(/[^0-9]/g, '')}`}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 style={{
-                  background: '#25D366',
-                  color: 'white',
-                  padding: '12px 24px',
-                  borderRadius: '99px',
-                  fontWeight: '700',
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: '8px',
+                  justify: 'center',
+                  gap: '10px',
+                  background: '#25D366',
+                  color: 'white',
+                  padding: '14px 28px',
+                  borderRadius: '99px',
+                  fontWeight: '700',
+                  width: '100%',
+                  fontSize: '1rem',
                   boxShadow: '0 4px 12px rgba(37, 211, 102, 0.3)'
                 }}
               >
-                <Phone size={18} /> Hubungi Pemilik UMKM via WhatsApp
+                <Phone size={20} /> Hubungi Penjual via WhatsApp ({selectedUmkm.kontakWa})
               </a>
             )}
           </div>
         </div>
       )}
 
-      {/* Admin Form Modal (Create / Edit UMKM) */}
+      {/* Admin Create / Edit UMKM Modal */}
       {isFormOpen && (
         <div className="modal-backdrop" onClick={() => setIsFormOpen(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ padding: '32px', maxWidth: '650px' }}>
@@ -291,16 +312,16 @@ export default function UmkmDesa() {
               <X size={20} />
             </button>
             <h3 style={{ fontSize: '1.5rem', color: '#0f172a', marginBottom: '20px' }}>
-              {editingId ? '✏️ Edit Data UMKM' : '➕ Tambah UMKM Baru'}
+              {editingId ? '✏️ Edit Data UMKM / Potensi' : '➕ Tambah UMKM / Potensi Baru'}
             </h3>
 
             <form onSubmit={handleFormSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               <div>
-                <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: '700', marginBottom: '6px' }}>Nama UMKM / Produk</label>
+                <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: '700', marginBottom: '6px' }}>Nama Produk / Usaha</label>
                 <input
                   type="text"
                   required
-                  placeholder="Contoh: Peternakan Itik Petelur Umbaran"
+                  placeholder="Masukkan nama UMKM atau komoditas..."
                   value={formData.nama}
                   onChange={(e) => setFormData({ ...formData, nama: e.target.value })}
                   style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #cbd5e1' }}
@@ -309,7 +330,7 @@ export default function UmkmDesa() {
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: '700', marginBottom: '6px' }}>Kategori UMKM</label>
+                  <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: '700', marginBottom: '6px' }}>Kategori Usaha</label>
                   <select
                     value={formData.category}
                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
@@ -372,19 +393,49 @@ export default function UmkmDesa() {
                 />
               </div>
 
-              <div>
-                <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: '700', marginBottom: '6px' }}>Pilih Foto Produk</label>
-                <select
-                  value={formData.img}
-                  onChange={(e) => setFormData({ ...formData, img: e.target.value })}
-                  style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #cbd5e1', background: 'white' }}
-                >
-                  <option value="/images/galeri_persawahan_sunset.jpg">Foto Persawahan & Sunset (/images/galeri_persawahan_sunset.jpg)</option>
-                  <option value="/images/galeri_jalan_tani_sumbing.jpg">Foto Gunung Sumbing & Jalan Tani (/images/galeri_jalan_tani_sumbing.jpg)</option>
-                  <option value="/images/galeri_koperasi_merah_putih.jpg">Foto Koperasi Merah Putih (/images/galeri_koperasi_merah_putih.jpg)</option>
-                  <option value="/images/galeri_aktivitas_warga.jpg">Foto Kebersamaan Warga (/images/galeri_aktivitas_warga.jpg)</option>
-                  <option value="/images/galeri_kkn_balai_desa.jpg">Foto Balai Desa (/images/galeri_kkn_balai_desa.jpg)</option>
-                </select>
+              {/* Upload Foto Produk UMKM */}
+              <div style={{ background: '#f8fafc', padding: '16px', borderRadius: '12px', border: '1px dashed #cbd5e1' }}>
+                <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: '700', marginBottom: '8px', color: '#0f172a' }}>
+                  📸 Upload Foto Produk UMKM
+                </label>
+                <div style={{ display: 'flex', gap: '12px', alignItems: 'center', marginBottom: '10px' }}>
+                  <label style={{
+                    cursor: 'pointer',
+                    background: 'white',
+                    border: '1px solid var(--primary)',
+                    color: 'var(--primary)',
+                    padding: '8px 16px',
+                    borderRadius: '8px',
+                    fontSize: '0.88rem',
+                    fontWeight: '600',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px'
+                  }}>
+                    {isUploading ? <Loader2 size={16} className="animate-spin" /> : <Upload size={16} />}
+                    {isUploading ? 'Mengunggah...' : 'Pilih File Foto Produk'}
+                    <input type="file" accept="image/*" onChange={handleImageFileChange} disabled={isUploading} style={{ display: 'none' }} />
+                  </label>
+                  <span style={{ fontSize: '0.8rem', color: '#64748b' }}>Format: JPG, PNG, WEBP</span>
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <span style={{ fontSize: '0.78rem', fontWeight: '600', color: '#475569' }}>Atau masukkan URL Foto / Path Gambar:</span>
+                  <input
+                    type="text"
+                    placeholder="URL Foto (https://...) atau path gambar (/images/...)"
+                    value={formData.img}
+                    onChange={(e) => setFormData({ ...formData, img: e.target.value })}
+                    style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '0.85rem' }}
+                  />
+                </div>
+
+                {formData.img && (
+                  <div style={{ marginTop: '12px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <img src={formData.img} alt="Preview Produk" style={{ width: '80px', height: '50px', objectFit: 'cover', borderRadius: '6px', border: '1px solid #e2e8f0' }} />
+                    <span style={{ fontSize: '0.78rem', color: '#16a34a', fontWeight: '600' }}>✓ Foto Produk Siap Digunakan</span>
+                  </div>
+                )}
               </div>
 
               <div>
@@ -413,7 +464,8 @@ export default function UmkmDesa() {
 
               <button
                 type="submit"
-                style={{ background: 'var(--primary)', color: 'white', padding: '14px', borderRadius: '99px', fontWeight: '700', fontSize: '1rem', marginTop: '10px' }}
+                disabled={isUploading}
+                style={{ background: 'var(--primary)', color: 'white', padding: '14px', borderRadius: '99px', fontWeight: '700', fontSize: '1rem', marginTop: '10px', opacity: isUploading ? 0.6 : 1 }}
               >
                 {editingId ? 'Simpan Perubahan UMKM' : 'Publikasikan UMKM Baru'}
               </button>
