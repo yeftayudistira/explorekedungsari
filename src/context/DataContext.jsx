@@ -162,7 +162,7 @@ export function DataProvider({ children }) {
   const [contactInfo, setContactInfo] = useState(initialContact);
   const [isLoadingData, setIsLoadingData] = useState(true);
 
-  // Fetch Data from Supabase with Auto Seed if empty
+  // Fetch Data from Supabase
   useEffect(() => {
     async function loadSupabaseData() {
       setIsLoadingData(true);
@@ -197,16 +197,16 @@ export function DataProvider({ children }) {
 
         if (newsErr) {
           console.error('Supabase News Fetch Error:', newsErr);
-        } else if (newsData && newsData.length > 0) {
-          setNewsList(newsData);
-        } else {
-          // Auto Seed Initial News to Supabase
-          const seedPayload = initialNews.map(({ id, ...rest }) => rest);
-          const { data: seeded, error: seedErr } = await supabase.from('news').insert(seedPayload).select();
-          if (!seedErr && seeded) {
-            setNewsList(seeded);
+          setNewsList(initialNews);
+        } else if (newsData) {
+          if (newsData.length === 0 && !localStorage.getItem('kedungsari_seeded')) {
+            // Seed only once on initial fresh database setup
+            const seedPayload = initialNews.map(({ id, ...rest }) => rest);
+            const { data: seeded } = await supabase.from('news').insert(seedPayload).select();
+            localStorage.setItem('kedungsari_seeded', 'true');
+            setNewsList(seeded || initialNews);
           } else {
-            setNewsList(initialNews);
+            setNewsList(newsData);
           }
         }
 
@@ -218,13 +218,16 @@ export function DataProvider({ children }) {
 
         if (sotkErr) {
           console.error('Supabase SOTK Fetch Error:', sotkErr);
-        } else if (sotkData && sotkData.length > 0) {
-          setSotkList(sotkData);
-        } else {
-          // Auto Seed SOTK
-          const seedPayload = initialSotk.map(({ id, ...rest }) => rest);
-          const { data: seeded } = await supabase.from('sotk').insert(seedPayload).select();
-          setSotkList(seeded && seeded.length > 0 ? seeded : initialSotk);
+          setSotkList(initialSotk);
+        } else if (sotkData) {
+          if (sotkData.length === 0 && !localStorage.getItem('kedungsari_sotk_seeded')) {
+            const seedPayload = initialSotk.map(({ id, ...rest }) => rest);
+            const { data: seeded } = await supabase.from('sotk').insert(seedPayload).select();
+            localStorage.setItem('kedungsari_sotk_seeded', 'true');
+            setSotkList(seeded || initialSotk);
+          } else {
+            setSotkList(sotkData);
+          }
         }
 
         // 3. Load UMKM
@@ -235,30 +238,17 @@ export function DataProvider({ children }) {
 
         if (umkmErr) {
           console.error('Supabase UMKM Fetch Error:', umkmErr);
-        } else if (umkmData && umkmData.length > 0) {
-          const mappedUmkm = umkmData.map(u => ({
-            id: u.id,
-            nama: u.nama,
-            category: u.category,
-            pemilik: u.pemilik,
-            dusun: u.dusun,
-            hargaInfo: u.harga_info || u.hargaInfo,
-            kontakWa: u.kontak_wa || u.kontakWa,
-            img: u.img,
-            excerpt: u.excerpt,
-            content: u.content
-          }));
-          setUmkmList(mappedUmkm);
-        } else {
-          // Auto Seed UMKM
-          const seedPayload = initialUmkm.map(({ id, hargaInfo, kontakWa, ...rest }) => ({
-            ...rest,
-            harga_info: hargaInfo,
-            kontak_wa: kontakWa
-          }));
-          const { data: seeded } = await supabase.from('umkm').insert(seedPayload).select();
-          if (seeded && seeded.length > 0) {
-            setUmkmList(seeded.map(u => ({
+          setUmkmList(initialUmkm);
+        } else if (umkmData) {
+          if (umkmData.length === 0 && !localStorage.getItem('kedungsari_umkm_seeded')) {
+            const seedPayload = initialUmkm.map(({ id, hargaInfo, kontakWa, ...rest }) => ({
+              ...rest,
+              harga_info: hargaInfo,
+              kontak_wa: kontakWa
+            }));
+            const { data: seeded } = await supabase.from('umkm').insert(seedPayload).select();
+            localStorage.setItem('kedungsari_umkm_seeded', 'true');
+            setUmkmList(seeded ? seeded.map(u => ({
               id: u.id,
               nama: u.nama,
               category: u.category,
@@ -269,9 +259,21 @@ export function DataProvider({ children }) {
               img: u.img,
               excerpt: u.excerpt,
               content: u.content
-            })));
+            })) : initialUmkm);
           } else {
-            setUmkmList(initialUmkm);
+            const mappedUmkm = umkmData.map(u => ({
+              id: u.id,
+              nama: u.nama,
+              category: u.category,
+              pemilik: u.pemilik,
+              dusun: u.dusun,
+              hargaInfo: u.harga_info || u.hargaInfo,
+              kontakWa: u.kontak_wa || u.kontakWa,
+              img: u.img,
+              excerpt: u.excerpt,
+              content: u.content
+            }));
+            setUmkmList(mappedUmkm);
           }
         }
 
@@ -283,17 +285,20 @@ export function DataProvider({ children }) {
 
         if (galeriErr) {
           console.error('Supabase Galeri Fetch Error:', galeriErr);
-        } else if (galeriData && galeriData.length > 0) {
-          setGaleriList(galeriData);
-        } else {
-          // Auto Seed Galeri
-          const seedPayload = initialGaleri.map(({ id, ...rest }) => rest);
-          const { data: seeded } = await supabase.from('galeri').insert(seedPayload).select();
-          setGaleriList(seeded && seeded.length > 0 ? seeded : initialGaleri);
+          setGaleriList(initialGaleri);
+        } else if (galeriData) {
+          if (galeriData.length === 0 && !localStorage.getItem('kedungsari_galeri_seeded')) {
+            const seedPayload = initialGaleri.map(({ id, ...rest }) => rest);
+            const { data: seeded } = await supabase.from('galeri').insert(seedPayload).select();
+            localStorage.setItem('kedungsari_galeri_seeded', 'true');
+            setGaleriList(seeded || initialGaleri);
+          } else {
+            setGaleriList(galeriData);
+          }
         }
 
         // 5. Load Contact Info
-        const { data: contactData, error: contactErr } = await supabase
+        const { data: contactData } = await supabase
           .from('contact_info')
           .select('*')
           .eq('id', 1)
@@ -361,7 +366,7 @@ export function DataProvider({ children }) {
 
       if (error) {
         console.error('Supabase Add News Error:', error);
-        alert('Gagal menyimpan ke Supabase: ' + error.message);
+        alert('Gagal menyimpan ke Supabase Database: ' + error.message + '\n\nPastikan RLS (Row Level Security) di Supabase sudah mengizinkan INSERT.');
       } else if (data && data.length > 0) {
         setNewsList(prev => [data[0], ...prev]);
         return;
@@ -378,16 +383,26 @@ export function DataProvider({ children }) {
 
     if (isSupabaseConfigured() && supabase) {
       const { error } = await supabase.from('news').update(updatedFields).eq('id', id);
-      if (error) console.error('Supabase Update News Error:', error);
+      if (error) {
+        console.error('Supabase Update News Error:', error);
+        alert('Gagal memperbarui di Supabase Database: ' + error.message);
+      }
     }
   };
 
   const deleteNews = async (id) => {
+    // Keep reference for fallback revert
+    const backupList = [...newsList];
     setNewsList(prev => prev.filter((n) => n.id !== id));
 
     if (isSupabaseConfigured() && supabase) {
       const { error } = await supabase.from('news').delete().eq('id', id);
-      if (error) console.error('Supabase Delete News Error:', error);
+      if (error) {
+        console.error('Supabase Delete News Error:', error);
+        alert('Gagal menghapus dari Supabase Database!\n\nPenyebab: ' + error.message + '\n\nPastikan RLS (Row Level Security) di Supabase mengizinkan DELETE.');
+        // Revert local state if database delete failed
+        setNewsList(backupList);
+      }
     }
   };
 
@@ -403,7 +418,9 @@ export function DataProvider({ children }) {
         }])
         .select();
 
-      if (!error && data && data.length > 0) {
+      if (error) {
+        alert('Gagal menyimpan Aparatur ke Supabase: ' + error.message);
+      } else if (data && data.length > 0) {
         setSotkList(prev => [...prev, data[0]]);
         return;
       }
@@ -423,11 +440,15 @@ export function DataProvider({ children }) {
   };
 
   const deleteSotk = async (id) => {
+    const backup = [...sotkList];
     setSotkList(prev => prev.filter((s) => s.id !== id));
 
     if (isSupabaseConfigured() && supabase) {
       const { error } = await supabase.from('sotk').delete().eq('id', id);
-      if (error) console.error('Supabase Delete SOTK Error:', error);
+      if (error) {
+        alert('Gagal menghapus Aparatur dari Supabase: ' + error.message);
+        setSotkList(backup);
+      }
     }
   };
 
@@ -449,7 +470,9 @@ export function DataProvider({ children }) {
         }])
         .select();
 
-      if (!error && data && data.length > 0) {
+      if (error) {
+        alert('Gagal menyimpan UMKM ke Supabase: ' + error.message);
+      } else if (data && data.length > 0) {
         const dbItem = data[0];
         const insertedUmkm = {
           id: dbItem.id,
@@ -491,11 +514,15 @@ export function DataProvider({ children }) {
   };
 
   const deleteUmkm = async (id) => {
+    const backup = [...umkmList];
     setUmkmList(prev => prev.filter((u) => u.id !== id));
 
     if (isSupabaseConfigured() && supabase) {
       const { error } = await supabase.from('umkm').delete().eq('id', id);
-      if (error) console.error('Supabase Delete UMKM Error:', error);
+      if (error) {
+        alert('Gagal menghapus UMKM dari Supabase: ' + error.message);
+        setUmkmList(backup);
+      }
     }
   };
 
@@ -512,7 +539,9 @@ export function DataProvider({ children }) {
         }])
         .select();
 
-      if (!error && data && data.length > 0) {
+      if (error) {
+        alert('Gagal menyimpan Galeri ke Supabase: ' + error.message);
+      } else if (data && data.length > 0) {
         setGaleriList(prev => [data[0], ...prev]);
         return;
       }
@@ -532,11 +561,15 @@ export function DataProvider({ children }) {
   };
 
   const deleteGaleri = async (id) => {
+    const backup = [...galeriList];
     setGaleriList(prev => prev.filter((g) => g.id !== id));
 
     if (isSupabaseConfigured() && supabase) {
       const { error } = await supabase.from('galeri').delete().eq('id', id);
-      if (error) console.error('Supabase Delete Galeri Error:', error);
+      if (error) {
+        alert('Gagal menghapus foto dari Supabase: ' + error.message);
+        setGaleriList(backup);
+      }
     }
   };
 
