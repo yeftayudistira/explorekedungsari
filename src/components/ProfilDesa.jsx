@@ -60,11 +60,8 @@ export default function ProfilDesa() {
           <div className="landmark-grid">
             {/* Split Images di sebelah kiri */}
             <div className="landmark-images">
-              <div className="landmark-img-card">
-                <img src="/images/galeri_persawahan_sunset.jpg" alt="Persawahan Desa Kedungsari" />
-              </div>
-              <div className="landmark-img-card">
-                <img src="/images/galeri_koperasi_merah_putih.jpg" alt="Suasana Desa Kedungsari" />
+              <div className="landmark-img-card" style={{ height: '100%', minHeight: '360px' }}>
+                <img src="/images/img2.jpg" alt="Asal Usul & Geografi Desa Kedungsari" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             </div>
 
@@ -102,7 +99,7 @@ export default function ProfilDesa() {
 
             {/* Foto Sejarah di sebelah kanan */}
             <div className="history-image-card">
-              <img src="/images/galeri_kkn_balai_desa.jpg" alt="Sejarah & Tradisi Kedungsari" />
+              <img src="/images/img3.jpg" alt="Awal Perjalanan Kami - Kedungsari" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
           </div>
         </div>
