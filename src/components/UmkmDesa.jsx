@@ -113,7 +113,7 @@ export default function UmkmDesa() {
       <Hero
         title="Potensi Ekonomi & UMKM Kedungsari"
         subtitle="Mendukung dan mempromosikan komoditas lokal unggulan, peternakan, kuliner, dan usaha warga Desa Kedungsari."
-        bgImage="/images/galeri_persawahan_sunset.jpg"
+        bgImage="/images/home-image.jpeg"
         badge="Pemberdayaan Ekonomi Desa"
       />
 

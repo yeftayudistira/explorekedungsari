@@ -3,7 +3,7 @@ import React from 'react';
 export default function Hero({
   title = "Jelajahi Kisah Menakjubkan Desa Kedungsari",
   subtitle = "Perjalanan melintasi waktu di desa tercinta kami, tempat tradisi bertemu dengan kemajuan.",
-  bgImage = "/images/galeri_jalan_tani_sumbing.jpg",
+  bgImage = "/images/home-image.jpeg",
   badge = "Portal Resmi Desa Kedungsari"
 }) {
   return (

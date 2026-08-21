@@ -104,7 +104,7 @@ export default function Berita() {
       <Hero
         title="Warta & Pengumuman Desa Kedungsari"
         subtitle="Dapatkan informasi terkini mengenai kegiatan, pembangunan, dan berita terbaru seputar Desa Kedungsari."
-        bgImage="/images/galeri_kkn_balai_desa.jpg"
+        bgImage="/images/home-image.jpeg"
         badge="Informasi Publik"
       />
 

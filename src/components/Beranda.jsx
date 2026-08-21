@@ -55,7 +55,7 @@ export default function Beranda({ setActiveTab }) {
         justifyContent: 'center',
         paddingTop: '60px',
         overflow: 'hidden',
-        backgroundImage: "url('/images/galeri_jalan_tani_sumbing.jpg')",
+        backgroundImage: "url('/images/home-image.jpeg')",
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundAttachment: 'fixed'
