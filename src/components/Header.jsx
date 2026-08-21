@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Compass, Menu, X, PhoneCall, ShieldCheck } from 'lucide-react';
+import { Compass, Menu, X, ShieldCheck } from 'lucide-react';
 import { useData } from '../context/DataContext';
 
 export default function Header({ activeTab, setActiveTab }) {
@@ -66,11 +66,6 @@ export default function Header({ activeTab, setActiveTab }) {
 
           {/* Right Action Button & Mobile Toggle */}
           <div className="nav-actions">
-            <button className="btn-contact" onClick={() => handleNavClick('kontak')}>
-              <PhoneCall size={16} />
-              <span>Hubungi Kami</span>
-            </button>
-
             <button
               className="mobile-toggle"
               aria-label="Toggle Navigation"

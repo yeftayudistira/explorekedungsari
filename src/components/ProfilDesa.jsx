@@ -139,7 +139,7 @@ export default function ProfilDesa() {
                 </li>
                 <li>
                   <span className="misi-num">3</span>
-                  <span>Melestarikan kearifan lokal budaya tradisi Tedhak Siten dan semangat gotong royong.</span>
+                  <span>Melestarikan kearifan lokal kebudayaan adat dan semangat gotong royong warga.</span>
                 </li>
                 <li>
                   <span className="misi-num">4</span>

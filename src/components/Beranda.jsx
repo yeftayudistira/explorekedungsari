@@ -24,7 +24,7 @@ export default function Beranda({ setActiveTab }) {
     {
       emoji: '🎨',
       title: 'Budaya & Tradisi',
-      desc: 'Kearifan lokal tradisi Tedhak Siten yang dihiasi sajian Jadah 7 Warna sarat makna filosofi.'
+      desc: 'Kearifan lokal tradisi dan kebudayaan adat yang terjaga dengan kehangatan masyarakat.'
     },
     {
       emoji: '🍲',
@@ -115,7 +115,7 @@ export default function Beranda({ setActiveTab }) {
             color: 'rgba(255, 255, 255, 0.88)',
             lineHeight: '1.6'
           }}>
-            Rasakan pesona alam persawahan hortikultura, kekayaan tradisi Tedhak Siten, dan keramahan masyarakat di lereng Gunung Sumbing, Kecamatan Bandongan.
+            Rasakan pesona alam persawahan hortikultura, kekayaan kebudayaan lokal, dan keramahan masyarakat di lereng Gunung Sumbing, Kecamatan Bandongan.
           </p>
 
           {/* CTA Buttons */}
