@@ -4,8 +4,11 @@ import { MapPin, Users, Home, Phone, Plus, Edit2, Trash2, X, Upload, Loader2 } f
 import { useData } from '../context/DataContext';
 import { uploadImage } from '../lib/supabase';
 
+import ConfirmDeleteModal from './ConfirmDeleteModal';
+
 export default function DukuhWilayah() {
   const { dusunList, addDusun, updateDusun, deleteDusun, isAdminLoggedIn } = useData();
+  const [deleteTarget, setDeleteTarget] = useState(null);
 
   // Admin Modal Form State
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -50,11 +53,9 @@ export default function DukuhWilayah() {
     setIsFormOpen(true);
   };
 
-  const handleDelete = (id, e) => {
+  const handleDeleteClick = (dusun, e) => {
     e.stopPropagation();
-    if (window.confirm('Apakah Anda yakin ingin menghapus data dusun ini?')) {
-      deleteDusun(id);
-    }
+    setDeleteTarget(dusun);
   };
 
   const handleImageFileChange = async (e) => {
@@ -137,7 +138,7 @@ export default function DukuhWilayah() {
                         <Edit2 size={16} />
                       </button>
                       <button
-                        onClick={(e) => handleDelete(d.id, e)}
+                        onClick={(e) => handleDeleteClick(d, e)}
                         title="Hapus Dusun"
                         style={{ background: 'white', color: '#ef4444', padding: '8px', borderRadius: '50%', boxShadow: 'var(--shadow-md)' }}
                       >
@@ -312,6 +313,14 @@ export default function DukuhWilayah() {
           </div>
         </div>
       )}
+      {/* Custom Confirm Delete Modal */}
+      <ConfirmDeleteModal
+        isOpen={!!deleteTarget}
+        onClose={() => setDeleteTarget(null)}
+        onConfirm={() => deleteDusun(deleteTarget?.id)}
+        title="Dusun"
+        itemName={deleteTarget?.nama}
+      />
     </main>
   );
 }

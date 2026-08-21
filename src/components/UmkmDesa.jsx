@@ -3,6 +3,7 @@ import Hero from './Hero';
 import { Search, MapPin, Phone, User, Tag, Plus, Edit2, Trash2, X, ShoppingBag, ArrowRight, Upload, Loader2 } from 'lucide-react';
 import { useData } from '../context/DataContext';
 import { uploadImage } from '../lib/supabase';
+import ConfirmDeleteModal from './ConfirmDeleteModal';
 
 export default function UmkmDesa() {
   const { umkmList, addUmkm, updateUmkm, deleteUmkm, isAdminLoggedIn } = useData();
@@ -10,6 +11,7 @@ export default function UmkmDesa() {
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState('Semua');
   const [selectedUmkm, setSelectedUmkm] = useState(null);
+  const [deleteTarget, setDeleteTarget] = useState(null);
 
   // Form modal state for Create/Edit
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -74,11 +76,9 @@ export default function UmkmDesa() {
     setIsFormOpen(true);
   };
 
-  const handleDelete = (id, e) => {
+  const handleDeleteClick = (item, e) => {
     e.stopPropagation();
-    if (window.confirm('Apakah Anda yakin ingin menghapus data UMKM ini?')) {
-      deleteUmkm(id);
-    }
+    setDeleteTarget(item);
   };
 
   const handleImageFileChange = async (e) => {
@@ -197,7 +197,7 @@ export default function UmkmDesa() {
                         <Edit2 size={16} />
                       </button>
                       <button
-                        onClick={(e) => handleDelete(item.id, e)}
+                        onClick={(e) => handleDeleteClick(item, e)}
                         title="Hapus UMKM"
                         style={{ background: 'white', color: '#ef4444', padding: '8px', borderRadius: '50%', boxShadow: 'var(--shadow-md)' }}
                       >
@@ -473,6 +473,14 @@ export default function UmkmDesa() {
           </div>
         </div>
       )}
+      {/* Custom Confirm Delete Modal */}
+      <ConfirmDeleteModal
+        isOpen={!!deleteTarget}
+        onClose={() => setDeleteTarget(null)}
+        onConfirm={() => deleteUmkm(deleteTarget?.id)}
+        title="UMKM"
+        itemName={deleteTarget?.nama || deleteTarget?.title}
+      />
     </main>
   );
 }

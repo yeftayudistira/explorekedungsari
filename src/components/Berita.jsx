@@ -4,11 +4,14 @@ import { Search, Calendar, User, ArrowRight, X, Plus, Edit2, Trash2, CheckCircle
 import { useData } from '../context/DataContext';
 import { uploadImage } from '../lib/supabase';
 
+import ConfirmDeleteModal from './ConfirmDeleteModal';
+
 export default function Berita() {
   const { newsList, addNews, updateNews, deleteNews, isAdminLoggedIn } = useData();
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState('Semua');
   const [selectedNews, setSelectedNews] = useState(null);
+  const [deleteTarget, setDeleteTarget] = useState(null);
 
   // Form modal state for Create/Edit
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -64,11 +67,9 @@ export default function Berita() {
     setIsFormOpen(true);
   };
 
-  const handleDelete = (id, e) => {
+  const handleDeleteClick = (newsItem, e) => {
     e.stopPropagation();
-    if (window.confirm('Apakah Anda yakin ingin menghapus berita ini?')) {
-      deleteNews(id);
-    }
+    setDeleteTarget(newsItem);
   };
 
   const handleImageFileChange = async (e) => {
@@ -187,7 +188,7 @@ export default function Berita() {
                         <Edit2 size={16} />
                       </button>
                       <button
-                        onClick={(e) => handleDelete(news.id, e)}
+                        onClick={(e) => handleDeleteClick(news, e)}
                         title="Hapus Berita"
                         style={{ background: 'white', color: '#ef4444', padding: '8px', borderRadius: '50%', boxShadow: 'var(--shadow-md)' }}
                       >
@@ -209,7 +210,7 @@ export default function Berita() {
                       onClick={() => setSelectedNews(news)}
                       style={{ color: 'var(--primary)', fontWeight: '700', fontSize: '0.88rem' }}
                     >
-                      Detail Artikel →
+                      Baca Selengkapnya →
                     </button>
                   </div>
                 </div>
@@ -225,28 +226,32 @@ export default function Berita() {
         </div>
       </section>
 
-      {/* Detail News Modal */}
+      {/* Modal Detail Berita */}
       {selectedNews && (
         <div className="modal-backdrop" onClick={() => setSelectedNews(null)}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ padding: '32px' }}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ padding: '32px', maxWidth: '750px' }}>
             <button className="modal-close" onClick={() => setSelectedNews(null)}>
               <X size={20} />
             </button>
+
+            <img src={selectedNews.img || '/images/no_image_placeholder.png'} alt={selectedNews.title} style={{ width: '100%', maxHeight: '350px', objectFit: 'cover', borderRadius: '12px', marginBottom: '20px' }} />
+
             <span className="news-badge" style={{ marginBottom: '12px', display: 'inline-block' }}>{selectedNews.category}</span>
             <h2 style={{ fontSize: '1.8rem', color: '#0f172a', marginBottom: '12px', lineHeight: '1.3' }}>{selectedNews.title}</h2>
-            <div style={{ display: 'flex', gap: '20px', color: '#64748b', fontSize: '0.85rem', marginBottom: '20px' }}>
-              <span><Calendar size={14} style={{ display: 'inline', marginRight: '4px' }} /> {selectedNews.date}</span>
-              <span><User size={14} style={{ display: 'inline', marginRight: '4px' }} /> {selectedNews.author}</span>
+
+            <div style={{ display: 'flex', gap: '16px', fontSize: '0.88rem', color: '#64748b', marginBottom: '24px', borderBottom: '1px solid #e2e8f0', paddingBottom: '16px' }}>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><User size={14} /> {selectedNews.author || 'Pemerintah Desa'}</span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><Calendar size={14} /> {selectedNews.date}</span>
             </div>
-            <img src={selectedNews.img} alt={selectedNews.title} style={{ width: '100%', height: '300px', objectFit: 'cover', borderRadius: '12px', marginBottom: '20px' }} />
-            <div style={{ fontSize: '1.02rem', color: '#334155', lineHeight: '1.8' }}>
-              <p>{selectedNews.content}</p>
+
+            <div style={{ color: '#334155', lineHeight: '1.8', fontSize: '1rem', whiteSpace: 'pre-line' }}>
+              {selectedNews.content}
             </div>
           </div>
         </div>
       )}
 
-      {/* Admin Create / Edit News Modal */}
+      {/* Admin Form Modal for Add/Edit News */}
       {isFormOpen && (
         <div className="modal-backdrop" onClick={() => setIsFormOpen(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ padding: '32px', maxWidth: '650px' }}>
@@ -263,16 +268,16 @@ export default function Berita() {
                 <input
                   type="text"
                   required
-                  placeholder="Masukkan judul berita..."
+                  placeholder="Judul Berita Desa..."
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #cbd5e1', outline: 'none' }}
+                  style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #cbd5e1' }}
                 />
               </div>
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: '700', marginBottom: '6px' }}>Kategori</label>
+                  <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: '700', marginBottom: '6px' }}>Kategori Berita</label>
                   <select
                     value={formData.category}
                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
@@ -285,10 +290,11 @@ export default function Berita() {
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: '700', marginBottom: '6px' }}>Penulis / Author</label>
+                  <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: '700', marginBottom: '6px' }}>Penulis / Sumber</label>
                   <input
                     type="text"
                     required
+                    placeholder="Contoh: Sekretariat Desa"
                     value={formData.author}
                     onChange={(e) => setFormData({ ...formData, author: e.target.value })}
                     style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #cbd5e1' }}
@@ -354,7 +360,7 @@ export default function Berita() {
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: '700', marginBottom: '6px' }}>Isi Lengkap Artikel</label>
+                <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: '700', marginBottom: '6px' }}>Konten Lengkap Berita</label>
                 <textarea
                   rows="5"
                   required
@@ -376,6 +382,15 @@ export default function Berita() {
           </div>
         </div>
       )}
+
+      {/* Custom Confirm Delete Modal */}
+      <ConfirmDeleteModal
+        isOpen={!!deleteTarget}
+        onClose={() => setDeleteTarget(null)}
+        onConfirm={() => deleteNews(deleteTarget?.id)}
+        title="Berita"
+        itemName={deleteTarget?.title}
+      />
     </main>
   );
 }

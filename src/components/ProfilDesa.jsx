@@ -3,8 +3,11 @@ import Hero from './Hero';
 import { Target, Award, Users, MapPin, Building2, Landmark, CheckCircle2, Plus, Edit2, Trash2, X } from 'lucide-react';
 import { useData } from '../context/DataContext';
 
+import ConfirmDeleteModal from './ConfirmDeleteModal';
+
 export default function ProfilDesa() {
   const { sotkList, addSotk, updateSotk, deleteSotk, isAdminLoggedIn } = useData();
+  const [deleteTarget, setDeleteTarget] = useState(null);
 
   // Form modal state for SOTK
   const [isSotkModalOpen, setIsSotkModalOpen] = useState(false);
@@ -27,10 +30,8 @@ export default function ProfilDesa() {
     setIsSotkModalOpen(true);
   };
 
-  const handleDeleteSotk = (id) => {
-    if (window.confirm('Hapus perangkat desa ini dari daftar?')) {
-      deleteSotk(id);
-    }
+  const handleDeleteSotkClick = (item) => {
+    setDeleteTarget(item);
   };
 
   const handleSotkSubmit = (e) => {
@@ -198,7 +199,7 @@ export default function ProfilDesa() {
                       <Edit2 size={15} />
                     </button>
                     <button
-                      onClick={() => handleDeleteSotk(st.id)}
+                      onClick={() => handleDeleteSotkClick(st)}
                       style={{ background: 'var(--light-gray)', color: '#ef4444', padding: '6px', borderRadius: '50%' }}
                       title="Hapus Perangkat Desa"
                     >
@@ -276,6 +277,14 @@ export default function ProfilDesa() {
           </div>
         </div>
       )}
+      {/* Custom Confirm Delete Modal */}
+      <ConfirmDeleteModal
+        isOpen={!!deleteTarget}
+        onClose={() => setDeleteTarget(null)}
+        onConfirm={() => deleteSotk(deleteTarget?.id)}
+        title="Perangkat Desa"
+        itemName={deleteTarget?.nama}
+      />
     </main>
   );
 }
