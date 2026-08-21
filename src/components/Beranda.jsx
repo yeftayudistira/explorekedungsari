@@ -91,7 +91,7 @@ export default function Beranda({ setActiveTab }) {
           <div className="news-grid">
             {featuredNews.map((news) => (
               <div key={news.id} className="news-card">
-                <img src={news.img} alt={news.title} className="news-img" />
+                <img src={news.img || '/images/no_image_placeholder.png'} alt={news.title} className="news-img" />
                 <div className="news-body">
                   <span className="news-badge">{news.category}</span>
                   <h3 className="news-title">{news.title}</h3>

@@ -176,7 +176,7 @@ export default function Berita() {
             {filteredNews.map((news) => (
               <div key={news.id} className="news-card">
                 <div style={{ position: 'relative' }}>
-                  <img src={news.img} alt={news.title} className="news-img" />
+                  <img src={news.img || '/images/no_image_placeholder.png'} alt={news.title} className="news-img" />
                   {isAdminLoggedIn && (
                     <div style={{ position: 'absolute', top: '12px', right: '12px', display: 'flex', gap: '8px' }}>
                       <button

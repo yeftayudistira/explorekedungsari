@@ -186,7 +186,7 @@ export default function UmkmDesa() {
             {filteredUmkm.map((item) => (
               <div key={item.id} className="news-card">
                 <div style={{ position: 'relative' }}>
-                  <img src={item.img || '/images/galeri_persawahan_sunset.jpg'} alt={item.nama || item.title} className="news-img" />
+                  <img src={item.img || '/images/no_image_placeholder.png'} alt={item.nama || item.title} className="news-img" />
                   {isAdminLoggedIn && (
                     <div style={{ position: 'absolute', top: '12px', right: '12px', display: 'flex', gap: '8px' }}>
                       <button

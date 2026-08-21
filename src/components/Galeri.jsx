@@ -162,7 +162,7 @@ export default function Galeri() {
                 }}
               >
                 <img
-                  src={item.img}
+                  src={item.img || '/images/no_image_placeholder.png'}
                   alt={item.title}
                   style={{
                     width: '100%',
