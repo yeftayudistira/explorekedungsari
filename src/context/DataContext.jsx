@@ -143,6 +143,59 @@ const initialGaleri = [
   }
 ];
 
+const initialDusun = [
+  {
+    id: 1,
+    nama: 'Dusun Paingan',
+    kepala: 'Kepala Dusun Paingan',
+    kontak: '(0293) 364712',
+    rt: 'RT 05 / RW 04',
+    penduduk: 'Pusat Balai Desa',
+    desc: 'Pusat pelayanan administrasi Kantor Desa Kedungsari, fasilitas umum, dan kawasan permukiman terpadu.',
+    img: '/images/galeri_kkn_balai_desa.jpg'
+  },
+  {
+    id: 2,
+    nama: 'Dusun Karangrejo',
+    kepala: 'Kepala Dusun Karangrejo',
+    kontak: 'Hubungi Kantor Desa',
+    rt: 'Wilayah RW 01',
+    penduduk: 'Sentra Pertanian',
+    desc: 'Kawasan persawahan hortikultura penghasil cabai rawit, terong, ketimun, dan pepaya semusim.',
+    img: '/images/galeri_jalan_tani_sumbing.jpg'
+  },
+  {
+    id: 3,
+    nama: 'Dusun Wonosaran',
+    kepala: 'Kepala Dusun Wonosaran',
+    kontak: 'Hubungi Kantor Desa',
+    rt: 'Wilayah RW 02',
+    penduduk: 'Sentra Peternakan',
+    desc: 'Lokasi utama peternakan itik petelur dengan sistem umbaran alami di lahan persawahan desa.',
+    img: '/images/galeri_persawahan_sunset.jpg'
+  },
+  {
+    id: 4,
+    nama: 'Dusun Kedungan & Pranan',
+    kepala: 'Kepala Dusun Kedungan-Pranan',
+    kontak: 'Hubungi Kantor Desa',
+    rt: 'Dusun Gabungan',
+    penduduk: 'Pemukiman & Kerajinan',
+    desc: 'Wilayah dusun gabungan bersejarah dengan potensi industri rumah tangga dan pengrajin lokal.',
+    img: '/images/galeri_koperasi_merah_putih.jpg'
+  },
+  {
+    id: 5,
+    nama: 'Dusun Kwangsan',
+    kepala: 'Kepala Dusun Kwangsan',
+    kontak: 'Hubungi Kantor Desa',
+    rt: 'Wilayah RW 03',
+    penduduk: 'Sentra Perdagangan',
+    desc: 'Kawasan permukiman warga berbasis usaha perdagangan keliling, montir, dan jasa lokal.',
+    img: '/images/galeri_aktivitas_warga.jpg'
+  }
+];
+
 const initialContact = {
   alamat: 'Dusun Paingan RT 05 RW 04, Desa Kedungsari, Kec. Bandongan, Kab. Magelang 56151',
   jamKerja: 'Senin - Kamis: 08.00 - 15.00 WIB | Jumat: 08.00 - 11.00 WIB',
@@ -159,6 +212,7 @@ export function DataProvider({ children }) {
   const [sotkList, setSotkList] = useState([]);
   const [umkmList, setUmkmList] = useState([]);
   const [galeriList, setGaleriList] = useState([]);
+  const [dusunList, setDusunList] = useState([]);
   const [contactInfo, setContactInfo] = useState(initialContact);
   const [isLoadingData, setIsLoadingData] = useState(true);
 
@@ -181,6 +235,9 @@ export function DataProvider({ children }) {
         const savedGaleri = localStorage.getItem('kedungsari_galeri');
         setGaleriList(savedGaleri ? JSON.parse(savedGaleri) : initialGaleri);
 
+        const savedDusun = localStorage.getItem('kedungsari_dusun');
+        setDusunList(savedDusun ? JSON.parse(savedDusun) : initialDusun);
+
         const savedContact = localStorage.getItem('kedungsari_contact');
         setContactInfo(savedContact ? JSON.parse(savedContact) : initialContact);
 
@@ -200,7 +257,6 @@ export function DataProvider({ children }) {
           setNewsList(initialNews);
         } else if (newsData) {
           if (newsData.length === 0 && !localStorage.getItem('kedungsari_seeded')) {
-            // Seed only once on initial fresh database setup
             const seedPayload = initialNews.map(({ id, ...rest }) => rest);
             const { data: seeded } = await supabase.from('news').insert(seedPayload).select();
             localStorage.setItem('kedungsari_seeded', 'true');
@@ -297,7 +353,27 @@ export function DataProvider({ children }) {
           }
         }
 
-        // 5. Load Contact Info
+        // 5. Load Dusun
+        const { data: dusunData, error: dusunErr } = await supabase
+          .from('dusun')
+          .select('*')
+          .order('id', { ascending: true });
+
+        if (dusunErr) {
+          console.error('Supabase Dusun Fetch Error:', dusunErr);
+          setDusunList(initialDusun);
+        } else if (dusunData) {
+          if (dusunData.length === 0 && !localStorage.getItem('kedungsari_dusun_seeded')) {
+            const seedPayload = initialDusun.map(({ id, ...rest }) => rest);
+            const { data: seeded } = await supabase.from('dusun').insert(seedPayload).select();
+            localStorage.setItem('kedungsari_dusun_seeded', 'true');
+            setDusunList(seeded || initialDusun);
+          } else {
+            setDusunList(dusunData);
+          }
+        }
+
+        // 6. Load Contact Info
         const { data: contactData } = await supabase
           .from('contact_info')
           .select('*')
@@ -366,14 +442,13 @@ export function DataProvider({ children }) {
 
       if (error) {
         console.error('Supabase Add News Error:', error);
-        alert('Gagal menyimpan ke Supabase Database: ' + error.message + '\n\nPastikan RLS (Row Level Security) di Supabase sudah mengizinkan INSERT.');
+        alert('Gagal menyimpan ke Supabase Database: ' + error.message);
       } else if (data && data.length > 0) {
         setNewsList(prev => [data[0], ...prev]);
         return;
       }
     }
 
-    // Local Fallback
     const newItem = { ...item, id: Date.now() };
     setNewsList(prev => [newItem, ...prev]);
   };
@@ -391,7 +466,6 @@ export function DataProvider({ children }) {
   };
 
   const deleteNews = async (id) => {
-    // Keep reference for fallback revert
     const backupList = [...newsList];
     setNewsList(prev => prev.filter((n) => n.id !== id));
 
@@ -399,8 +473,7 @@ export function DataProvider({ children }) {
       const { error } = await supabase.from('news').delete().eq('id', id);
       if (error) {
         console.error('Supabase Delete News Error:', error);
-        alert('Gagal menghapus dari Supabase Database!\n\nPenyebab: ' + error.message + '\n\nPastikan RLS (Row Level Security) di Supabase mengizinkan DELETE.');
-        // Revert local state if database delete failed
+        alert('Gagal menghapus dari Supabase Database!\n\nPenyebab: ' + error.message);
         setNewsList(backupList);
       }
     }
@@ -573,6 +646,56 @@ export function DataProvider({ children }) {
     }
   };
 
+  // Dusun CRUD
+  const addDusun = async (item) => {
+    if (isSupabaseConfigured() && supabase) {
+      const { data, error } = await supabase
+        .from('dusun')
+        .insert([{
+          nama: item.nama,
+          kepala: item.kepala,
+          kontak: item.kontak,
+          rt: item.rt,
+          penduduk: item.penduduk,
+          desc: item.desc,
+          img: item.img
+        }])
+        .select();
+
+      if (error) {
+        alert('Gagal menyimpan Dusun ke Supabase: ' + error.message);
+      } else if (data && data.length > 0) {
+        setDusunList(prev => [...prev, data[0]]);
+        return;
+      }
+    }
+
+    const newItem = { ...item, id: Date.now() };
+    setDusunList(prev => [...prev, newItem]);
+  };
+
+  const updateDusun = async (id, updatedFields) => {
+    setDusunList(prev => prev.map((d) => (d.id === id ? { ...d, ...updatedFields } : d)));
+
+    if (isSupabaseConfigured() && supabase) {
+      const { error } = await supabase.from('dusun').update(updatedFields).eq('id', id);
+      if (error) console.error('Supabase Update Dusun Error:', error);
+    }
+  };
+
+  const deleteDusun = async (id) => {
+    const backup = [...dusunList];
+    setDusunList(prev => prev.filter((d) => d.id !== id));
+
+    if (isSupabaseConfigured() && supabase) {
+      const { error } = await supabase.from('dusun').delete().eq('id', id);
+      if (error) {
+        alert('Gagal menghapus Dusun dari Supabase: ' + error.message);
+        setDusunList(backup);
+      }
+    }
+  };
+
   // Contact Update
   const updateContactInfo = async (newInfo) => {
     const updated = { ...contactInfo, ...newInfo };
@@ -613,6 +736,10 @@ export function DataProvider({ children }) {
         addGaleri,
         updateGaleri,
         deleteGaleri,
+        dusunList,
+        addDusun,
+        updateDusun,
+        deleteDusun,
         destinasiList: umkmList,
         addDestinasi: addUmkm,
         updateDestinasi: updateUmkm,
