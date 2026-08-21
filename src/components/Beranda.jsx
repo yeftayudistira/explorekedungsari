@@ -1,9 +1,9 @@
-import React from 'react';
-import { Compass, Landmark, Sparkles, Image as ImageIcon, ArrowRight, Calendar, Users, Mountain, Home, Store, TreePine, ShoppingBag, Eye, User, MapPin } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { ArrowRight, Calendar, User, TreePine, MapPin } from 'lucide-react';
 import { useData } from '../context/DataContext';
 
 export default function Beranda({ setActiveTab }) {
-  const { newsList, dusunList, umkmList, galeriList } = useData();
+  const { newsList, umkmList, galeriList } = useData();
 
   // Top items for summary previews
   const featuredNews = (newsList || []).slice(0, 3);
@@ -67,7 +67,7 @@ export default function Beranda({ setActiveTab }) {
           background: 'linear-gradient(to top, rgba(5, 46, 22, 0.9) 0%, rgba(15, 23, 42, 0.5) 60%, rgba(0, 0, 0, 0.4) 100%)'
         }} />
 
-        <div style={{
+        <div className="fade-up-element" style={{
           position: 'relative',
           zIndex: 10,
           maxWidth: '1000px',
@@ -121,7 +121,7 @@ export default function Beranda({ setActiveTab }) {
           {/* CTA Buttons */}
           <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <button
-              onClick={() => setActiveTab('dusun')}
+              onClick={() => setActiveTab('dukuh')}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -190,7 +190,7 @@ export default function Beranda({ setActiveTab }) {
         </div>
       </section>
 
-      {/* 2. TENTANG DESA SECTION (2-COLUMN GRID MATCHING BALESARI) */}
+      {/* 2. TENTANG DESA SECTION (2-COLUMN GRID) */}
       <section className="section-padding" style={{ background: 'white' }}>
         <div className="container">
           <div style={{
@@ -200,7 +200,7 @@ export default function Beranda({ setActiveTab }) {
             alignItems: 'center'
           }}>
             {/* Left Image Card */}
-            <div style={{
+            <div className="fade-up-element" style={{
               borderRadius: '24px',
               overflow: 'hidden',
               boxShadow: 'var(--shadow-lg)',
@@ -215,7 +215,7 @@ export default function Beranda({ setActiveTab }) {
             </div>
 
             {/* Right Text Content */}
-            <div>
+            <div className="fade-up-element">
               <span style={{ color: 'var(--primary)', fontWeight: '700', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
                 Tentang Desa
               </span>
@@ -243,62 +243,13 @@ export default function Beranda({ setActiveTab }) {
         </div>
       </section>
 
-      {/* 3. STATISTIK DESA DALAM ANGKA (FULL-WIDTH GREEN BANNER) */}
-      <section style={{ background: 'var(--primary)', padding: '70px 0', color: 'white' }}>
-        <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-            <h2 style={{ fontSize: '2.4rem', color: 'white', fontWeight: '800' }}>Desa Kedungsari dalam Angka</h2>
-            <p style={{ color: 'rgba(255, 255, 255, 0.8)', fontSize: '1.05rem', marginTop: '6px' }}>Sekilas tentang potensi dan keunggulan Desa Kedungsari</p>
-          </div>
-
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-            gap: '30px',
-            textAlign: 'center'
-          }}>
-            <div style={{ background: 'rgba(255, 255, 255, 0.1)', padding: '28px 20px', borderRadius: '20px', backdropFilter: 'blur(6px)' }}>
-              <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: 'rgba(255, 255, 255, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
-                <Users size={28} color="white" />
-              </div>
-              <h3 style={{ fontSize: '2.4rem', color: 'white', fontWeight: '800' }}>2.460+</h3>
-              <p style={{ color: 'rgba(255, 255, 255, 0.8)', fontSize: '0.9rem', fontWeight: '600' }}>Penduduk (Jiwa)</p>
-            </div>
-
-            <div style={{ background: 'rgba(255, 255, 255, 0.1)', padding: '28px 20px', borderRadius: '20px', backdropFilter: 'blur(6px)' }}>
-              <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: 'rgba(255, 255, 255, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
-                <Mountain size={28} color="white" />
-              </div>
-              <h3 style={{ fontSize: '2.4rem', color: 'white', fontWeight: '800' }}>154</h3>
-              <p style={{ color: 'rgba(255, 255, 255, 0.8)', fontSize: '0.9rem', fontWeight: '600' }}>Hektar Luas Wilayah</p>
-            </div>
-
-            <div style={{ background: 'rgba(255, 255, 255, 0.1)', padding: '28px 20px', borderRadius: '20px', backdropFilter: 'blur(6px)' }}>
-              <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: 'rgba(255, 255, 255, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
-                <Home size={28} color="white" />
-              </div>
-              <h3 style={{ fontSize: '2.4rem', color: 'white', fontWeight: '800' }}>{dusunList?.length || 5}</h3>
-              <p style={{ color: 'rgba(255, 255, 255, 0.8)', fontSize: '0.9rem', fontWeight: '600' }}>Dusun Utama</p>
-            </div>
-
-            <div style={{ background: 'rgba(255, 255, 255, 0.1)', padding: '28px 20px', borderRadius: '20px', backdropFilter: 'blur(6px)' }}>
-              <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: 'rgba(255, 255, 255, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
-                <Store size={28} color="white" />
-              </div>
-              <h3 style={{ fontSize: '2.4rem', color: 'white', fontWeight: '800' }}>{umkmList?.length || 25}+</h3>
-              <p style={{ color: 'rgba(255, 255, 255, 0.8)', fontSize: '0.9rem', fontWeight: '600' }}>UMKM & Potensi Warga</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. POTENSI DESA SECTION (6 CARD GRID MATCHING BALESARI) */}
+      {/* 3. POTENSI UNGGULAN DESA (CENTERED HEADER WITH GREEN LINE) */}
       <section className="section-padding" style={{ background: '#f8fafc' }}>
         <div className="container">
-          <div style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto 48px' }}>
-            <h2 style={{ fontSize: '2.4rem', color: '#0f172a', fontWeight: '800' }}>Potensi Unggulan Desa</h2>
+          <div className="fade-up-element" style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto 48px' }}>
+            <h2 style={{ fontSize: '2.5rem', color: '#0f172a', fontWeight: '800' }}>Potensi Unggulan Desa</h2>
             <p style={{ color: '#64748b', fontSize: '1.05rem', marginTop: '8px' }}>Berbagai potensi lokal yang dimiliki Desa Kedungsari untuk kesejahteraan masyarakat</p>
-            <div style={{ width: '60px', height: '4px', background: 'var(--primary)', borderRadius: '99px', margin: '16px auto 0' }} />
+            <div style={{ width: '50px', height: '4px', background: 'var(--primary)', borderRadius: '99px', margin: '16px auto 0' }} />
           </div>
 
           <div style={{
@@ -309,6 +260,7 @@ export default function Beranda({ setActiveTab }) {
             {potensiItems.map((item, idx) => (
               <div
                 key={idx}
+                className="fade-up-element"
                 style={{
                   background: 'white',
                   padding: '32px 28px',
@@ -337,25 +289,81 @@ export default function Beranda({ setActiveTab }) {
         </div>
       </section>
 
-      {/* 5. RINGKASAN BERITA & PENGUMUMAN DESA */}
+      {/* 4. PRODUK UMKM SECTION (CENTERED HEADER MATCHING BALESARI SCREENSHOT 1) */}
       <section className="section-padding" style={{ background: 'white' }}>
         <div className="container">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '36px', flexWrap: 'wrap', gap: '16px' }}>
-            <div>
-              <span style={{ color: 'var(--primary)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '0.85rem' }}>Kabar Terbaru</span>
-              <h2 style={{ fontSize: '2.2rem', marginTop: '4px', color: '#0f172a' }}>Berita & Pengumuman Desa</h2>
-            </div>
-            <button
-              onClick={() => setActiveTab('berita')}
-              style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: 'var(--primary)', fontWeight: '700', fontSize: '0.95rem' }}
-            >
-              Lihat Semua Berita <ArrowRight size={18} />
-            </button>
+          <div className="fade-up-element" style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto 48px' }}>
+            <h2 style={{ fontSize: '2.5rem', color: '#0f172a', fontWeight: '800' }}>Produk UMKM</h2>
+            <p style={{ color: '#64748b', fontSize: '1.05rem', marginTop: '8px' }}>Dukung produk & usaha unggulan dari pelaku usaha Desa Kedungsari</p>
+            <div style={{ width: '50px', height: '4px', background: 'var(--primary)', borderRadius: '99px', margin: '16px auto 0' }} />
           </div>
 
-          <div className="news-grid">
+          <div className="news-grid" style={{ marginBottom: '40px' }}>
+            {featuredUmkm.map((item) => (
+              <div key={item.id} className="news-card fade-up-element">
+                <img src={item.img || '/images/no_image_placeholder.png'} alt={item.nama || item.title} className="news-img" />
+                <div className="news-body">
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                    <span className="news-badge">{item.category || item.cat || 'UMKM'}</span>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--accent)', fontWeight: '700' }}>{item.dusun || item.lokasi}</span>
+                  </div>
+                  <h3 className="news-title">{item.nama || item.title}</h3>
+                  {item.pemilik && (
+                    <p style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      <User size={14} color="var(--primary)" /> oleh {item.pemilik}
+                    </p>
+                  )}
+                  <p className="news-excerpt">{item.excerpt || item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Centered Pill Button at Bottom (Matching Balesari UI) */}
+          <div style={{ textAlign: 'center' }}>
+            <button
+              onClick={() => setActiveTab('umkm')}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                borderRadius: '99px',
+                background: '#f1f5f9',
+                color: 'var(--primary)',
+                border: '1px solid #cbd5e1',
+                padding: '12px 32px',
+                fontSize: '0.92rem',
+                fontWeight: '700',
+                transition: 'all 0.3s ease',
+                cursor: 'pointer'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'var(--primary)';
+                e.currentTarget.style.color = 'white';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = '#f1f5f9';
+                e.currentTarget.style.color = 'var(--primary)';
+              }}
+            >
+              Lihat Semua UMKM <ArrowRight size={16} />
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. BERITA & PENGUMUMAN SECTION (CENTERED HEADER MATCHING BALESARI) */}
+      <section className="section-padding" style={{ background: '#f8fafc' }}>
+        <div className="container">
+          <div className="fade-up-element" style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto 48px' }}>
+            <h2 style={{ fontSize: '2.5rem', color: '#0f172a', fontWeight: '800' }}>Berita & Pengumuman</h2>
+            <p style={{ color: '#64748b', fontSize: '1.05rem', marginTop: '8px' }}>Kabar terbaru dan pengumuman resmi dari Pemerintah Desa Kedungsari</p>
+            <div style={{ width: '50px', height: '4px', background: 'var(--primary)', borderRadius: '99px', margin: '16px auto 0' }} />
+          </div>
+
+          <div className="news-grid" style={{ marginBottom: '40px' }}>
             {featuredNews.map((news) => (
-              <div key={news.id} className="news-card">
+              <div key={news.id} className="news-card fade-up-element">
                 <img src={news.img || '/images/no_image_placeholder.png'} alt={news.title} className="news-img" />
                 <div className="news-body">
                   <span className="news-badge">{news.category}</span>
@@ -373,78 +381,60 @@ export default function Beranda({ setActiveTab }) {
               </div>
             ))}
           </div>
-        </div>
-      </section>
 
-      {/* 6. RINGKASAN UMKM DESA (PRODUK & USAHA UNGGULAN) */}
-      <section className="section-padding" style={{ background: '#f8fafc', borderTop: '1px solid #e2e8f0' }}>
-        <div className="container">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '36px', flexWrap: 'wrap', gap: '16px' }}>
-            <div>
-              <span style={{ color: 'var(--primary)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '0.85rem' }}>Potensi Ekonomi Warga</span>
-              <h2 style={{ fontSize: '2.2rem', marginTop: '4px', color: '#0f172a' }}>Produk & UMKM Unggulan Desa</h2>
-            </div>
+          {/* Centered Pill Button at Bottom */}
+          <div style={{ textAlign: 'center' }}>
             <button
-              onClick={() => setActiveTab('umkm')}
-              style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: 'var(--primary)', fontWeight: '700', fontSize: '0.95rem' }}
+              onClick={() => setActiveTab('berita')}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                borderRadius: '99px',
+                background: '#white',
+                color: 'var(--primary)',
+                border: '1px solid #cbd5e1',
+                padding: '12px 32px',
+                fontSize: '0.92rem',
+                fontWeight: '700',
+                transition: 'all 0.3s ease',
+                cursor: 'pointer'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'var(--primary)';
+                e.currentTarget.style.color = 'white';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'white';
+                e.currentTarget.style.color = 'var(--primary)';
+              }}
             >
-              Lihat Semua UMKM <ArrowRight size={18} />
+              Lihat Semua Berita <ArrowRight size={16} />
             </button>
-          </div>
-
-          <div className="news-grid">
-            {featuredUmkm.map((item) => (
-              <div key={item.id} className="news-card">
-                <img src={item.img || '/images/no_image_placeholder.png'} alt={item.nama || item.title} className="news-img" />
-                <div className="news-body">
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-                    <span className="news-badge">{item.category || item.cat || 'UMKM'}</span>
-                    <span style={{ fontSize: '0.8rem', color: 'var(--accent)', fontWeight: '700' }}>{item.dusun || item.lokasi}</span>
-                  </div>
-                  <h3 className="news-title">{item.nama || item.title}</h3>
-                  {item.pemilik && (
-                    <p style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                      <User size={14} color="var(--primary)" /> {item.pemilik}
-                    </p>
-                  )}
-                  <p className="news-excerpt">{item.excerpt || item.desc}</p>
-                  <div className="news-footer" style={{ marginTop: 'auto', paddingTop: '16px' }}>
-                    <button onClick={() => setActiveTab('umkm')} style={{ color: 'var(--primary)', fontWeight: '700', fontSize: '0.88rem' }}>
-                      Lihat Produk UMKM →
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       </section>
 
-      {/* 7. RINGKASAN GALERI FOTO DESA (DOKUMENTASI VISUAL) */}
-      <section className="section-padding" style={{ background: 'white', borderTop: '1px solid #e2e8f0' }}>
+      {/* 6. GALERI FOTO DESA (CENTERED HEADER MATCHING BALESARI) */}
+      <section className="section-padding" style={{ background: 'white' }}>
         <div className="container">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '36px', flexWrap: 'wrap', gap: '16px' }}>
-            <div>
-              <span style={{ color: 'var(--primary)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '0.85rem' }}>Dokumentasi Visual</span>
-              <h2 style={{ fontSize: '2.2rem', marginTop: '4px', color: '#0f172a' }}>Galeri Keindahan & Aktivitas Desa</h2>
-            </div>
-            <button
-              onClick={() => setActiveTab('galeri')}
-              style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: 'var(--primary)', fontWeight: '700', fontSize: '0.95rem' }}
-            >
-              Lihat Semua Galeri Foto <ArrowRight size={18} />
-            </button>
+          <div className="fade-up-element" style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto 48px' }}>
+            <h2 style={{ fontSize: '2.5rem', color: '#0f172a', fontWeight: '800' }}>Galeri Foto Desa</h2>
+            <p style={{ color: '#64748b', fontSize: '1.05rem', marginTop: '8px' }}>Dokumentasi visual pesona alam, kebudayaan, dan kegiatan masyarakat Desa Kedungsari</p>
+            <div style={{ width: '50px', height: '4px', background: 'var(--primary)', borderRadius: '99px', margin: '16px auto 0' }} />
           </div>
 
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-            gap: '24px'
+            gap: '24px',
+            marginBottom: '40px'
           }}>
             {featuredGaleri.map((photo) => (
               <div
                 key={photo.id}
                 onClick={() => setActiveTab('galeri')}
+                className="fade-up-element"
                 style={{
                   borderRadius: '16px',
                   overflow: 'hidden',
@@ -488,10 +478,73 @@ export default function Beranda({ setActiveTab }) {
               </div>
             ))}
           </div>
+
+          {/* Centered Pill Button at Bottom */}
+          <div style={{ textAlign: 'center' }}>
+            <button
+              onClick={() => setActiveTab('galeri')}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                borderRadius: '99px',
+                background: '#f1f5f9',
+                color: 'var(--primary)',
+                border: '1px solid #cbd5e1',
+                padding: '12px 32px',
+                fontSize: '0.92rem',
+                fontWeight: '700',
+                transition: 'all 0.3s ease',
+                cursor: 'pointer'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'var(--primary)';
+                e.currentTarget.style.color = 'white';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = '#f1f5f9';
+                e.currentTarget.style.color = 'var(--primary)';
+              }}
+            >
+              Lihat Semua Galeri <ArrowRight size={16} />
+            </button>
+          </div>
         </div>
       </section>
 
-      {/* 8. CALL TO ACTION BANNER (CTA MATCHING BALESARI) */}
+      {/* 7. PETA DESA SECTION (GOOGLE MAPS EMBED MATCHING BALESARI SCREENSHOT 2) */}
+      <section className="section-padding" style={{ background: '#f8fafc' }}>
+        <div className="container">
+          <div className="fade-up-element" style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto 40px' }}>
+            <h2 style={{ fontSize: '2.5rem', color: '#0f172a', fontWeight: '800' }}>Peta Desa</h2>
+            <p style={{ color: '#64748b', fontSize: '1.05rem', marginTop: '8px' }}>
+              Lokasi Desa Kedungsari di Kecamatan Bandongan, Kabupaten Magelang
+            </p>
+            <div style={{ width: '50px', height: '4px', background: 'var(--primary)', borderRadius: '99px', margin: '16px auto 0' }} />
+          </div>
+
+          <div className="fade-up-element" style={{
+            borderRadius: '24px',
+            overflow: 'hidden',
+            boxShadow: 'var(--shadow-lg)',
+            border: '1px solid #e2e8f0',
+            background: 'white'
+          }}>
+            <iframe
+              title="Peta Lokasi Desa Kedungsari Bandongan Magelang"
+              src="https://maps.google.com/maps?q=Kedungsari,%20Bandongan,%20Magelang&t=&z=14&ie=UTF8&iwloc=&output=embed"
+              width="100%"
+              height="480"
+              style={{ border: 0, display: 'block' }}
+              allowFullScreen=""
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+        </div>
+      </section>
+
+      {/* 8. CALL TO ACTION BANNER (CTA) */}
       <section style={{
         background: 'linear-gradient(135deg, #052e16 0%, #064e3b 50%, #047857 100%)',
         padding: '80px 24px',
@@ -500,7 +553,7 @@ export default function Beranda({ setActiveTab }) {
         position: 'relative',
         overflow: 'hidden'
       }}>
-        <div style={{ position: 'relative', zIndex: 10, maxWidth: '800px', margin: '0 auto' }}>
+        <div className="fade-up-element" style={{ position: 'relative', zIndex: 10, maxWidth: '800px', margin: '0 auto' }}>
           <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: '800', marginBottom: '16px', color: 'white' }}>
             Siap Menjelajahi Desa Kedungsari?
           </h2>
@@ -510,7 +563,7 @@ export default function Beranda({ setActiveTab }) {
 
           <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <button
-              onClick={() => setActiveTab('dusun')}
+              onClick={() => setActiveTab('dukuh')}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
