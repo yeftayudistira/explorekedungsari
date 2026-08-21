@@ -93,13 +93,14 @@ export default function Galeri() {
         badge="Galeri Foto Resmi"
       />
 
-      <section className="section-padding">
-        <div className="container">
+      <section className="section-padding" style={{ background: '#f8fafc' }}>
+        {/* Wider Container for Maximum Viewport Usage */}
+        <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '0 32px' }}>
           {/* Header & Admin Add Button */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px', flexWrap: 'wrap', gap: '20px' }}>
+          <div className="fade-up-element" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px', flexWrap: 'wrap', gap: '20px' }}>
             <div>
               <span style={{ color: 'var(--primary)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '0.85rem' }}>Pesona Kedungsari</span>
-              <h2 style={{ fontSize: '2.2rem', marginTop: '4px' }}>Koleksi Foto & Keindahan Desa</h2>
+              <h2 style={{ fontSize: '2.4rem', marginTop: '4px', color: '#0f172a' }}>Koleksi Foto & Keindahan Desa</h2>
             </div>
 
             {isAdminLoggedIn && (
@@ -114,7 +115,8 @@ export default function Galeri() {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '8px',
-                  boxShadow: '0 4px 12px rgba(13, 92, 58, 0.3)'
+                  boxShadow: '0 4px 12px rgba(13, 92, 58, 0.3)',
+                  cursor: 'pointer'
                 }}
               >
                 <Plus size={18} /> Tambah Foto Galeri
@@ -123,20 +125,22 @@ export default function Galeri() {
           </div>
 
           {/* Filter Bar */}
-          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '36px' }}>
+          <div className="fade-up-element" style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '36px' }}>
             {filters.map((f) => (
               <button
                 key={f}
                 onClick={() => setActiveFilter(f)}
                 style={{
-                  padding: '8px 18px',
+                  padding: '8px 20px',
                   borderRadius: '99px',
                   fontSize: '0.9rem',
                   fontWeight: '600',
                   background: activeFilter === f ? 'var(--primary)' : 'white',
                   color: activeFilter === f ? 'white' : '#475569',
                   border: activeFilter === f ? 'none' : '1px solid #cbd5e1',
-                  transition: 'var(--transition)'
+                  transition: 'all 0.25s ease',
+                  cursor: 'pointer',
+                  boxShadow: activeFilter === f ? '0 4px 12px rgba(13, 92, 58, 0.2)' : 'none'
                 }}
               >
                 {f}
@@ -144,73 +148,95 @@ export default function Galeri() {
             ))}
           </div>
 
-          {/* Gallery Masonry / Grid */}
-          <div className="galeri-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '24px' }}>
+          {/* Gallery Clean Cards Grid (No Dark Overlays) */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '28px' }}>
             {filteredPhotos.map((item) => (
               <div
                 key={item.id}
-                className="galeri-card"
+                className="fade-up-element"
                 onClick={() => setActiveImage(item)}
                 style={{
-                  position: 'relative',
-                  borderRadius: '16px',
+                  background: 'white',
+                  borderRadius: '20px',
                   overflow: 'hidden',
+                  border: '1px solid #e2e8f0',
+                  boxShadow: 'var(--shadow-sm)',
                   cursor: 'pointer',
-                  boxShadow: 'var(--shadow-md)',
-                  background: '#0f172a',
-                  height: '280px'
+                  transition: 'all 0.3s ease',
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-6px)';
+                  e.currentTarget.style.boxShadow = 'var(--shadow-lg)';
+                  e.currentTarget.style.borderColor = 'var(--primary)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = 'var(--shadow-sm)';
+                  e.currentTarget.style.borderColor = '#e2e8f0';
                 }}
               >
-                <img
-                  src={item.img || '/images/no_image_placeholder.png'}
-                  alt={item.title}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    transition: 'transform 0.4s ease'
-                  }}
-                />
-                <div
-                  className="galeri-overlay"
-                  style={{
-                    position: 'absolute',
-                    inset: 0,
-                    background: 'linear-gradient(to top, rgba(15, 23, 42, 0.9) 0%, rgba(15, 23, 42, 0.2) 60%, transparent 100%)',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justify: 'flex-end',
-                    padding: '24px',
-                    color: 'white'
-                  }}
-                >
-                  <span style={{ fontSize: '0.78rem', textTransform: 'uppercase', color: 'var(--accent)', fontWeight: '700', marginBottom: '4px' }}>
-                    {item.cat}
-                  </span>
-                  <h3 style={{ fontSize: '1.15rem', fontWeight: '700', color: 'white', lineHeight: '1.4' }}>{item.title}</h3>
+                {/* Crisp Clean Image Container */}
+                <div style={{ position: 'relative', height: '240px', overflow: 'hidden', background: '#f1f5f9' }}>
+                  <img
+                    src={item.img || '/images/no_image_placeholder.png'}
+                    alt={item.title}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      transition: 'transform 0.4s ease'
+                    }}
+                  />
+
+                  {isAdminLoggedIn && (
+                    <div
+                      onClick={(e) => e.stopPropagation()}
+                      style={{ position: 'absolute', top: '12px', right: '12px', display: 'flex', gap: '8px', zIndex: 10 }}
+                    >
+                      <button
+                        onClick={(e) => handleOpenEdit(item, e)}
+                        title="Edit Foto"
+                        style={{ background: 'white', color: 'var(--primary)', padding: '8px', borderRadius: '50%', boxShadow: '0 4px 10px rgba(0,0,0,0.15)', cursor: 'pointer' }}
+                      >
+                        <Edit2 size={16} />
+                      </button>
+                      <button
+                        onClick={(e) => handleDeleteClick(item, e)}
+                        title="Hapus Foto"
+                        style={{ background: 'white', color: '#ef4444', padding: '8px', borderRadius: '50%', boxShadow: '0 4px 10px rgba(0,0,0,0.15)', cursor: 'pointer' }}
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
+                  )}
                 </div>
 
-                {isAdminLoggedIn && (
-                  <div
-                    onClick={(e) => e.stopPropagation()}
-                    style={{ position: 'absolute', top: '12px', right: '12px', display: 'flex', gap: '8px', zIndex: 10 }}
-                  >
-                    <button
-                      onClick={(e) => handleOpenEdit(item, e)}
-                      title="Edit Foto"
-                      style={{ background: 'white', color: 'var(--primary)', padding: '8px', borderRadius: '50%', boxShadow: 'var(--shadow-md)' }}
-                    >
-                      <Edit2 size={16} />
-                    </button>
-                    <button
-                      onClick={(e) => handleDeleteClick(item, e)}
-                      title="Hapus Foto"
-                      style={{ background: 'white', color: '#ef4444', padding: '8px', borderRadius: '50%', boxShadow: 'var(--shadow-md)' }}
-                    >
-                      <Trash2 size={16} />
-                    </button>
-                  </div>
-                )}
+                {/* Clean Card Info Below Image */}
+                <div style={{ padding: '20px 22px', display: 'flex', flexDirection: 'column', gap: '8px', flexGrow: 1 }}>
+                  <span style={{
+                    alignSelf: 'flex-start',
+                    fontSize: '0.78rem',
+                    fontWeight: '700',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em',
+                    color: 'var(--primary)',
+                    background: 'var(--primary-light)',
+                    padding: '4px 12px',
+                    borderRadius: '99px'
+                  }}>
+                    {item.cat}
+                  </span>
+                  <h3 style={{ fontSize: '1.15rem', fontWeight: '700', color: '#0f172a', margin: 0, lineHeight: '1.4' }}>
+                    {item.title}
+                  </h3>
+                  {item.desc && (
+                    <p style={{ fontSize: '0.88rem', color: '#64748b', margin: 0, lineHeight: '1.5', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                      {item.desc}
+                    </p>
+                  )}
+                </div>
               </div>
             ))}
           </div>
@@ -344,6 +370,7 @@ export default function Galeri() {
           </div>
         </div>
       )}
+
       {/* Custom Confirm Delete Modal */}
       <ConfirmDeleteModal
         isOpen={!!deleteTarget}
