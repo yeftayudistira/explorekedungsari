@@ -13,6 +13,8 @@ import KontakLayanan from './components/KontakLayanan';
 import Footer from './components/Footer';
 
 function getInitialTab() {
+  const pathname = window.location.pathname.replace(/^\/+/, '');
+  if (pathname) return pathname;
   const hash = window.location.hash.replace('#', '');
   if (hash) return hash;
   const savedTab = localStorage.getItem('kedungsari_active_tab');
@@ -24,24 +26,23 @@ function MainApp() {
   const [activeTab, setActiveTab] = useState(getInitialTab);
   const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
 
-  // Sync activeTab with URL Hash & LocalStorage so refreshing preserves the page
+  // Sync activeTab with Clean HTML5 URL Path & LocalStorage (No '#' Hash)
   useEffect(() => {
     localStorage.setItem('kedungsari_active_tab', activeTab);
-    if (window.location.hash.replace('#', '') !== activeTab) {
-      window.history.replaceState(null, '', `#${activeTab}`);
+    const targetPath = activeTab === 'beranda' ? '/' : `/${activeTab}`;
+    if (window.location.pathname !== targetPath) {
+      window.history.pushState(null, '', targetPath);
     }
   }, [activeTab]);
 
-  // Listen to browser hash changes (Back/Forward navigation)
+  // Listen to browser Back / Forward buttons (popstate)
   useEffect(() => {
-    const handleHashChange = () => {
-      const hash = window.location.hash.replace('#', '');
-      if (hash) {
-        setActiveTab(hash);
-      }
+    const handlePopState = () => {
+      const pathname = window.location.pathname.replace(/^\/+/, '');
+      setActiveTab(pathname || 'beranda');
     };
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
   const renderContent = () => {
@@ -55,6 +56,7 @@ function MainApp() {
       case 'galeri':
         return <Galeri />;
       case 'dukuh':
+      case 'dusun':
         return <DukuhWilayah />;
       case 'umkm':
       case 'destinasi':

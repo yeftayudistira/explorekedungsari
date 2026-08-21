@@ -40,7 +40,7 @@ export default function Header({ activeTab, setActiveTab }) {
       <div className="container">
         <div className="header-inner">
           {/* Logo & Brand Name */}
-          <a href="#beranda" className="brand-logo" onClick={(e) => { e.preventDefault(); handleNavClick('beranda'); }}>
+          <a href="/" className="brand-logo" onClick={(e) => { e.preventDefault(); handleNavClick('beranda'); }}>
             <img src="/images/logo.png" alt="Logo Desa Kedungsari" className="brand-logo-img" />
             <div className="logo-text-group">
               <span className="brand-name">Kedungsari</span>
