@@ -6,12 +6,21 @@ import { uploadImage } from '../lib/supabase';
 import ConfirmDeleteModal from './ConfirmDeleteModal';
 
 export default function UmkmDesa() {
-  const { umkmList, addUmkm, updateUmkm, deleteUmkm, isAdminLoggedIn } = useData();
+  const { umkmList, dusunList, addUmkm, updateUmkm, deleteUmkm, isAdminLoggedIn } = useData();
 
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState('Semua');
   const [selectedUmkm, setSelectedUmkm] = useState(null);
   const [deleteTarget, setDeleteTarget] = useState(null);
+
+  // Dynamic dusun options from Database dusunList
+  const dusunOptions = (dusunList && dusunList.length > 0)
+    ? dusunList.map((d) => {
+        const name = (d.nama || '').trim();
+        if (!name) return 'Dusun General';
+        return name.toLowerCase().startsWith('dusun') ? name : `Dusun ${name}`;
+      })
+    : ['Dusun Paingan', 'Dusun Karangrejo', 'Dusun Wonosaran', 'Dusun Kedungan & Pranan', 'Dusun Kwangsan'];
 
   // Form modal state for Create/Edit
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -21,7 +30,7 @@ export default function UmkmDesa() {
     nama: '',
     category: 'Peternakan',
     pemilik: '',
-    dusun: 'Dusun Wonosaran',
+    dusun: dusunOptions[0] || 'Dusun Wonosaran',
     hargaInfo: '',
     kontakWa: '',
     img: '',
@@ -30,7 +39,6 @@ export default function UmkmDesa() {
   });
 
   const categories = ['Semua', 'Peternakan', 'Pertanian', 'Kuliner Tradisional', 'Kerajinan Tangan', 'Perdagangan & Jasa'];
-  const dusunOptions = ['Dusun Paingan', 'Dusun Karangrejo', 'Dusun Wonosaran', 'Dusun Kedungan & Pranan', 'Dusun Kwangsan'];
 
   const filteredUmkm = (umkmList || []).filter((item) => {
     if (!item) return false;
@@ -49,7 +57,7 @@ export default function UmkmDesa() {
       nama: '',
       category: 'Peternakan',
       pemilik: '',
-      dusun: 'Dusun Wonosaran',
+      dusun: dusunOptions[0] || 'Dusun Wonosaran',
       hargaInfo: '',
       kontakWa: '',
       img: '',
