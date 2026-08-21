@@ -1,12 +1,14 @@
 import React from 'react';
-import { Compass, Landmark, Sparkles, Image as ImageIcon, ArrowRight, Calendar, Users, Mountain, Home, Store, TreePine } from 'lucide-react';
+import { Compass, Landmark, Sparkles, Image as ImageIcon, ArrowRight, Calendar, Users, Mountain, Home, Store, TreePine, ShoppingBag, Eye, User, MapPin } from 'lucide-react';
 import { useData } from '../context/DataContext';
 
 export default function Beranda({ setActiveTab }) {
-  const { newsList, dusunList, umkmList } = useData();
+  const { newsList, dusunList, umkmList, galeriList } = useData();
 
-  // Show top 3 news
+  // Top items for summary previews
   const featuredNews = (newsList || []).slice(0, 3);
+  const featuredUmkm = (umkmList || []).slice(0, 3);
+  const featuredGaleri = (galeriList || []).slice(0, 4);
 
   const potensiItems = [
     {
@@ -335,13 +337,13 @@ export default function Beranda({ setActiveTab }) {
         </div>
       </section>
 
-      {/* 5. KABAR TERBARU / BERITA DESA */}
+      {/* 5. RINGKASAN BERITA & PENGUMUMAN DESA */}
       <section className="section-padding" style={{ background: 'white' }}>
         <div className="container">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '36px', flexWrap: 'wrap', gap: '16px' }}>
             <div>
               <span style={{ color: 'var(--primary)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '0.85rem' }}>Kabar Terbaru</span>
-              <h2 style={{ fontSize: '2.2rem', marginTop: '4px' }}>Berita & Pengumuman Desa</h2>
+              <h2 style={{ fontSize: '2.2rem', marginTop: '4px', color: '#0f172a' }}>Berita & Pengumuman Desa</h2>
             </div>
             <button
               onClick={() => setActiveTab('berita')}
@@ -374,7 +376,122 @@ export default function Beranda({ setActiveTab }) {
         </div>
       </section>
 
-      {/* 6. CALL TO ACTION BANNER (CTA MATCHING BALESARI) */}
+      {/* 6. RINGKASAN UMKM DESA (PRODUK & USAHA UNGGULAN) */}
+      <section className="section-padding" style={{ background: '#f8fafc', borderTop: '1px solid #e2e8f0' }}>
+        <div className="container">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '36px', flexWrap: 'wrap', gap: '16px' }}>
+            <div>
+              <span style={{ color: 'var(--primary)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '0.85rem' }}>Potensi Ekonomi Warga</span>
+              <h2 style={{ fontSize: '2.2rem', marginTop: '4px', color: '#0f172a' }}>Produk & UMKM Unggulan Desa</h2>
+            </div>
+            <button
+              onClick={() => setActiveTab('umkm')}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: 'var(--primary)', fontWeight: '700', fontSize: '0.95rem' }}
+            >
+              Lihat Semua UMKM <ArrowRight size={18} />
+            </button>
+          </div>
+
+          <div className="news-grid">
+            {featuredUmkm.map((item) => (
+              <div key={item.id} className="news-card">
+                <img src={item.img || '/images/no_image_placeholder.png'} alt={item.nama || item.title} className="news-img" />
+                <div className="news-body">
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                    <span className="news-badge">{item.category || item.cat || 'UMKM'}</span>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--accent)', fontWeight: '700' }}>{item.dusun || item.lokasi}</span>
+                  </div>
+                  <h3 className="news-title">{item.nama || item.title}</h3>
+                  {item.pemilik && (
+                    <p style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      <User size={14} color="var(--primary)" /> {item.pemilik}
+                    </p>
+                  )}
+                  <p className="news-excerpt">{item.excerpt || item.desc}</p>
+                  <div className="news-footer" style={{ marginTop: 'auto', paddingTop: '16px' }}>
+                    <button onClick={() => setActiveTab('umkm')} style={{ color: 'var(--primary)', fontWeight: '700', fontSize: '0.88rem' }}>
+                      Lihat Produk UMKM →
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 7. RINGKASAN GALERI FOTO DESA (DOKUMENTASI VISUAL) */}
+      <section className="section-padding" style={{ background: 'white', borderTop: '1px solid #e2e8f0' }}>
+        <div className="container">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '36px', flexWrap: 'wrap', gap: '16px' }}>
+            <div>
+              <span style={{ color: 'var(--primary)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '0.85rem' }}>Dokumentasi Visual</span>
+              <h2 style={{ fontSize: '2.2rem', marginTop: '4px', color: '#0f172a' }}>Galeri Keindahan & Aktivitas Desa</h2>
+            </div>
+            <button
+              onClick={() => setActiveTab('galeri')}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: 'var(--primary)', fontWeight: '700', fontSize: '0.95rem' }}
+            >
+              Lihat Semua Galeri Foto <ArrowRight size={18} />
+            </button>
+          </div>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+            gap: '24px'
+          }}>
+            {featuredGaleri.map((photo) => (
+              <div
+                key={photo.id}
+                onClick={() => setActiveTab('galeri')}
+                style={{
+                  borderRadius: '16px',
+                  overflow: 'hidden',
+                  position: 'relative',
+                  height: '240px',
+                  cursor: 'pointer',
+                  boxShadow: 'var(--shadow-sm)',
+                  transition: 'all 0.3s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-4px)';
+                  e.currentTarget.style.boxShadow = 'var(--shadow-lg)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = 'var(--shadow-sm)';
+                }}
+              >
+                <img
+                  src={photo.img || '/images/no_image_placeholder.png'}
+                  alt={photo.title}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'linear-gradient(to top, rgba(15, 23, 42, 0.9) 0%, rgba(15, 23, 42, 0.2) 60%, transparent 100%)',
+                  padding: '20px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'flex-end',
+                  color: 'white'
+                }}>
+                  <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: 'var(--accent)', fontWeight: '700', marginBottom: '4px' }}>
+                    {photo.cat}
+                  </span>
+                  <h3 style={{ fontSize: '1.05rem', fontWeight: '700', color: 'white', lineHeight: '1.4', margin: 0 }}>
+                    {photo.title}
+                  </h3>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 8. CALL TO ACTION BANNER (CTA MATCHING BALESARI) */}
       <section style={{
         background: 'linear-gradient(135deg, #052e16 0%, #064e3b 50%, #047857 100%)',
         padding: '80px 24px',
