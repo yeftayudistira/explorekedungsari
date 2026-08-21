@@ -43,17 +43,20 @@ export default function Beranda({ setActiveTab }) {
 
   return (
     <main className="beranda-page">
-      {/* 1. HERO SECTION (FULLSCREEN MATCHING BALESARI) */}
+      {/* 1. HERO SECTION (100% FULLSCREEN MATCHING BALESARI) */}
       <section style={{
         position: 'relative',
-        minHeight: '92vh',
+        minHeight: '100vh',
+        width: '100%',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        paddingTop: '60px',
         overflow: 'hidden',
         backgroundImage: "url('/images/galeri_jalan_tani_sumbing.jpg')",
         backgroundSize: 'cover',
-        backgroundPosition: 'center'
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed'
       }}>
         {/* Dark Gradient Overlay */}
         <div style={{
