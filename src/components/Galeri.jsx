@@ -96,36 +96,37 @@ export default function Galeri() {
       <section className="section-padding" style={{ background: '#f8fafc' }}>
         {/* Wider Container for Maximum Viewport Usage */}
         <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '0 32px' }}>
-          {/* Header & Admin Add Button */}
-          <div className="fade-up-element" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px', flexWrap: 'wrap', gap: '20px' }}>
-            <div>
-              <span style={{ color: 'var(--primary)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '0.85rem' }}>Pesona Kedungsari</span>
-              <h2 style={{ fontSize: '2.4rem', marginTop: '4px', color: '#0f172a' }}>Koleksi Foto & Keindahan Desa</h2>
-            </div>
+          {/* Header & Admin Add Button (Centered Alignment) */}
+          <div className="fade-up-element" style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto 36px' }}>
+            <span style={{ color: 'var(--primary)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '0.85rem' }}>Pesona Kedungsari</span>
+            <h2 style={{ fontSize: '2.5rem', marginTop: '6px', color: '#0f172a', fontWeight: '800' }}>Koleksi Foto & Keindahan Desa</h2>
+            <div style={{ width: '50px', height: '4px', background: 'var(--primary)', borderRadius: '99px', margin: '16px auto 0' }} />
 
             {isAdminLoggedIn && (
-              <button
-                onClick={handleOpenCreate}
-                style={{
-                  background: 'var(--primary)',
-                  color: 'white',
-                  padding: '12px 24px',
-                  borderRadius: '99px',
-                  fontWeight: '700',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  boxShadow: '0 4px 12px rgba(13, 92, 58, 0.3)',
-                  cursor: 'pointer'
-                }}
-              >
-                <Plus size={18} /> Tambah Foto Galeri
-              </button>
+              <div style={{ marginTop: '20px' }}>
+                <button
+                  onClick={handleOpenCreate}
+                  style={{
+                    background: 'var(--primary)',
+                    color: 'white',
+                    padding: '12px 28px',
+                    borderRadius: '99px',
+                    fontWeight: '700',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    boxShadow: '0 4px 12px rgba(13, 92, 58, 0.3)',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <Plus size={18} /> Tambah Foto Galeri Baru
+                </button>
+              </div>
             )}
           </div>
 
-          {/* Filter Bar */}
-          <div className="fade-up-element" style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '36px' }}>
+          {/* Filter Bar (Centered Alignment) */}
+          <div className="fade-up-element" style={{ display: 'flex', justifyContent: 'center', gap: '10px', flexWrap: 'wrap', marginBottom: '40px' }}>
             {filters.map((f) => (
               <button
                 key={f}
@@ -213,26 +214,25 @@ export default function Galeri() {
                   )}
                 </div>
 
-                {/* Clean Card Info Below Image */}
-                <div style={{ padding: '20px 22px', display: 'flex', flexDirection: 'column', gap: '8px', flexGrow: 1 }}>
+                {/* Clean Card Info Below Image (Centered Alignment) */}
+                <div style={{ padding: '20px 22px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '8px', flexGrow: 1 }}>
                   <span style={{
-                    alignSelf: 'flex-start',
                     fontSize: '0.78rem',
                     fontWeight: '700',
                     textTransform: 'uppercase',
                     letterSpacing: '0.05em',
                     color: 'var(--primary)',
                     background: 'var(--primary-light)',
-                    padding: '4px 12px',
+                    padding: '4px 14px',
                     borderRadius: '99px'
                   }}>
                     {item.cat}
                   </span>
-                  <h3 style={{ fontSize: '1.15rem', fontWeight: '700', color: '#0f172a', margin: 0, lineHeight: '1.4' }}>
+                  <h3 style={{ fontSize: '1.15rem', fontWeight: '700', color: '#0f172a', margin: 0, lineHeight: '1.4', textAlign: 'center' }}>
                     {item.title}
                   </h3>
                   {item.desc && (
-                    <p style={{ fontSize: '0.88rem', color: '#64748b', margin: 0, lineHeight: '1.5', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                    <p style={{ fontSize: '0.88rem', color: '#64748b', margin: 0, lineHeight: '1.5', textAlign: 'center', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                       {item.desc}
                     </p>
                   )}
@@ -240,6 +240,7 @@ export default function Galeri() {
               </div>
             ))}
           </div>
+
 
           {filteredPhotos.length === 0 && (
             <div style={{ textAlign: 'center', padding: '60px 0', color: '#94a3b8' }}>
