@@ -270,14 +270,6 @@ export default function DukuhWilayah() {
                   <span style={{ fontSize: '0.8rem', color: '#64748b' }}>Format: JPG, PNG, WEBP</span>
                 </div>
 
-                <input
-                  type="text"
-                  placeholder="Atau masukkan URL Foto (https://...)"
-                  value={form.img}
-                  onChange={(e) => setForm({ ...form, img: e.target.value })}
-                  style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '0.85rem' }}
-                />
-
                 {form.img && (
                   <div style={{ marginTop: '12px', display: 'flex', alignItems: 'center', gap: '12px' }}>
                     <img src={form.img} alt="Preview Dusun" style={{ width: '80px', height: '50px', objectFit: 'cover', borderRadius: '6px', border: '1px solid #e2e8f0' }} />

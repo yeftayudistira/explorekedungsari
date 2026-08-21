@@ -303,17 +303,6 @@ export default function Galeri() {
                   <span style={{ fontSize: '0.8rem', color: '#64748b' }}>Format: JPG, PNG, WEBP</span>
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                  <span style={{ fontSize: '0.78rem', fontWeight: '600', color: '#475569' }}>Atau masukkan URL Foto / Path Gambar:</span>
-                  <input
-                    type="text"
-                    placeholder="URL Foto (https://...) atau path gambar (/images/...)"
-                    value={form.img}
-                    onChange={(e) => setForm({ ...form, img: e.target.value })}
-                    style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '0.85rem' }}
-                  />
-                </div>
-
                 {form.img && (
                   <div style={{ marginTop: '12px', display: 'flex', alignItems: 'center', gap: '12px' }}>
                     <img src={form.img} alt="Preview Foto" style={{ width: '80px', height: '50px', objectFit: 'cover', borderRadius: '6px', border: '1px solid #e2e8f0' }} />
