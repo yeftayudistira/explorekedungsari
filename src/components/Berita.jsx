@@ -22,7 +22,7 @@ export default function Berita() {
     category: 'Pengumuman',
     author: 'Admin Desa',
     date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }),
-    img: '/images/galeri_kkn_balai_desa.jpg',
+    img: '',
     excerpt: '',
     content: ''
   });
@@ -45,7 +45,7 @@ export default function Berita() {
       category: 'Pengumuman',
       author: 'Admin Desa',
       date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }),
-      img: '/images/galeri_kkn_balai_desa.jpg',
+      img: '',
       excerpt: '',
       content: ''
     });
@@ -60,7 +60,7 @@ export default function Berita() {
       category: newsItem.category,
       author: newsItem.author || 'Admin Desa',
       date: newsItem.date,
-      img: newsItem.img || '/images/galeri_kkn_balai_desa.jpg',
+      img: newsItem.img || '',
       excerpt: newsItem.excerpt,
       content: newsItem.content
     });

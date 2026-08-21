@@ -24,7 +24,7 @@ export default function UmkmDesa() {
     dusun: 'Dusun Wonosaran',
     hargaInfo: '',
     kontakWa: '',
-    img: '/images/galeri_persawahan_sunset.jpg',
+    img: '',
     excerpt: '',
     content: ''
   });
@@ -52,7 +52,7 @@ export default function UmkmDesa() {
       dusun: 'Dusun Wonosaran',
       hargaInfo: '',
       kontakWa: '',
-      img: '/images/galeri_persawahan_sunset.jpg',
+      img: '',
       excerpt: '',
       content: ''
     });
@@ -69,7 +69,7 @@ export default function UmkmDesa() {
       dusun: item.dusun || item.lokasi || 'Dusun Wonosaran',
       hargaInfo: item.hargaInfo || '',
       kontakWa: item.kontakWa || '',
-      img: item.img || '/images/galeri_persawahan_sunset.jpg',
+      img: item.img || '',
       excerpt: item.excerpt || item.desc || '',
       content: item.content || item.desc || ''
     });

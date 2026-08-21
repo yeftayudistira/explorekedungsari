@@ -19,7 +19,7 @@ export default function Galeri() {
   const [form, setForm] = useState({
     title: '',
     cat: 'Pertanian & Alam',
-    img: '/images/galeri_jalan_tani_sumbing.jpg',
+    img: '',
     desc: ''
   });
 
@@ -34,7 +34,7 @@ export default function Galeri() {
     setForm({
       title: '',
       cat: 'Pertanian & Alam',
-      img: '/images/galeri_jalan_tani_sumbing.jpg',
+      img: '',
       desc: ''
     });
     setIsFormOpen(true);
@@ -46,7 +46,7 @@ export default function Galeri() {
     setForm({
       title: item.title,
       cat: item.cat || 'Pertanian & Alam',
-      img: item.img || '/images/galeri_jalan_tani_sumbing.jpg',
+      img: item.img || '',
       desc: item.desc || ''
     });
     setIsFormOpen(true);
