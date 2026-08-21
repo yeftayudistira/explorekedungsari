@@ -455,29 +455,15 @@ export default function Beranda({ setActiveTab }) {
               >
                 <img
                   src={photo.img || '/images/no_image_placeholder.png'}
-                  alt={photo.title}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  alt={photo.title || 'Foto Galeri Desa Kedungsari'}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.4s ease' }}
+                  onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+                  onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
                 />
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  background: 'linear-gradient(to top, rgba(15, 23, 42, 0.9) 0%, rgba(15, 23, 42, 0.2) 60%, transparent 100%)',
-                  padding: '20px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'flex-end',
-                  color: 'white'
-                }}>
-                  <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: 'var(--accent)', fontWeight: '700', marginBottom: '4px' }}>
-                    {photo.cat}
-                  </span>
-                  <h3 style={{ fontSize: '1.05rem', fontWeight: '700', color: 'white', lineHeight: '1.4', margin: 0 }}>
-                    {photo.title}
-                  </h3>
-                </div>
               </div>
             ))}
           </div>
+
 
           {/* Centered Pill Button at Bottom */}
           <div style={{ textAlign: 'center' }}>
