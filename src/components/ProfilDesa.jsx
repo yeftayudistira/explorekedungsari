@@ -58,11 +58,9 @@ export default function ProfilDesa() {
       <section className="landmark-section">
         <div className="container">
           <div className="landmark-grid">
-            {/* Split Images di sebelah kiri */}
-            <div className="landmark-images">
-              <div className="landmark-img-card" style={{ height: '100%', minHeight: '360px' }}>
-                <img src="/images/img2.jpg" alt="Asal Usul & Geografi Desa Kedungsari" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              </div>
+            {/* Single Image di sebelah kiri */}
+            <div className="history-image-card">
+              <img src="/images/img2.jpg" alt="Asal Usul & Geografi Desa Kedungsari" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
 
             {/* Teks Penjelasan Asal Usul & Geografi */}

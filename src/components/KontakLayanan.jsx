@@ -113,15 +113,16 @@ export default function KontakLayanan() {
               </div>
             </div>
 
-            <div style={{ borderRadius: '16px', overflow: 'hidden', height: '380px', background: '#e2e8f0', position: 'relative' }}>
+            <div style={{ borderRadius: '16px', overflow: 'hidden', height: '480px', background: '#e2e8f0', position: 'relative' }}>
               <iframe
-                title="Peta Lokasi Desa Kedungsari"
-                src="https://maps.google.com/maps?q=Indonesia&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                title="Peta Lokasi Desa Kedungsari Bandongan Magelang"
+                src="https://maps.google.com/maps?q=Kedungsari,%20Bandongan,%20Magelang&t=&z=14&ie=UTF8&iwloc=&output=embed"
                 width="100%"
-                height="100%"
-                style={{ border: 0 }}
+                height="480"
+                style={{ border: 0, display: 'block' }}
                 allowFullScreen=""
                 loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
               ></iframe>
             </div>
           </div>
