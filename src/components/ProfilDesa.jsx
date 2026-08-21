@@ -57,7 +57,7 @@ export default function ProfilDesa() {
       {/* Section 1: Asal Usul Nama & Geografi */}
       <section className="landmark-section">
         <div className="container">
-          <div className="landmark-grid">
+          <div className="landmark-grid fade-up-element">
             {/* Single Image di sebelah kiri */}
             <div className="history-image-card">
               <img src="/images/img2.jpg" alt="Asal Usul & Geografi Desa Kedungsari" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -80,7 +80,7 @@ export default function ProfilDesa() {
       {/* Section 2: Sejarah Perjuangan & Perkembangan Wilayah */}
       <section className="history-section">
         <div className="container">
-          <div className="history-grid">
+          <div className="history-grid fade-up-element">
             {/* Teks Sejarah di sebelah kiri */}
             <div className="history-text-content">
               <h2>Awal Dari Perjalanan Kami</h2>
@@ -106,7 +106,7 @@ export default function ProfilDesa() {
       {/* Section 3: Visi & Misi Desa */}
       <section className="section-padding" style={{ background: '#ffffff' }}>
         <div className="container">
-          <div style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto 40px' }}>
+          <div className="fade-up-element" style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto 40px' }}>
             <span style={{ color: 'var(--primary)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '0.85rem' }}>Arah Pembangunan</span>
             <h2 style={{ fontSize: '2.4rem', marginTop: '8px' }}>Visi & Misi Desa Kedungsari</h2>
             <p style={{ color: '#64748b' }}>Komitmen bersama mewujudkan desa yang makmur, agraris, berbudaya, sehat, dan berbasis pelayanan digital.</p>
