@@ -18,7 +18,7 @@ export default function DukuhWilayah() {
     rt: '',
     penduduk: '',
     desc: '',
-    img: '/images/galeri_kkn_balai_desa.jpg'
+    img: ''
   });
 
   const handleOpenCreate = () => {
@@ -30,7 +30,7 @@ export default function DukuhWilayah() {
       rt: 'Wilayah RW 01',
       penduduk: 'Wilayah Permukiman',
       desc: '',
-      img: '/images/galeri_kkn_balai_desa.jpg'
+      img: ''
     });
     setIsFormOpen(true);
   };
@@ -45,7 +45,7 @@ export default function DukuhWilayah() {
       rt: dusun.rt || '',
       penduduk: dusun.penduduk || '',
       desc: dusun.desc || '',
-      img: dusun.img || '/images/galeri_kkn_balai_desa.jpg'
+      img: dusun.img || ''
     });
     setIsFormOpen(true);
   };
@@ -126,7 +126,11 @@ export default function DukuhWilayah() {
             {(dusunList || []).map((d) => (
               <div key={d.id} style={{ background: 'white', borderRadius: '16px', border: '1px solid #e2e8f0', overflow: 'hidden', boxShadow: 'var(--shadow-sm)', display: 'flex', flexDirection: 'column', position: 'relative' }}>
                 <div style={{ position: 'relative' }}>
-                  <img src={d.img || '/images/galeri_kkn_balai_desa.jpg'} alt={d.nama} style={{ width: '100%', height: '200px', objectFit: 'cover' }} />
+                  {d.img ? (
+                    <img src={d.img} alt={d.nama} style={{ width: '100%', height: '200px', objectFit: 'cover' }} />
+                  ) : (
+                    <div style={{ width: '100%', height: '70px', background: 'linear-gradient(135deg, var(--primary) 0%, #052e16 100%)' }} />
+                  )}
                   {isAdminLoggedIn && (
                     <div style={{ position: 'absolute', top: '12px', right: '12px', display: 'flex', gap: '8px', zIndex: 10 }}>
                       <button
