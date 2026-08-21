@@ -50,7 +50,7 @@ export default function ProfilDesa() {
       <Hero
         title="Jelajahi Kisah Menakjubkan Desa Kedungsari"
         subtitle="Perjalanan melintasi waktu di desa tercinta kami, tempat tradisi bertemu dengan kemajuan."
-        bgImage="/images/home-image.jpeg"
+        bgImage="/images/mm.jpg"
         badge="Profil Resmi Desa"
       />
 

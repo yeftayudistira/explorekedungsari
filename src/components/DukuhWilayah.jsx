@@ -90,7 +90,7 @@ export default function DukuhWilayah() {
       <Hero
         title="Dusun & Pembagian Wilayah Desa"
         subtitle="Mengenal wilayah administrasi dan dusun-dusun di Desa Kedungsari, Kecamatan Bandongan, Kabupaten Magelang."
-        bgImage="/images/home-image.jpeg"
+        bgImage="/images/mm.jpg"
         badge="Administrasi Wilayah"
       />
 

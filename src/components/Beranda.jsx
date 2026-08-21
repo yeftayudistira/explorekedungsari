@@ -55,7 +55,7 @@ export default function Beranda({ setActiveTab }) {
         justifyContent: 'center',
         paddingTop: '60px',
         overflow: 'hidden',
-        backgroundImage: "url('/images/home-image.jpeg')",
+        backgroundImage: "url('/images/mm.jpg')",
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundAttachment: 'fixed'

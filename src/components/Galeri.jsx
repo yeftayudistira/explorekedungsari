@@ -89,7 +89,7 @@ export default function Galeri() {
       <Hero
         title="Dokumentasi & Galeri Desa Kedungsari"
         subtitle="Abadikan momen indah lanskap persawahan, kebudayaan, pembangunan, dan kehangatan aktivitas warga Kedungsari."
-        bgImage="/images/home-image.jpeg"
+        bgImage="/images/mm.jpg"
         badge="Galeri Foto Resmi"
       />
 

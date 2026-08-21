@@ -4,7 +4,7 @@ import { TreePine } from 'lucide-react';
 export default function Hero({
   title = "Jelajahi Kisah Menakjubkan Desa Kedungsari",
   subtitle = "Perjalanan melintasi waktu di desa tercinta kami, tempat tradisi bertemu dengan kemajuan.",
-  bgImage = "/images/home-image.jpeg",
+  bgImage = "/images/mm.jpg",
   badge = "Portal Resmi Desa Kedungsari"
 }) {
   return (
