@@ -20,7 +20,7 @@ export default function Footer({ setActiveTab, onOpenAdminModal }) {
               <img src="/images/logo.png" alt="Logo Desa Kedungsari" style={{ width: '44px', height: '44px', objectFit: 'contain' }} />
               <div>
                 <h3 style={{ margin: 0, fontSize: '1.4rem', color: 'white' }}>Kedungsari</h3>
-                <span style={{ fontSize: '0.72rem', color: 'var(--accent)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Explore The Village</span>
+                <span style={{ fontSize: '0.72rem', color: 'var(--accent)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Jelajahi Desa</span>
               </div>
             </div>
             <p style={{ marginBottom: '20px', color: '#94a3b8', fontSize: '0.92rem' }}>
