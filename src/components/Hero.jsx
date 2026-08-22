@@ -5,7 +5,7 @@ export default function Hero({
   title = "Jelajahi Kisah Menakjubkan Desa Kedungsari",
   subtitle = "Perjalanan melintasi waktu di desa tercinta kami, tempat tradisi bertemu dengan kemajuan.",
   bgImage = "/images/mm.jpg",
-  badge = "Portal Resmi Desa Kedungsari"
+  badge = "Digital Branding Desa Kedungsari"
 }) {
   return (
     <section style={{

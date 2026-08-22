@@ -33,7 +33,7 @@ export default function KontakLayanan() {
     <main className="kontak-page">
       <Hero
         title="Kontak & Lokasi Desa Kedungsari"
-        subtitle="Alamat resmi, peta lokasi balai desa, jam kunjungan, dan kontak pengelola Desa Kedungsari."
+        subtitle="Alamat, peta lokasi balai desa, jam kunjungan, dan kontak pengelola Desa Kedungsari."
         bgImage="/images/mm.jpg"
         badge="Informasi Kontak & Lokasi"
       />
@@ -43,7 +43,7 @@ export default function KontakLayanan() {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '40px', flexWrap: 'wrap', gap: '20px' }}>
             <div>
               <span style={{ color: 'var(--primary)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '0.85rem' }}>Hubungi Kami</span>
-              <h2 style={{ fontSize: '2.4rem', marginTop: '4px' }}>Lokasi Balai Desa & Kontak Resmi</h2>
+              <h2 style={{ fontSize: '2.4rem', marginTop: '4px' }}>Lokasi Balai Desa & Informasi Kontak</h2>
               <p style={{ color: '#64748b' }}>Kami menyambut hangat kedatangan para wisatawan dan tamu di Desa Kedungsari.</p>
             </div>
 
@@ -93,7 +93,7 @@ export default function KontakLayanan() {
               <div style={{ width: '52px', height: '52px', borderRadius: '14px', background: 'var(--primary-light)', color: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px' }}>
                 <Phone size={26} />
               </div>
-              <h4 style={{ fontSize: '1.2rem', color: '#0f172a', marginBottom: '10px' }}>Kontak Resmi & Email</h4>
+              <h4 style={{ fontSize: '1.2rem', color: '#0f172a', marginBottom: '10px' }}>Kontak & Email</h4>
               <p style={{ color: '#475569', fontSize: '0.95rem', lineHeight: '1.7' }}>
                 <strong>WhatsApp Hotline:</strong> {contactInfo.telepon}<br />
                 <strong>Email:</strong> {contactInfo.email}
@@ -175,7 +175,7 @@ export default function KontakLayanan() {
                   />
                 </div>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: '700', marginBottom: '6px' }}>Email Resmi Desa</label>
+                  <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: '700', marginBottom: '6px' }}>Email Desa</label>
                   <input
                     type="email"
                     required

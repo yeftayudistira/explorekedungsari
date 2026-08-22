@@ -357,7 +357,7 @@ export default function Beranda({ setActiveTab }) {
         <div className="container">
           <div className="fade-up-element" style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto 48px' }}>
             <h2 style={{ fontSize: '2.5rem', color: '#0f172a', fontWeight: '800' }}>Berita & Pengumuman</h2>
-            <p style={{ color: '#64748b', fontSize: '1.05rem', marginTop: '8px' }}>Kabar terbaru dan pengumuman resmi dari Pemerintah Desa Kedungsari</p>
+            <p style={{ color: '#64748b', fontSize: '1.05rem', marginTop: '8px' }}>Kabar terbaru dan pengumuman dari Desa Kedungsari</p>
             <div style={{ width: '50px', height: '4px', background: 'var(--primary)', borderRadius: '99px', margin: '16px auto 0' }} />
           </div>
 

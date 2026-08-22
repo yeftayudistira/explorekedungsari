@@ -51,7 +51,7 @@ export default function ProfilDesa() {
         title="Jelajahi Kisah Menakjubkan Desa Kedungsari"
         subtitle="Perjalanan melintasi waktu di desa tercinta kami, tempat tradisi bertemu dengan kemajuan."
         bgImage="/images/mm.jpg"
-        badge="Profil Resmi Desa"
+        badge="Profil Desa"
       />
 
       {/* Section 1: Asal Usul Nama & Geografi */}
@@ -91,7 +91,7 @@ export default function ProfilDesa() {
                 Pasca kemerdekaan 17 Agustus 1945, kehidupan sosial dan ekonomi masyarakat berangsur bangkit. Awalnya Kedungsari terdiri dari <strong>9 dusun</strong> (Jetis, Karang, Tundan, Jenggotan, Kedungan, Pranan, Wonosaran, Gatak Paingan, Kwangsan). Namun seiring penataan tanah kas desa (bengkok), wilayah ini disederhanakan menjadi <strong>5 Dusun Utama</strong>: Karangrejo, Kedungan & Pranan, Wonosaran, Paingan, dan Kwangsan.
               </p>
               <p>
-                Kini Desa Kedungsari tumbuh menjadi desa agraris yang mandiri, berbudaya, serta meraih predikat resmi <strong>Open Defecation Free (ODF)</strong> yang menjamin standar sanitasi dan kesehatan masyarakat.
+                Kini Desa Kedungsari tumbuh menjadi desa agraris yang mandiri, berbudaya, serta meraih predikat <strong>Open Defecation Free (ODF)</strong> yang menjamin standar sanitasi dan kesehatan masyarakat.
               </p>
             </div>
 
@@ -239,7 +239,7 @@ export default function ProfilDesa() {
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: '700', marginBottom: '6px' }}>Jabatan Resmi</label>
+                <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: '700', marginBottom: '6px' }}>Jabatan Perangkat Desa</label>
                 <input
                   type="text"
                   required

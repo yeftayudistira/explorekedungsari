@@ -24,7 +24,7 @@ export default function Footer({ setActiveTab, onOpenAdminModal }) {
               </div>
             </div>
             <p style={{ marginBottom: '20px', color: '#94a3b8', fontSize: '0.92rem' }}>
-              Website Resmi Pemerintah Desa Kedungsari, Kecamatan Bandongan, Kabupaten Magelang 56151.
+              Website Digital Branding Desa Kedungsari, Kecamatan Bandongan, Kabupaten Magelang 56151.
             </p>
             <div style={{ display: 'flex', gap: '12px' }}>
               <a href="#" aria-label="Facebook Desa" style={{ background: 'rgba(255,255,255,0.08)', width: '36px', height: '36px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>

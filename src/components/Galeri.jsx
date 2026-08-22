@@ -90,7 +90,7 @@ export default function Galeri() {
         title="Dokumentasi & Galeri Desa Kedungsari"
         subtitle="Abadikan momen indah lanskap persawahan, kebudayaan, pembangunan, dan kehangatan aktivitas warga Kedungsari."
         bgImage="/images/mm.jpg"
-        badge="Galeri Foto Resmi"
+        badge="Galeri Dokumentasi Foto"
       />
 
       <section className="section-padding" style={{ background: '#f8fafc' }}>
