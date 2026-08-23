@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://desakedungsari.online/sitemap.xml
+Sitemap: https://www.desakedungsari.online/sitemap.xml
