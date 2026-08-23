@@ -10,6 +10,7 @@ import Galeri from './components/Galeri';
 import DukuhWilayah from './components/DukuhWilayah';
 import UmkmDesa from './components/UmkmDesa';
 import KontakLayanan from './components/KontakLayanan';
+import { Analytics } from '@vercel/analytics/react';
 import Footer from './components/Footer';
 
 function getInitialTab() {
@@ -83,6 +84,7 @@ export default function App() {
   return (
     <DataProvider>
       <MainApp />
+      <Analytics />
     </DataProvider>
   );
 }
