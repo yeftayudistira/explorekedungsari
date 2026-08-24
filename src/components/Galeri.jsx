@@ -149,98 +149,135 @@ export default function Galeri() {
             ))}
           </div>
 
-          {/* Gallery Clean Cards Grid (No Dark Overlays) */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '28px' }}>
+          {/* Gallery Full Photo Grid (Pure Photos Without Titles) */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '24px' }}>
             {filteredPhotos.map((item) => (
               <div
                 key={item.id}
                 className="fade-up-element"
                 onClick={() => setActiveImage(item)}
                 style={{
-                  background: 'white',
+                  position: 'relative',
+                  height: '280px',
                   borderRadius: '20px',
                   overflow: 'hidden',
-                  border: '1px solid #e2e8f0',
-                  boxShadow: 'var(--shadow-sm)',
+                  background: '#f1f5f9',
+                  boxShadow: '0 4px 14px rgba(0,0,0,0.06)',
                   cursor: 'pointer',
-                  transition: 'all 0.3s ease',
-                  display: 'flex',
-                  flexDirection: 'column'
+                  transition: 'all 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
+                  border: '1px solid #e2e8f0'
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-6px)';
-                  e.currentTarget.style.boxShadow = 'var(--shadow-lg)';
+                  e.currentTarget.style.boxShadow = '0 14px 30px rgba(0,0,0,0.12)';
                   e.currentTarget.style.borderColor = 'var(--primary)';
+                  const img = e.currentTarget.querySelector('img');
+                  if (img) img.style.transform = 'scale(1.06)';
+                  const overlay = e.currentTarget.querySelector('.photo-hover-overlay');
+                  if (overlay) overlay.style.opacity = '1';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = 'var(--shadow-sm)';
+                  e.currentTarget.style.boxShadow = '0 4px 14px rgba(0,0,0,0.06)';
                   e.currentTarget.style.borderColor = '#e2e8f0';
+                  const img = e.currentTarget.querySelector('img');
+                  if (img) img.style.transform = 'scale(1)';
+                  const overlay = e.currentTarget.querySelector('.photo-hover-overlay');
+                  if (overlay) overlay.style.opacity = '0';
                 }}
               >
-                {/* Crisp Clean Image Container */}
-                <div style={{ position: 'relative', height: '240px', overflow: 'hidden', background: '#f1f5f9' }}>
-                  <img
-                    src={item.img || '/images/no_image_placeholder.png'}
-                    alt={item.title}
+                {/* Full High-Quality Image */}
+                <img
+                  src={item.img || '/images/no_image_placeholder.png'}
+                  alt={item.title}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    transition: 'transform 0.4s ease'
+                  }}
+                />
+
+                {/* Subtle Hover Zoom Overlay */}
+                <div
+                  className="photo-hover-overlay"
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    background: 'rgba(15, 23, 42, 0.35)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    opacity: 0,
+                    transition: 'opacity 0.3s ease',
+                    backdropFilter: 'blur(2px)'
+                  }}
+                >
+                  <div
                     style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      transition: 'transform 0.4s ease'
+                      background: 'white',
+                      color: 'var(--primary)',
+                      padding: '12px 20px',
+                      borderRadius: '99px',
+                      fontWeight: '700',
+                      fontSize: '0.88rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      boxShadow: '0 4px 14px rgba(0,0,0,0.2)'
                     }}
-                  />
-
-                  {isAdminLoggedIn && (
-                    <div
-                      onClick={(e) => e.stopPropagation()}
-                      style={{ position: 'absolute', top: '12px', right: '12px', display: 'flex', gap: '8px', zIndex: 10 }}
-                    >
-                      <button
-                        onClick={(e) => handleOpenEdit(item, e)}
-                        title="Edit Foto"
-                        style={{ background: 'white', color: 'var(--primary)', padding: '8px', borderRadius: '50%', boxShadow: '0 4px 10px rgba(0,0,0,0.15)', cursor: 'pointer' }}
-                      >
-                        <Edit2 size={16} />
-                      </button>
-                      <button
-                        onClick={(e) => handleDeleteClick(item, e)}
-                        title="Hapus Foto"
-                        style={{ background: 'white', color: '#ef4444', padding: '8px', borderRadius: '50%', boxShadow: '0 4px 10px rgba(0,0,0,0.15)', cursor: 'pointer' }}
-                      >
-                        <Trash2 size={16} />
-                      </button>
-                    </div>
-                  )}
+                  >
+                    <Eye size={18} /> Lihat Foto
+                  </div>
                 </div>
 
-                {/* Clean Card Info Below Image (Centered Alignment) */}
-                <div style={{ padding: '20px 22px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '8px', flexGrow: 1 }}>
-                  <span style={{
-                    fontSize: '0.78rem',
-                    fontWeight: '700',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.05em',
-                    color: 'var(--primary)',
-                    background: 'var(--primary-light)',
+                {/* Category Pill Tag on Top Left */}
+                <div
+                  style={{
+                    position: 'absolute',
+                    bottom: '14px',
+                    left: '14px',
+                    background: 'rgba(15, 23, 42, 0.75)',
+                    color: 'white',
                     padding: '4px 14px',
-                    borderRadius: '99px'
-                  }}>
-                    {item.cat}
-                  </span>
-                  <h3 style={{ fontSize: '1.15rem', fontWeight: '700', color: '#0f172a', margin: 0, lineHeight: '1.4', textAlign: 'center' }}>
-                    {item.title}
-                  </h3>
-                  {item.desc && (
-                    <p style={{ fontSize: '0.88rem', color: '#64748b', margin: 0, lineHeight: '1.5', textAlign: 'center', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                      {item.desc}
-                    </p>
-                  )}
+                    borderRadius: '99px',
+                    fontSize: '0.75rem',
+                    fontWeight: '700',
+                    backdropFilter: 'blur(4px)',
+                    letterSpacing: '0.04em'
+                  }}
+                >
+                  {item.cat}
                 </div>
+
+                {/* Admin Action Buttons on Top Right */}
+                {isAdminLoggedIn && (
+                  <div
+                    onClick={(e) => e.stopPropagation()}
+                    style={{ position: 'absolute', top: '14px', right: '14px', display: 'flex', gap: '8px', zIndex: 10 }}
+                  >
+                    <button
+                      onClick={(e) => handleOpenEdit(item, e)}
+                      title="Edit Foto"
+                      style={{ background: 'white', color: 'var(--primary)', padding: '8px', borderRadius: '50%', boxShadow: '0 4px 10px rgba(0,0,0,0.15)', cursor: 'pointer', border: 'none' }}
+                    >
+                      <Edit2 size={16} />
+                    </button>
+                    <button
+                      onClick={(e) => handleDeleteClick(item, e)}
+                      title="Hapus Foto"
+                      style={{ background: 'white', color: '#ef4444', padding: '8px', borderRadius: '50%', boxShadow: '0 4px 10px rgba(0,0,0,0.15)', cursor: 'pointer', border: 'none' }}
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
+                )}
               </div>
             ))}
           </div>
-
 
           {filteredPhotos.length === 0 && (
             <div style={{ textAlign: 'center', padding: '60px 0', color: '#94a3b8' }}>
@@ -250,18 +287,26 @@ export default function Galeri() {
         </div>
       </section>
 
-      {/* Lightbox Preview Modal */}
+      {/* Lightbox Preview Modal (Displays Title, Category & Description when Clicked) */}
       {activeImage && (
         <div className="modal-backdrop" onClick={() => setActiveImage(null)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ background: 'transparent', maxWidth: '900px', boxShadow: 'none' }}>
             <button className="modal-close" onClick={() => setActiveImage(null)} style={{ background: 'white' }}>
               <X size={20} />
             </button>
-            <img src={activeImage.img} alt={activeImage.title} style={{ width: '100%', maxHeight: '75vh', objectFit: 'contain', borderRadius: '16px' }} />
-            <div style={{ textAlign: 'center', marginTop: '16px', color: 'white', background: 'rgba(15, 23, 42, 0.85)', padding: '20px', borderRadius: '16px', backdropFilter: 'blur(8px)' }}>
-              <span style={{ fontSize: '0.78rem', textTransform: 'uppercase', color: 'var(--accent)', fontWeight: '700' }}>{activeImage.cat}</span>
-              <h3 style={{ fontSize: '1.4rem', color: 'white', margin: '4px 0 8px' }}>{activeImage.title}</h3>
-              {activeImage.desc && <p style={{ color: '#cbd5e1', fontSize: '0.95rem', lineHeight: '1.6', margin: 0 }}>{activeImage.desc}</p>}
+            <img src={activeImage.img} alt={activeImage.title} style={{ width: '100%', maxHeight: '72vh', objectFit: 'contain', borderRadius: '20px', boxShadow: '0 20px 40px rgba(0,0,0,0.4)' }} />
+            <div style={{ textAlign: 'center', marginTop: '16px', color: 'white', background: 'rgba(15, 23, 42, 0.9)', padding: '24px 30px', borderRadius: '20px', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.1)' }}>
+              <span style={{ fontSize: '0.8rem', textTransform: 'uppercase', color: 'var(--accent)', fontWeight: '800', letterSpacing: '0.08em', background: 'rgba(245, 158, 11, 0.15)', padding: '4px 14px', borderRadius: '99px' }}>
+                {activeImage.cat}
+              </span>
+              <h3 style={{ fontSize: '1.5rem', color: 'white', margin: '10px 0 8px', fontWeight: '800' }}>
+                {activeImage.title}
+              </h3>
+              {activeImage.desc && (
+                <p style={{ color: '#cbd5e1', fontSize: '0.98rem', lineHeight: '1.6', margin: 0 }}>
+                  {activeImage.desc}
+                </p>
+              )}
             </div>
           </div>
         </div>
