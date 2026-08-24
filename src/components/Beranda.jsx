@@ -3,7 +3,19 @@ import { ArrowRight, Calendar, User, TreePine, MapPin } from 'lucide-react';
 import { useData } from '../context/DataContext';
 
 export default function Beranda({ setActiveTab }) {
-  const { newsList, umkmList, galeriList } = useData();
+  const { newsList, umkmList, galeriList, sambutanKades } = useData();
+
+  const defaultSambutanKades = {
+    judul: 'Sambutan Kepala Desa Kedungsari',
+    nama: 'NAMA KEPALA DESA',
+    jabatan: 'Kepala Desa Kedungsari',
+    content: 'Selamat datang di Website Digital Branding Desa Kedungsari. Website ini dibangun untuk memperluas jangkauan informasi, mempublikasikan potensi keasrian alam hortikultura, kebudayaan, serta produk unggulan UMKM warga Desa Kedungsari kepada masyarakat luas.',
+    img: '/images/img2.jpg'
+  };
+
+  const activeKades = (sambutanKades && typeof sambutanKades === 'object' && (sambutanKades.content || sambutanKades.nama))
+    ? sambutanKades
+    : defaultSambutanKades;
 
   // Top items for summary previews
   const featuredNews = (newsList || []).slice(0, 3);
@@ -238,6 +250,73 @@ export default function Beranda({ setActiveTab }) {
               >
                 Selengkapnya tentang Desa Kedungsari <ArrowRight size={18} />
               </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 2.5 SAMBUTAN KEPALA DESA SECTION (SYNCHRONIZED WITH DATABASE) */}
+      <section className="section-padding" style={{ background: '#f8fafc', padding: '70px 0' }}>
+        <div className="container" style={{ maxWidth: '1240px' }}>
+          <div
+            className="fade-up-element"
+            style={{
+              background: 'white',
+              borderRadius: '28px',
+              padding: '56px 48px',
+              boxShadow: '0 16px 45px rgba(0,0,0,0.07)',
+              border: '1px solid #e2e8f0',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '48px',
+              flexWrap: 'wrap'
+            }}
+          >
+            {/* Sisi Kiri: Foto Profil Lingkaran (Circular Avatar) */}
+            <div style={{ flex: '0 0 auto', margin: '0 auto', textAlign: 'center' }}>
+              <div
+                style={{
+                  width: '240px',
+                  height: '240px',
+                  borderRadius: '50%',
+                  overflow: 'hidden',
+                  border: '6px solid #ffffff',
+                  boxShadow: '0 12px 35px rgba(0,0,0,0.15)',
+                  background: '#f1f5f9',
+                  margin: '0 auto'
+                }}
+              >
+                <img
+                  src={activeKades.img || '/images/img2.jpg'}
+                  alt={activeKades.nama || 'Kepala Desa'}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+              </div>
+            </div>
+
+            {/* Sisi Kanan: Judul, Nama, Jabatan & Isi Sambutan */}
+            <div style={{ flex: '1 1 450px' }}>
+              <h2 style={{ fontSize: '2.4rem', color: 'var(--primary)', fontWeight: '800', marginBottom: '10px', lineHeight: '1.2' }}>
+                {activeKades.judul || 'Sambutan Kepala Desa Kedungsari'}
+              </h2>
+              <div style={{ fontSize: '1.25rem', fontWeight: '800', color: '#0f172a', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                {activeKades.nama || 'NAMA KEPALA DESA'}
+              </div>
+              <div style={{ fontSize: '0.92rem', fontWeight: '700', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '22px' }}>
+                {activeKades.jabatan || 'KEPALA DESA KEDUNGSARI'}
+              </div>
+
+              <div
+                style={{
+                  borderLeft: '5px solid var(--accent)',
+                  paddingLeft: '24px',
+                  marginTop: '14px'
+                }}
+              >
+                <p style={{ color: '#334155', lineHeight: '1.85', fontSize: '1.05rem', margin: 0, whiteSpace: 'pre-line' }}>
+                  {activeKades.content || defaultSambutanKades.content}
+                </p>
+              </div>
             </div>
           </div>
         </div>
