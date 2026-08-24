@@ -135,7 +135,7 @@ export function DataProvider({ children }) {
           setDusunList(dusunData || []);
         }
 
-        // 6. Load Contact Info from Supabase
+        // 6. Load Contact Info & Visi Misi from Supabase
         const { data: contactData } = await supabase
           .from('contact_info')
           .select('*')
@@ -149,7 +149,26 @@ export function DataProvider({ children }) {
             telepon: contactData.telepon,
             email: contactData.email
           });
+          if (contactData.visi_misi) {
+            setVisiMisi(contactData.visi_misi);
+          }
         }
+
+        // 7. Load Visi Misi from Supabase 'visi_misi' or 'settings' table
+        try {
+          const { data: vmData } = await supabase
+            .from('visi_misi')
+            .select('*')
+            .eq('id', 1)
+            .single();
+
+          if (vmData && vmData.visi) {
+            setVisiMisi({
+              visi: vmData.visi,
+              misi: Array.isArray(vmData.misi) ? vmData.misi : (typeof vmData.misi === 'string' ? JSON.parse(vmData.misi) : defaultVisiMisi.misi)
+            });
+          }
+        } catch (e) {}
       } catch (err) {
         console.error('Error fetching data from Supabase:', err);
       } finally {
@@ -430,17 +449,55 @@ export function DataProvider({ children }) {
     }
   };
 
-  // Visi Misi Update
-  const updateVisiMisi = async (newVisiMisi) => {
-    setVisiMisi(newVisiMisi);
-    localStorage.setItem('kedungsari_visi_misi', JSON.stringify(newVisiMisi));
+  // Contact Update (Strictly Supabase Database)
+  const updateContactInfo = async (newInfo) => {
+    const updated = { ...contactInfo, ...newInfo };
+    setContactInfo(updated);
 
     if (isSupabaseConfigured() && supabase) {
-      const { error } = await supabase.from('settings').upsert({
-        id: 'visi_misi',
-        data: newVisiMisi
+      const { error } = await supabase.from('contact_info').upsert({
+        id: 1,
+        alamat: updated.alamat,
+        jam_kerja: updated.jamKerja,
+        telepon: updated.telepon,
+        email: updated.email
       });
-      if (error) console.error('Supabase Update Visi Misi Error:', error);
+      if (error) console.error('Supabase Update Contact Error:', error);
+    }
+  };
+
+  // Visi Misi Update (Multi-table Database Persistence)
+  const updateVisiMisi = async (newVisiMisi) => {
+    setVisiMisi(newVisiMisi);
+    try {
+      localStorage.setItem('kedungsari_visi_misi', JSON.stringify(newVisiMisi));
+    } catch (e) {}
+
+    if (isSupabaseConfigured() && supabase) {
+      // 1. Try upsert to 'visi_misi' table
+      try {
+        await supabase.from('visi_misi').upsert({
+          id: 1,
+          visi: newVisiMisi.visi,
+          misi: newVisiMisi.misi
+        });
+      } catch (e) {}
+
+      // 2. Try upsert to 'contact_info' table (visi_misi JSON column)
+      try {
+        await supabase.from('contact_info').upsert({
+          id: 1,
+          visi_misi: newVisiMisi
+        });
+      } catch (e) {}
+
+      // 3. Try upsert to 'settings' table
+      try {
+        await supabase.from('settings').upsert({
+          id: 'visi_misi',
+          data: newVisiMisi
+        });
+      } catch (e) {}
     }
   };
 
