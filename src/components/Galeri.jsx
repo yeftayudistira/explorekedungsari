@@ -234,25 +234,6 @@ export default function Galeri() {
                   </div>
                 </div>
 
-                {/* Category Pill Tag on Top Left */}
-                <div
-                  style={{
-                    position: 'absolute',
-                    bottom: '14px',
-                    left: '14px',
-                    background: 'rgba(15, 23, 42, 0.75)',
-                    color: 'white',
-                    padding: '4px 14px',
-                    borderRadius: '99px',
-                    fontSize: '0.75rem',
-                    fontWeight: '700',
-                    backdropFilter: 'blur(4px)',
-                    letterSpacing: '0.04em'
-                  }}
-                >
-                  {item.cat}
-                </div>
-
                 {/* Admin Action Buttons on Top Right */}
                 {isAdminLoggedIn && (
                   <div
