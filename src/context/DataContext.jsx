@@ -10,6 +10,16 @@ const initialContact = {
   email: 'kedungsaribandongan@gmail.com'
 };
 
+const defaultVisiMisi = {
+  visi: "Terwujudnya Desa Kedungsari yang Makmur, Sejahtera, Sehat Lingkungan (ODF), Berbudaya, serta Berdaya Saing Tinggi Berbasis Sektor Pertanian & Peternakan Unggulan.",
+  misi: [
+    "Meningkatkan transparansi dan tata kelola pemerintah desa berbasis teknologi informasi.",
+    "Mengembangkan produktivitas komoditas hortikultura dan peternakan itik petelur terpadu.",
+    "Melestarikan kearifan lokal kebudayaan adat dan semangat gotong royong warga.",
+    "Mempertahankan status Desa Sehat ODF dan meningkatkan kualitas lingkungan hidup."
+  ]
+};
+
 export function DataProvider({ children }) {
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(() => {
     return localStorage.getItem('kedungsari_admin') === 'true';
@@ -21,6 +31,13 @@ export function DataProvider({ children }) {
   const [galeriList, setGaleriList] = useState([]);
   const [dusunList, setDusunList] = useState([]);
   const [contactInfo, setContactInfo] = useState(initialContact);
+  const [visiMisi, setVisiMisi] = useState(() => {
+    const saved = localStorage.getItem('kedungsari_visi_misi');
+    if (saved) {
+      try { return JSON.parse(saved); } catch (e) {}
+    }
+    return defaultVisiMisi;
+  });
   const [isLoadingData, setIsLoadingData] = useState(true);
 
   // Fetch Data strictly from Supabase Database (No Hardcoded Fallbacks)
@@ -406,20 +423,17 @@ export function DataProvider({ children }) {
     }
   };
 
-  // Contact Update (Strictly Supabase Database)
-  const updateContactInfo = async (newInfo) => {
-    const updated = { ...contactInfo, ...newInfo };
-    setContactInfo(updated);
+  // Visi Misi Update
+  const updateVisiMisi = async (newVisiMisi) => {
+    setVisiMisi(newVisiMisi);
+    localStorage.setItem('kedungsari_visi_misi', JSON.stringify(newVisiMisi));
 
     if (isSupabaseConfigured() && supabase) {
-      const { error } = await supabase.from('contact_info').upsert({
-        id: 1,
-        alamat: updated.alamat,
-        jam_kerja: updated.jamKerja,
-        telepon: updated.telepon,
-        email: updated.email
+      const { error } = await supabase.from('settings').upsert({
+        id: 'visi_misi',
+        data: newVisiMisi
       });
-      if (error) console.error('Supabase Update Contact Error:', error);
+      if (error) console.error('Supabase Update Visi Misi Error:', error);
     }
   };
 
@@ -456,6 +470,8 @@ export function DataProvider({ children }) {
         deleteDestinasi: deleteUmkm,
         contactInfo,
         updateContactInfo,
+        visiMisi,
+        updateVisiMisi,
       }}
     >
       {children}

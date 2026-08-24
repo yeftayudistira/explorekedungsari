@@ -6,7 +6,7 @@ import { useData } from '../context/DataContext';
 import ConfirmDeleteModal from './ConfirmDeleteModal';
 
 export default function ProfilDesa() {
-  const { sotkList, addSotk, updateSotk, deleteSotk, isAdminLoggedIn } = useData();
+  const { sotkList, addSotk, updateSotk, deleteSotk, visiMisi, updateVisiMisi, isAdminLoggedIn } = useData();
   const [deleteTarget, setDeleteTarget] = useState(null);
 
   // Form modal state for SOTK
@@ -17,6 +17,36 @@ export default function ProfilDesa() {
     jabatan: '',
     role: ''
   });
+
+  // Form modal state for Visi & Misi
+  const [isVmModalOpen, setIsVmModalOpen] = useState(false);
+  const [vmForm, setVmForm] = useState({
+    visi: '',
+    misiText: ''
+  });
+
+  const handleOpenEditVm = () => {
+    const currentMisiText = Array.isArray(visiMisi?.misi) ? visiMisi.misi.join('\n') : '';
+    setVmForm({
+      visi: visiMisi?.visi || '',
+      misiText: currentMisiText
+    });
+    setIsVmModalOpen(true);
+  };
+
+  const handleVmSubmit = async (e) => {
+    e.preventDefault();
+    const misiArray = vmForm.misiText
+      .split('\n')
+      .map((line) => line.trim())
+      .filter((line) => line.length > 0);
+
+    await updateVisiMisi({
+      visi: vmForm.visi,
+      misi: misiArray
+    });
+    setIsVmModalOpen(false);
+  };
 
   const handleOpenCreateSotk = () => {
     setEditingSotkId(null);
@@ -106,20 +136,44 @@ export default function ProfilDesa() {
       {/* Section 3: Visi & Misi Desa */}
       <section className="section-padding" style={{ background: '#ffffff' }}>
         <div className="container">
-          <div className="fade-up-element" style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto 40px' }}>
+          <div className="fade-up-element" style={{ textAlign: 'center', maxWidth: '750px', margin: '0 auto 40px' }}>
             <span style={{ color: 'var(--primary)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '0.85rem' }}>Arah Pembangunan</span>
             <h2 style={{ fontSize: '2.4rem', marginTop: '8px' }}>Visi & Misi Desa Kedungsari</h2>
             <p style={{ color: '#64748b' }}>Komitmen bersama mewujudkan desa yang makmur, agraris, berbudaya, sehat, dan berbasis pelayanan digital.</p>
+
+            {isAdminLoggedIn && (
+              <div style={{ marginTop: '16px' }}>
+                <button
+                  onClick={handleOpenEditVm}
+                  style={{
+                    background: 'var(--primary)',
+                    color: 'white',
+                    padding: '10px 24px',
+                    borderRadius: '99px',
+                    fontWeight: '700',
+                    fontSize: '0.88rem',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 12px rgba(13, 92, 58, 0.25)',
+                    border: 'none'
+                  }}
+                >
+                  <Edit2 size={16} /> Edit Visi & Misi Desa
+                </button>
+              </div>
+            )}
           </div>
 
-          <div className="visi-misi-grid">
+          <div className="visi-misi-grid fade-up-element">
             <div className="card-visi-misi" style={{ borderTop: '4px solid var(--primary)' }}>
               <h3>
                 <Target size={28} color="var(--primary)" />
                 Visi Desa Kedungsari
               </h3>
               <p style={{ fontSize: '1.1rem', fontStyle: 'italic', color: '#334155', lineHeight: '1.7', marginTop: '12px' }}>
-                "Terwujudnya Desa Kedungsari yang Makmur, Sejahtera, Sehat Lingkungan (ODF), Berbudaya, serta Berdaya Saing Tinggi Berbasis Sektor Pertanian & Peternakan Unggulan."
+                "{visiMisi?.visi || 'Terwujudnya Desa Kedungsari yang Makmur, Sejahtera, dan Berbudaya.'}"
               </p>
             </div>
 
@@ -129,22 +183,12 @@ export default function ProfilDesa() {
                 Misi Utama Pembangunan
               </h3>
               <ul className="misi-list" style={{ marginTop: '12px' }}>
-                <li>
-                  <span className="misi-num">1</span>
-                  <span>Meningkatkan transparansi dan tata kelola pemerintah desa berbasis teknologi informasi.</span>
-                </li>
-                <li>
-                  <span className="misi-num">2</span>
-                  <span>Mengembangkan produktivitas komoditas hortikultura dan peternakan itik petelur terpadu.</span>
-                </li>
-                <li>
-                  <span className="misi-num">3</span>
-                  <span>Melestarikan kearifan lokal kebudayaan adat dan semangat gotong royong warga.</span>
-                </li>
-                <li>
-                  <span className="misi-num">4</span>
-                  <span>Mempertahankan status Desa Sehat ODF dan meningkatkan kualitas lingkungan hidup.</span>
-                </li>
+                {(visiMisi?.misi || []).map((misiItem, idx) => (
+                  <li key={idx}>
+                    <span className="misi-num">{idx + 1}</span>
+                    <span>{misiItem}</span>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
@@ -267,6 +311,60 @@ export default function ProfilDesa() {
                 style={{ background: 'var(--primary)', color: 'white', padding: '14px', borderRadius: '99px', fontWeight: '700', marginTop: '10px' }}
               >
                 Simpan Perangkat Desa
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Admin Form Modal for Visi & Misi Edit */}
+      {isVmModalOpen && (
+        <div className="modal-backdrop" onClick={() => setIsVmModalOpen(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ padding: '32px', maxWidth: '600px' }}>
+            <button className="modal-close" onClick={() => setIsVmModalOpen(false)}>
+              <X size={20} />
+            </button>
+            <h3 style={{ fontSize: '1.5rem', color: '#0f172a', marginBottom: '20px' }}>
+              ✏️ Edit Visi & Misi Desa Kedungsari
+            </h3>
+
+            <form onSubmit={handleVmSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: '700', marginBottom: '6px' }}>
+                  Visi Desa Kedungsari
+                </label>
+                <textarea
+                  rows="3"
+                  required
+                  placeholder="Tuliskan Visi Desa..."
+                  value={vmForm.visi}
+                  onChange={(e) => setVmForm({ ...vmForm, visi: e.target.value })}
+                  style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '0.95rem', lineHeight: '1.6' }}
+                ></textarea>
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: '700', marginBottom: '6px' }}>
+                  Poin-poin Misi Pembangunan (1 Kalimat Per Baris)
+                </label>
+                <textarea
+                  rows="6"
+                  required
+                  placeholder="Tuliskan setiap poin misi dalam baris baru..."
+                  value={vmForm.misiText}
+                  onChange={(e) => setVmForm({ ...vmForm, misiText: e.target.value })}
+                  style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '0.95rem', lineHeight: '1.6' }}
+                ></textarea>
+                <span style={{ fontSize: '0.78rem', color: '#64748b', marginTop: '4px', display: 'block' }}>
+                  💡 Petunjuk: Tekan Enter untuk menambah poin nomor 1, 2, 3, dst.
+                </span>
+              </div>
+
+              <button
+                type="submit"
+                style={{ background: 'var(--primary)', color: 'white', padding: '14px', borderRadius: '99px', fontWeight: '700', fontSize: '1rem', marginTop: '8px', cursor: 'pointer' }}
+              >
+                Simpan Perubahan Visi & Misi
               </button>
             </form>
           </div>
