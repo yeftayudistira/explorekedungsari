@@ -32,9 +32,16 @@ export function DataProvider({ children }) {
   const [dusunList, setDusunList] = useState([]);
   const [contactInfo, setContactInfo] = useState(initialContact);
   const [visiMisi, setVisiMisi] = useState(() => {
-    const saved = localStorage.getItem('kedungsari_visi_misi');
-    if (saved) {
-      try { return JSON.parse(saved); } catch (e) {}
+    try {
+      const saved = localStorage.getItem('kedungsari_visi_misi');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed && typeof parsed === 'object' && parsed.visi && Array.isArray(parsed.misi)) {
+          return parsed;
+        }
+      }
+    } catch (e) {
+      console.warn('Failed to parse kedungsari_visi_misi:', e);
     }
     return defaultVisiMisi;
   });

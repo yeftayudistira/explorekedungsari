@@ -25,11 +25,21 @@ export default function ProfilDesa() {
     misiText: ''
   });
 
+  const defaultVisi = "Terwujudnya Desa Kedungsari yang Makmur, Sejahtera, Sehat Lingkungan (ODF), Berbudaya, serta Berdaya Saing Tinggi Berbasis Sektor Pertanian & Peternakan Unggulan.";
+  const defaultMisi = [
+    "Meningkatkan transparansi dan tata kelola pemerintah desa berbasis teknologi informasi.",
+    "Mengembangkan produktivitas komoditas hortikultura dan peternakan itik petelur terpadu.",
+    "Melestarikan kearifan lokal kebudayaan adat dan semangat gotong royong warga.",
+    "Mempertahankan status Desa Sehat ODF dan meningkatkan kualitas lingkungan hidup."
+  ];
+
+  const activeVisi = (visiMisi && typeof visiMisi === 'object' && visiMisi.visi) ? visiMisi.visi : defaultVisi;
+  const activeMisi = (visiMisi && typeof visiMisi === 'object' && Array.isArray(visiMisi.misi)) ? visiMisi.misi : defaultMisi;
+
   const handleOpenEditVm = () => {
-    const currentMisiText = Array.isArray(visiMisi?.misi) ? visiMisi.misi.join('\n') : '';
     setVmForm({
-      visi: visiMisi?.visi || '',
-      misiText: currentMisiText
+      visi: activeVisi,
+      misiText: activeMisi.join('\n')
     });
     setIsVmModalOpen(true);
   };
@@ -195,7 +205,7 @@ export default function ProfilDesa() {
                 )}
               </div>
               <p style={{ fontSize: '1.1rem', fontStyle: 'italic', color: '#334155', lineHeight: '1.7' }}>
-                "{visiMisi?.visi || 'Terwujudnya Desa Kedungsari yang Makmur, Sejahtera, dan Berbudaya.'}"
+                "{activeVisi}"
               </p>
             </div>
 
@@ -227,7 +237,7 @@ export default function ProfilDesa() {
                 )}
               </div>
               <ul className="misi-list">
-                {(visiMisi?.misi || []).map((misiItem, idx) => (
+                {activeMisi.map((misiItem, idx) => (
                   <li key={idx}>
                     <span className="misi-num">{idx + 1}</span>
                     <span>{misiItem}</span>
