@@ -171,43 +171,43 @@ export default function ProfilDesa() {
       </section>
 
       {/* Section 2: Sambutan Kepala Desa Kedungsari */}
-      <section className="history-section" style={{ background: '#f8fafc', padding: '60px 0' }}>
-        <div className="container">
+      <section className="history-section" style={{ background: '#f8fafc', padding: '70px 0' }}>
+        <div className="container" style={{ maxWidth: '1240px' }}>
           <div
             className="fade-up-element"
             style={{
               background: 'white',
-              borderRadius: '24px',
-              padding: '40px 36px',
-              boxShadow: '0 10px 30px rgba(0,0,0,0.05)',
+              borderRadius: '28px',
+              padding: '56px 48px',
+              boxShadow: '0 16px 45px rgba(0,0,0,0.07)',
               border: '1px solid #e2e8f0',
               display: 'flex',
               alignItems: 'center',
-              gap: '40px',
+              gap: '48px',
               flexWrap: 'wrap',
               position: 'relative'
             }}
           >
             {isAdminLoggedIn && (
-              <div style={{ position: 'absolute', top: '20px', right: '20px', zIndex: 10 }}>
+              <div style={{ position: 'absolute', top: '24px', right: '24px', zIndex: 10 }}>
                 <button
                   onClick={handleOpenEditKades}
                   style={{
                     background: 'var(--primary)',
                     color: 'white',
-                    padding: '8px 20px',
+                    padding: '10px 24px',
                     borderRadius: '99px',
                     fontWeight: '700',
-                    fontSize: '0.85rem',
+                    fontSize: '0.88rem',
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: '8px',
                     cursor: 'pointer',
-                    boxShadow: '0 4px 12px rgba(13, 92, 58, 0.25)',
+                    boxShadow: '0 4px 14px rgba(13, 92, 58, 0.25)',
                     border: 'none'
                   }}
                 >
-                  <Edit2 size={15} /> Edit Sambutan Kepala Desa
+                  <Edit2 size={16} /> Edit Sambutan Kepala Desa
                 </button>
               </div>
             )}
@@ -216,12 +216,12 @@ export default function ProfilDesa() {
             <div style={{ flex: '0 0 auto', margin: '0 auto', textAlign: 'center' }}>
               <div
                 style={{
-                  width: '210px',
-                  height: '210px',
+                  width: '260px',
+                  height: '260px',
                   borderRadius: '50%',
                   overflow: 'hidden',
-                  border: '5px solid #ffffff',
-                  boxShadow: '0 10px 25px rgba(0,0,0,0.12)',
+                  border: '6px solid #ffffff',
+                  boxShadow: '0 12px 35px rgba(0,0,0,0.15)',
                   background: '#f1f5f9',
                   margin: '0 auto'
                 }}
@@ -235,25 +235,25 @@ export default function ProfilDesa() {
             </div>
 
             {/* Sisi Kanan: Judul, Nama, Jabatan & Isi Sambutan */}
-            <div style={{ flex: '1 1 400px' }}>
-              <h2 style={{ fontSize: '2.1rem', color: 'var(--primary)', fontWeight: '800', marginBottom: '8px', lineHeight: '1.2' }}>
+            <div style={{ flex: '1 1 450px' }}>
+              <h2 style={{ fontSize: '2.4rem', color: 'var(--primary)', fontWeight: '800', marginBottom: '10px', lineHeight: '1.2' }}>
                 {activeKades.judul || 'Sambutan Kepala Desa Kedungsari'}
               </h2>
-              <div style={{ fontSize: '1.1rem', fontWeight: '800', color: '#0f172a', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              <div style={{ fontSize: '1.25rem', fontWeight: '800', color: '#0f172a', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                 {activeKades.nama || 'NAMA KEPALA DESA'}
               </div>
-              <div style={{ fontSize: '0.85rem', fontWeight: '700', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '20px' }}>
+              <div style={{ fontSize: '0.92rem', fontWeight: '700', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '22px' }}>
                 {activeKades.jabatan || 'KEPALA DESA KEDUNGSARI'}
               </div>
 
               <div
                 style={{
-                  borderLeft: '4px solid var(--accent)',
-                  paddingLeft: '20px',
-                  marginTop: '12px'
+                  borderLeft: '5px solid var(--accent)',
+                  paddingLeft: '24px',
+                  marginTop: '14px'
                 }}
               >
-                <p style={{ color: '#334155', lineHeight: '1.8', fontSize: '0.98rem', margin: 0, whiteSpace: 'pre-line' }}>
+                <p style={{ color: '#334155', lineHeight: '1.85', fontSize: '1.05rem', margin: 0, whiteSpace: 'pre-line' }}>
                   {activeKades.content || defaultSambutanKades.content}
                 </p>
               </div>
