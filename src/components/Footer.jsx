@@ -23,9 +23,24 @@ export default function Footer({ setActiveTab, onOpenAdminModal }) {
                 <span style={{ fontSize: '0.72rem', color: 'var(--accent)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Jelajahi Desa</span>
               </div>
             </div>
-            <p style={{ marginBottom: '20px', color: '#94a3b8', fontSize: '0.92rem' }}>
+            <p style={{ marginBottom: '12px', color: '#94a3b8', fontSize: '0.92rem' }}>
               Website Digital Branding Desa Kedungsari, Kecamatan Bandongan, Kabupaten Magelang 56151.
             </p>
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              background: 'rgba(52, 211, 153, 0.12)',
+              border: '1px solid rgba(52, 211, 153, 0.3)',
+              color: '#34d399',
+              padding: '6px 14px',
+              borderRadius: '99px',
+              fontSize: '0.82rem',
+              fontWeight: '700',
+              marginBottom: '20px'
+            }}>
+              🎓 Dibuat oleh KKN Giat 16 UNNES Desa Kedungsari
+            </div>
             <div style={{ display: 'flex', gap: '12px' }}>
               <a href="#" aria-label="Facebook Desa" style={{ background: 'rgba(255,255,255,0.08)', width: '36px', height: '36px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
                 <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
@@ -84,7 +99,7 @@ export default function Footer({ setActiveTab, onOpenAdminModal }) {
 
         {/* Footer Bottom */}
         <div className="footer-bottom">
-          <p>© 2026 Pemerintah Desa Kedungsari. Hak Cipta Dilindungi Undang-Undang.</p>
+          <p>© 2026 Pemerintah Desa Kedungsari. Dibuat oleh <strong>KKN Giat 16 UNNES Desa Kedungsari</strong>.</p>
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             <span style={{ fontSize: '0.8rem', color: '#64748b' }}>Explore Village Portal</span>
             <button

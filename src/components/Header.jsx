@@ -44,7 +44,7 @@ export default function Header({ activeTab, setActiveTab }) {
             <img src="/images/logo.png" alt="Logo Desa Kedungsari" className="brand-logo-img" />
             <div className="logo-text-group">
               <span className="brand-name">Kedungsari</span>
-              <span className="brand-domain">Jelajahi Desa</span>
+              <span className="brand-domain">KKN Giat 16 UNNES</span>
             </div>
           </a>
 
