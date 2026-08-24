@@ -6,7 +6,7 @@ import { useData } from '../context/DataContext';
 import ConfirmDeleteModal from './ConfirmDeleteModal';
 
 export default function ProfilDesa() {
-  const { sotkList, addSotk, updateSotk, deleteSotk, visiMisi, updateVisiMisi, isAdminLoggedIn } = useData();
+  const { sotkList, addSotk, updateSotk, deleteSotk, visiMisi, updateVisiMisi, sambutanKades, updateSambutanKades, isAdminLoggedIn } = useData();
   const [deleteTarget, setDeleteTarget] = useState(null);
 
   // Form modal state for SOTK
@@ -24,6 +24,59 @@ export default function ProfilDesa() {
     visi: '',
     misiText: ''
   });
+
+  // Form modal state for Sambutan Kepala Desa
+  const [isKadesModalOpen, setIsKadesModalOpen] = useState(false);
+  const [isUploadingKadesImg, setIsUploadingKadesImg] = useState(false);
+  const [kadesForm, setKadesForm] = useState({
+    judul: '',
+    nama: '',
+    jabatan: '',
+    content: '',
+    img: ''
+  });
+
+  const defaultSambutanKades = {
+    judul: 'Sambutan Kepala Desa Kedungsari',
+    nama: 'NAMA KEPALA DESA',
+    jabatan: 'Kepala Desa Kedungsari',
+    content: 'Selamat datang di Website Digital Branding Desa Kedungsari. Website ini dibangun untuk memperluas jangkauan informasi, mempublikasikan potensi keasrian alam hortikultura, kebudayaan, serta produk unggulan UMKM warga Desa Kedungsari kepada masyarakat luas.',
+    img: '/images/img2.jpg'
+  };
+
+  const activeKades = (sambutanKades && typeof sambutanKades === 'object' && (sambutanKades.content || sambutanKades.nama))
+    ? sambutanKades
+    : defaultSambutanKades;
+
+  const handleOpenEditKades = () => {
+    setKadesForm({
+      judul: activeKades.judul || defaultSambutanKades.judul,
+      nama: activeKades.nama || defaultSambutanKades.nama,
+      jabatan: activeKades.jabatan || defaultSambutanKades.jabatan,
+      content: activeKades.content || defaultSambutanKades.content,
+      img: activeKades.img || defaultSambutanKades.img
+    });
+    setIsKadesModalOpen(true);
+  };
+
+  const handleKadesImageUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setIsUploadingKadesImg(true);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setKadesForm((prev) => ({ ...prev, img: reader.result }));
+        setIsUploadingKadesImg(false);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleKadesSubmit = async (e) => {
+    e.preventDefault();
+    await updateSambutanKades(kadesForm);
+    setIsKadesModalOpen(false);
+  };
 
   const defaultVisi = "Terwujudnya Desa Kedungsari yang Makmur, Sejahtera, Sehat Lingkungan (ODF), Berbudaya, serta Berdaya Saing Tinggi Berbasis Sektor Pertanian & Peternakan Unggulan.";
   const defaultMisi = [
@@ -117,27 +170,93 @@ export default function ProfilDesa() {
         </div>
       </section>
 
-      {/* Section 2: Sejarah Perjuangan & Perkembangan Wilayah */}
-      <section className="history-section">
+      {/* Section 2: Sambutan Kepala Desa Kedungsari */}
+      <section className="history-section" style={{ background: '#f8fafc', padding: '60px 0' }}>
         <div className="container">
-          <div className="history-grid fade-up-element">
-            {/* Teks Sejarah di sebelah kiri */}
-            <div className="history-text-content">
-              <h2>Awal Dari Perjalanan Kami</h2>
-              <p>
-                Sejarah Desa Kedungsari sarat akan kisah perjuangan. Pada masa kolonial Belanda (sekitar tahun 1800-an), warga Kedungsari mengalami penderitaan akibat sistem tanam paksa. Rakyat bertahan hidup dengan mengonsumsi <em>debok</em> (jantung) dan bonggol pisang serta mengenakan pakaian dari karung goni. Penindasan berlanjut pada masa pendudukan Jepang (1942–1945) melalui perampasan hasil panen.
-              </p>
-              <p>
-                Pasca kemerdekaan 17 Agustus 1945, kehidupan sosial dan ekonomi masyarakat berangsur bangkit. Awalnya Kedungsari terdiri dari <strong>9 dusun</strong> (Jetis, Karang, Tundan, Jenggotan, Kedungan, Pranan, Wonosaran, Gatak Paingan, Kwangsan). Namun seiring penataan tanah kas desa (bengkok), wilayah ini disederhanakan menjadi <strong>5 Dusun Utama</strong>: Karangrejo, Kedungan & Pranan, Wonosaran, Paingan, dan Kwangsan.
-              </p>
-              <p>
-                Kini Desa Kedungsari tumbuh menjadi desa agraris yang mandiri, berbudaya, serta meraih predikat <strong>Open Defecation Free (ODF)</strong> yang menjamin standar sanitasi dan kesehatan masyarakat.
-              </p>
+          <div
+            className="fade-up-element"
+            style={{
+              background: 'white',
+              borderRadius: '24px',
+              padding: '40px 36px',
+              boxShadow: '0 10px 30px rgba(0,0,0,0.05)',
+              border: '1px solid #e2e8f0',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '40px',
+              flexWrap: 'wrap',
+              position: 'relative'
+            }}
+          >
+            {isAdminLoggedIn && (
+              <div style={{ position: 'absolute', top: '20px', right: '20px', zIndex: 10 }}>
+                <button
+                  onClick={handleOpenEditKades}
+                  style={{
+                    background: 'var(--primary)',
+                    color: 'white',
+                    padding: '8px 20px',
+                    borderRadius: '99px',
+                    fontWeight: '700',
+                    fontSize: '0.85rem',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 12px rgba(13, 92, 58, 0.25)',
+                    border: 'none'
+                  }}
+                >
+                  <Edit2 size={15} /> Edit Sambutan Kepala Desa
+                </button>
+              </div>
+            )}
+
+            {/* Sisi Kiri: Foto Profil Lingkaran (Circular Avatar) */}
+            <div style={{ flex: '0 0 auto', margin: '0 auto', textAlign: 'center' }}>
+              <div
+                style={{
+                  width: '210px',
+                  height: '210px',
+                  borderRadius: '50%',
+                  overflow: 'hidden',
+                  border: '5px solid #ffffff',
+                  boxShadow: '0 10px 25px rgba(0,0,0,0.12)',
+                  background: '#f1f5f9',
+                  margin: '0 auto'
+                }}
+              >
+                <img
+                  src={activeKades.img || '/images/img2.jpg'}
+                  alt={activeKades.nama || 'Kepala Desa'}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+              </div>
             </div>
 
-            {/* Foto Sejarah di sebelah kanan */}
-            <div className="history-image-card">
-              <img src="/images/img3.jpg" alt="Awal Perjalanan Kami - Kedungsari" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            {/* Sisi Kanan: Judul, Nama, Jabatan & Isi Sambutan */}
+            <div style={{ flex: '1 1 400px' }}>
+              <h2 style={{ fontSize: '2.1rem', color: 'var(--primary)', fontWeight: '800', marginBottom: '8px', lineHeight: '1.2' }}>
+                {activeKades.judul || 'Sambutan Kepala Desa Kedungsari'}
+              </h2>
+              <div style={{ fontSize: '1.1rem', fontWeight: '800', color: '#0f172a', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                {activeKades.nama || 'NAMA KEPALA DESA'}
+              </div>
+              <div style={{ fontSize: '0.85rem', fontWeight: '700', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '20px' }}>
+                {activeKades.jabatan || 'KEPALA DESA KEDUNGSARI'}
+              </div>
+
+              <div
+                style={{
+                  borderLeft: '4px solid var(--accent)',
+                  paddingLeft: '20px',
+                  marginTop: '12px'
+                }}
+              >
+                <p style={{ color: '#334155', lineHeight: '1.8', fontSize: '0.98rem', margin: 0, whiteSpace: 'pre-line' }}>
+                  {activeKades.content || defaultSambutanKades.content}
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -419,6 +538,119 @@ export default function ProfilDesa() {
                 style={{ background: 'var(--primary)', color: 'white', padding: '14px', borderRadius: '99px', fontWeight: '700', fontSize: '1rem', marginTop: '8px', cursor: 'pointer' }}
               >
                 Simpan Perubahan Visi & Misi
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Admin Form Modal for Sambutan Kepala Desa Edit */}
+      {isKadesModalOpen && (
+        <div className="modal-backdrop" onClick={() => setIsKadesModalOpen(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ padding: '32px', maxWidth: '650px', maxHeight: '90vh', overflowY: 'auto' }}>
+            <button className="modal-close" onClick={() => setIsKadesModalOpen(false)}>
+              <X size={20} />
+            </button>
+            <h3 style={{ fontSize: '1.5rem', color: '#0f172a', marginBottom: '20px' }}>
+              ✏️ Edit Sambutan Kepala Desa
+            </h3>
+
+            <form onSubmit={handleKadesSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: '700', marginBottom: '6px' }}>
+                  Judul Sambutan
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="Contoh: Sambutan Kepala Desa Kedungsari"
+                  value={kadesForm.judul}
+                  onChange={(e) => setKadesForm({ ...kadesForm, judul: e.target.value })}
+                  style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '0.95rem' }}
+                />
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: '700', marginBottom: '6px' }}>
+                    Nama Kepala Desa
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Contoh: NAMA KEPALA DESA"
+                    value={kadesForm.nama}
+                    onChange={(e) => setKadesForm({ ...kadesForm, nama: e.target.value })}
+                    style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '0.95rem' }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: '700', marginBottom: '6px' }}>
+                    Jabatan / Subtitle
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Contoh: KEPALA DESA KEDUNGSARI"
+                    value={kadesForm.jabatan}
+                    onChange={(e) => setKadesForm({ ...kadesForm, jabatan: e.target.value })}
+                    style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '0.95rem' }}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: '700', marginBottom: '6px' }}>
+                  Foto Profil Kepala Desa
+                </label>
+                <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+                  <div style={{ width: '70px', height: '70px', borderRadius: '50%', overflow: 'hidden', border: '2px solid #e2e8f0', background: '#f1f5f9', flexShrink: 0 }}>
+                    {kadesForm.img ? (
+                      <img src={kadesForm.img} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    ) : (
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#94a3b8', fontSize: '0.75rem' }}>No Foto</div>
+                    )}
+                  </div>
+
+                  <div style={{ flexGrow: 1 }}>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleKadesImageUpload}
+                      style={{ fontSize: '0.88rem', marginBottom: '6px', width: '100%' }}
+                    />
+                    <input
+                      type="text"
+                      placeholder="Atau masukkan URL Foto (http://...)"
+                      value={kadesForm.img.startsWith('data:') ? '' : kadesForm.img}
+                      onChange={(e) => setKadesForm({ ...kadesForm, img: e.target.value })}
+                      style={{ width: '100%', padding: '8px 12px', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '0.85rem' }}
+                    />
+                  </div>
+                </div>
+                {isUploadingKadesImg && <span style={{ fontSize: '0.78rem', color: 'var(--primary)', marginTop: '4px', display: 'block' }}>⏳ Mengunggah foto...</span>}
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: '700', marginBottom: '6px' }}>
+                  Isi Narasi Sambutan
+                </label>
+                <textarea
+                  rows="6"
+                  required
+                  placeholder="Tuliskan isi paragraf sambutan..."
+                  value={kadesForm.content}
+                  onChange={(e) => setKadesForm({ ...kadesForm, content: e.target.value })}
+                  style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '0.95rem', lineHeight: '1.6' }}
+                ></textarea>
+              </div>
+
+              <button
+                type="submit"
+                style={{ background: 'var(--primary)', color: 'white', padding: '14px', borderRadius: '99px', fontWeight: '700', fontSize: '1rem', marginTop: '8px', cursor: 'pointer', border: 'none' }}
+              >
+                Simpan Perubahan Sambutan
               </button>
             </form>
           </div>

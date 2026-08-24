@@ -20,6 +20,14 @@ const defaultVisiMisi = {
   ]
 };
 
+const defaultSambutanKades = {
+  judul: 'Sambutan Kepala Desa Kedungsari',
+  nama: 'NAMA KEPALA DESA',
+  jabatan: 'Kepala Desa Kedungsari',
+  content: 'Selamat datang di Website Digital Branding Desa Kedungsari. Website ini dibangun untuk memperluas jangkauan informasi, mempublikasikan potensi keasrian alam hortikultura, kebudayaan, serta produk unggulan UMKM warga Desa Kedungsari kepada masyarakat luas.',
+  img: '/images/img2.jpg'
+};
+
 export function DataProvider({ children }) {
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(() => {
     return localStorage.getItem('kedungsari_admin') === 'true';
@@ -44,6 +52,18 @@ export function DataProvider({ children }) {
       console.warn('Failed to parse kedungsari_visi_misi:', e);
     }
     return defaultVisiMisi;
+  });
+  const [sambutanKades, setSambutanKades] = useState(() => {
+    try {
+      const saved = localStorage.getItem('kedungsari_sambutan_kades');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed && typeof parsed === 'object' && parsed.content) {
+          return parsed;
+        }
+      }
+    } catch (e) {}
+    return defaultSambutanKades;
   });
   const [isLoadingData, setIsLoadingData] = useState(true);
 
@@ -166,6 +186,25 @@ export function DataProvider({ children }) {
             setVisiMisi({
               visi: vmData.visi,
               misi: Array.isArray(vmData.misi) ? vmData.misi : (typeof vmData.misi === 'string' ? JSON.parse(vmData.misi) : defaultVisiMisi.misi)
+            });
+          }
+        } catch (e) {}
+
+        // 8. Load Sambutan Kades from Supabase
+        try {
+          const { data: kadesData } = await supabase
+            .from('sambutan_kades')
+            .select('*')
+            .eq('id', 1)
+            .single();
+
+          if (kadesData && (kadesData.content || kadesData.nama)) {
+            setSambutanKades({
+              judul: kadesData.judul || defaultSambutanKades.judul,
+              nama: kadesData.nama || defaultSambutanKades.nama,
+              jabatan: kadesData.jabatan || defaultSambutanKades.jabatan,
+              content: kadesData.content || defaultSambutanKades.content,
+              img: kadesData.img || kadesData.foto || defaultSambutanKades.img
             });
           }
         } catch (e) {}
@@ -501,6 +540,44 @@ export function DataProvider({ children }) {
     }
   };
 
+  // Sambutan Kades Update (Multi-table Database Persistence)
+  const updateSambutanKades = async (newSambutan) => {
+    setSambutanKades(newSambutan);
+    try {
+      localStorage.setItem('kedungsari_sambutan_kades', JSON.stringify(newSambutan));
+    } catch (e) {}
+
+    if (isSupabaseConfigured() && supabase) {
+      // 1. Try upsert to 'sambutan_kades' table
+      try {
+        await supabase.from('sambutan_kades').upsert({
+          id: 1,
+          judul: newSambutan.judul,
+          nama: newSambutan.nama,
+          jabatan: newSambutan.jabatan,
+          content: newSambutan.content,
+          img: newSambutan.img
+        });
+      } catch (e) {}
+
+      // 2. Try upsert to 'contact_info' table (sambutan_kades JSON column)
+      try {
+        await supabase.from('contact_info').upsert({
+          id: 1,
+          sambutan_kades: newSambutan
+        });
+      } catch (e) {}
+
+      // 3. Try upsert to 'settings' table
+      try {
+        await supabase.from('settings').upsert({
+          id: 'sambutan_kades',
+          data: newSambutan
+        });
+      } catch (e) {}
+    }
+  };
+
   return (
     <DataContext.Provider
       value={{
@@ -536,6 +613,8 @@ export function DataProvider({ children }) {
         updateContactInfo,
         visiMisi,
         updateVisiMisi,
+        sambutanKades,
+        updateSambutanKades,
       }}
     >
       {children}
