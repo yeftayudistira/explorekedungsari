@@ -167,22 +167,66 @@ export default function ProfilDesa() {
           </div>
 
           <div className="visi-misi-grid fade-up-element">
-            <div className="card-visi-misi" style={{ borderTop: '4px solid var(--primary)' }}>
-              <h3>
-                <Target size={28} color="var(--primary)" />
-                Visi Desa Kedungsari
-              </h3>
-              <p style={{ fontSize: '1.1rem', fontStyle: 'italic', color: '#334155', lineHeight: '1.7', marginTop: '12px' }}>
+            <div className="card-visi-misi" style={{ borderTop: '4px solid var(--primary)', position: 'relative' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                <h3 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <Target size={28} color="var(--primary)" />
+                  Visi Desa Kedungsari
+                </h3>
+                {isAdminLoggedIn && (
+                  <button
+                    onClick={handleOpenEditVm}
+                    style={{
+                      background: 'rgba(13, 92, 58, 0.1)',
+                      color: 'var(--primary)',
+                      border: '1px solid var(--primary)',
+                      padding: '6px 14px',
+                      borderRadius: '99px',
+                      fontWeight: '700',
+                      fontSize: '0.8rem',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    <Edit2 size={14} /> Edit Visi &amp; Misi
+                  </button>
+                )}
+              </div>
+              <p style={{ fontSize: '1.1rem', fontStyle: 'italic', color: '#334155', lineHeight: '1.7' }}>
                 "{visiMisi?.visi || 'Terwujudnya Desa Kedungsari yang Makmur, Sejahtera, dan Berbudaya.'}"
               </p>
             </div>
 
-            <div className="card-visi-misi" style={{ borderTop: '4px solid var(--accent)' }}>
-              <h3>
-                <Award size={28} color="var(--accent)" />
-                Misi Utama Pembangunan
-              </h3>
-              <ul className="misi-list" style={{ marginTop: '12px' }}>
+            <div className="card-visi-misi" style={{ borderTop: '4px solid var(--accent)', position: 'relative' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                <h3 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <Award size={28} color="var(--accent)" />
+                  Misi Utama Pembangunan
+                </h3>
+                {isAdminLoggedIn && (
+                  <button
+                    onClick={handleOpenEditVm}
+                    style={{
+                      background: '#fef3c7',
+                      color: '#b45309',
+                      border: '1px solid #f59e0b',
+                      padding: '6px 14px',
+                      borderRadius: '99px',
+                      fontWeight: '700',
+                      fontSize: '0.8rem',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    <Edit2 size={14} /> Edit Visi &amp; Misi
+                  </button>
+                )}
+              </div>
+              <ul className="misi-list">
                 {(visiMisi?.misi || []).map((misiItem, idx) => (
                   <li key={idx}>
                     <span className="misi-num">{idx + 1}</span>
