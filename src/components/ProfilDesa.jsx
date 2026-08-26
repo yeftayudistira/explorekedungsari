@@ -80,6 +80,7 @@ export default function ProfilDesa() {
   const handleKadesSubmit = async (e) => {
     e.preventDefault();
     await updateSambutanKades(kadesForm);
+    alert('✅ Sambutan & Foto Kepala Desa Berhasil Disimpan ke Database Supabase!');
     setIsKadesModalOpen(false);
   };
 

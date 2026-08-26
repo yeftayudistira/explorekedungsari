@@ -575,7 +575,15 @@ export function DataProvider({ children }) {
         });
       } catch (e) {}
 
-      // 2. Try upsert to 'contact_info' table (sambutan_kades JSON column)
+      // 2. Try updating 'sotk' table if Kepala Desa exists
+      try {
+        await supabase.from('sotk').update({
+          nama: newSambutan.nama,
+          img: newSambutan.img
+        }).ilike('jabatan', '%Kepala Desa%');
+      } catch (e) {}
+
+      // 3. Try upsert to 'contact_info' table (sambutan_kades JSON column)
       try {
         await supabase.from('contact_info').upsert({
           id: 1,
@@ -583,7 +591,7 @@ export function DataProvider({ children }) {
         });
       } catch (e) {}
 
-      // 3. Try upsert to 'settings' table
+      // 4. Try upsert to 'settings' table
       try {
         await supabase.from('settings').upsert({
           id: 'sambutan_kades',
