@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Hero from './Hero';
 import { Target, Award, Users, MapPin, Building2, Landmark, CheckCircle2, Plus, Edit2, Trash2, X } from 'lucide-react';
 import { useData } from '../context/DataContext';
+import { uploadImage } from '../lib/supabase';
 
 import ConfirmDeleteModal from './ConfirmDeleteModal';
 
@@ -59,16 +60,20 @@ export default function ProfilDesa() {
     setIsKadesModalOpen(true);
   };
 
-  const handleKadesImageUpload = (e) => {
+  const handleKadesImageUpload = async (e) => {
     const file = e.target.files?.[0];
     if (file) {
       setIsUploadingKadesImg(true);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setKadesForm((prev) => ({ ...prev, img: reader.result }));
+      try {
+        const publicUrl = await uploadImage(file, 'desa-images');
+        if (publicUrl) {
+          setKadesForm((prev) => ({ ...prev, img: publicUrl }));
+        }
+      } catch (err) {
+        alert('Gagal mengunggah foto. Silakan coba lagi.');
+      } finally {
         setIsUploadingKadesImg(false);
-      };
-      reader.readAsDataURL(file);
+      }
     }
   };
 

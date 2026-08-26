@@ -172,6 +172,9 @@ export function DataProvider({ children }) {
           if (contactData.visi_misi) {
             setVisiMisi(contactData.visi_misi);
           }
+          if (contactData.sambutan_kades) {
+            setSambutanKades(contactData.sambutan_kades);
+          }
         }
 
         // 7. Load Visi Misi from Supabase 'visi_misi' or 'settings' table
@@ -206,6 +209,18 @@ export function DataProvider({ children }) {
               content: kadesData.content || defaultSambutanKades.content,
               img: kadesData.img || kadesData.foto || defaultSambutanKades.img
             });
+          }
+        } catch (e) {}
+
+        try {
+          const { data: settingKades } = await supabase
+            .from('settings')
+            .select('*')
+            .eq('id', 'sambutan_kades')
+            .single();
+
+          if (settingKades && settingKades.data) {
+            setSambutanKades(settingKades.data);
           }
         } catch (e) {}
       } catch (err) {
